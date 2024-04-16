@@ -15,6 +15,10 @@ router.post("/createproduct", ProductController.createProduct);
 router.delete("/deleteproduct/:productId", ProductController.deleteProduct);
 router.put("/editproduct/:productId", ProductController.editProduct);
 
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
+router.patch("/add-images", upload.array("images", 10), ProductController.addImages);
+
 // API CART
 
 router.post("/addtocart", cartController.addCart);
