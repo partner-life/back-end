@@ -20,6 +20,9 @@ class cart {
    static async deleteproductcart(cartId) {
       return this.collection().deleteOne({ _id: cartId });
    }
+   static async editproductcart(cartId, updatedData) {
+      return this.collection().updateOne({ _id: cartId }, { $set: updatedData });
+   }
 }
 
 module.exports = cart;

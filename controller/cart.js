@@ -44,6 +44,18 @@ class CartController {
          next(error);
       }
    }
+   static async updateCart(req, res, next) {
+      const cartId = req.params.cartId;
+      console.log("��� ~ CartController ~ updateCart ~ cartId:", cartId);
+      try {
+         const { productId, quantity } = req.body;
+         const cart = await Cart.updateproductcart(cartId, productId, quantity);
+         console.log("��� ~ CartController ~ updateCart ~ cart:", cart);
+         res.status(200).json(cart);
+      } catch (error) {
+         next(error);
+      }
+   }
 }
 
 module.exports = CartController;
