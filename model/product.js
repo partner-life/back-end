@@ -10,6 +10,9 @@ class Product {
   static async createProduct(productData) {
     return this.collection().insertOne(productData);
   }
+  static async deleteProduct(productId) {
+    return this.collection().deleteOne({ _id: productId });
+  }
 }
 
 module.exports = Product;

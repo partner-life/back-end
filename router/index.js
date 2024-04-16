@@ -11,6 +11,7 @@ router.get("/login", UserController.Login);
 
 router.get("/product", ProductController.getAllProducts);
 router.post("/createproduct", ProductController.createProduct);
+router.delete("/deleteproduct/:productId", ProductController.deleteProduct);
 
 // API CART
 

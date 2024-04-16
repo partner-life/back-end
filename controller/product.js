@@ -21,6 +21,16 @@ class ProductController {
       next(error);
     }
   }
+
+  static async deleteProduct(req, res, next) {
+    const productId = req.params.productId;
+    try {
+      await Product.deleteProduct(productId);
+      res.status(200).json({ message: "Product deleted successfully" });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = ProductController;
