@@ -10,6 +10,7 @@ router.get("/login", UserController.Login);
 // API PRODUCT
 
 router.get("/product", ProductController.getAllProducts);
+router.post("/createproduct", ProductController.createProduct);
 
 // API CART
 
