@@ -7,6 +7,9 @@ class Product {
   static async findAllProduct() {
     return this.collection().find({}).toArray();
   }
+  static async findProductById(productId) {
+    return this.collection().findOne({ _id: productId });
+  }
   static async createProduct(productData) {
     return this.collection().insertOne(productData);
   }
