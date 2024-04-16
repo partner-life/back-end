@@ -31,6 +31,17 @@ class ProductController {
       next(error);
     }
   }
+
+  static async editProduct(req, res, next) {
+    const productId = req.params.productId;
+    const updatedData = req.body;
+    try {
+      await Product.editProduct(productId, updatedData);
+      res.status(200).json({ message: "Product updated successfully" });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = ProductController;

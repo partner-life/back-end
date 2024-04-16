@@ -13,6 +13,9 @@ class Product {
   static async deleteProduct(productId) {
     return this.collection().deleteOne({ _id: productId });
   }
+  static async editProduct(productId, updatedData) {
+    return this.collection().updateOne({ _id: productId }, { $set: updatedData });
+  }
 }
 
 module.exports = Product;
