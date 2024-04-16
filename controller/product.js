@@ -3,10 +3,14 @@ const Product = require("../model/product");
 
 class ProductController {
   static async getAllProducts(req, res, next) {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || Number.MAX_SAFE_INTEGER;
+    const search = req.query.search || "";
+
     try {
-      const products = await Product.findAllProduct();
+      const products = await Product.findAllProducts(page, limit, search);
       console.log("🚀 ~ ProductController ~ getAllProducts ~ products:", products);
-      res.status(200).json(products);
+      res.status(200).json({ page, limit, products });
     } catch (error) {
       next(error);
     }

@@ -4,8 +4,19 @@ class Product {
   static collection() {
     return database.collection("Products");
   }
-  static async findAllProduct() {
-    return this.collection().find({}).toArray();
+
+  static async findAllProducts(page, limit, search) {
+    const aggregations = [];
+
+    if (search) {
+      const regex = new RegExp(search, "i");
+      aggregations.push({ $match: { name: { $regex: regex } } });
+    }
+
+    aggregations.push({ $skip: (page - 1) * limit });
+    aggregations.push({ $limit: limit });
+
+    return this.collection().aggregate(aggregations).toArray();
   }
   static async findProductById(productId) {
     return this.collection().findOne({ _id: productId });
@@ -18,6 +29,11 @@ class Product {
   }
   static async editProduct(productId, updatedData) {
     return this.collection().updateOne({ _id: productId }, { $set: updatedData });
+  }
+  static async searchProduct(query) {
+    return this.collection()
+      .aggregate([{ $match: query }, { $project: { _id: 1, name: 1, category: 1 } }])
+      .toArray();
   }
 }
 
