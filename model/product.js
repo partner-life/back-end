@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const database = require("../config/db");
 
 class Product {
@@ -19,7 +20,17 @@ class Product {
     return this.collection().aggregate(aggregations).toArray();
   }
   static async findProductById(productId) {
-    return this.collection().findOne({ _id: productId });
+    try {
+      const id = new ObjectId(productId);
+
+      const result = await this.collection().findOne({
+        _id: id,
+      });
+
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
   }
   static async createProduct(productData) {
     return this.collection().insertOne(productData);
@@ -28,7 +39,18 @@ class Product {
     return this.collection().deleteOne({ _id: productId });
   }
   static async editProduct(productId, updatedData) {
-    return this.collection().updateOne({ _id: productId }, { $set: updatedData });
+    return this.collection().updateOne(
+      { _id: productId },
+      { $set: updatedData }
+    );
+  }
+  static async searchProduct(query) {
+    return this.collection()
+      .aggregate([
+        { $match: query },
+        { $project: { _id: 1, name: 1, category: 1 } },
+      ])
+      .toArray();
   }
 }
 

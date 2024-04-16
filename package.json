@@ -4,6 +4,7 @@
     "cloudinary": "^2.1.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "google-auth-library": "^9.8.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.5.0",
     "multer": "^1.4.5-lts.1"
