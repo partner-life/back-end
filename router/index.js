@@ -18,7 +18,8 @@ router.put("/editproduct/:productId", ProductController.editProduct);
 // API CART
 
 router.post("/addtocart", cartController.addCart);
-router.get("/getcart/:userId", cartController.getCart);
+router.get("/getcart/", cartController.getAllCart);
+router.get("/getcart/:cartId", cartController.getCartById);
 router.delete("/deleteproductcart/:productId", cartController.deleteCart);
 
 module.exports = router;
