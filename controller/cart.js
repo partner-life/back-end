@@ -5,7 +5,7 @@ class CartController {
   static async addCart(req, res, next) {
     const { productId } = req.body;
     const UserId = req.user._id;
-    console.log(UserId);
+
     try {
       const newCart = await Cart.addToCart(productId, UserId);
       console.log("��� ~ CartController ~ addCart ~ newCart:", newCart);
