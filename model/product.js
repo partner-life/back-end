@@ -30,11 +30,6 @@ class Product {
   static async editProduct(productId, updatedData) {
     return this.collection().updateOne({ _id: productId }, { $set: updatedData });
   }
-  static async searchProduct(query) {
-    return this.collection()
-      .aggregate([{ $match: query }, { $project: { _id: 1, name: 1, category: 1 } }])
-      .toArray();
-  }
 }
 
 module.exports = Product;

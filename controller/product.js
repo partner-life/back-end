@@ -78,6 +78,43 @@ class ProductController {
       next(error);
     }
   }
+  static async addImages(req, res, next) {
+    console.log("🚀 ~ ProductController ~ addImages ~ console:");
+
+    try {
+      const cloudinary = require("cloudinary").v2;
+
+      cloudinary.config({
+        cloud_name: process.env.CLOUND_NAME,
+        api_key: process.env.API_KEY,
+        api_secret: process.env.API_SECRET,
+      });
+
+      const uploadPromises = req.files.map(async (file) => {
+        const mimeType = file.mimetype;
+        const data = Buffer.from(file.buffer).toString("base64");
+        const dataURI = `data:${mimeType};base64,${data}`;
+        return cloudinary.uploader.upload(dataURI, {
+          overwrite: false,
+          unique_filename: true,
+        });
+      });
+      console.log("🚀 ~ ProductController ~ uploadPromises ~ uploadPromises:", uploadPromises);
+
+      const results = await Promise.all(uploadPromises);
+
+      const images = results.map((element) => {
+        return { imgUrl: element.url };
+      });
+
+      console.log("🚀 ~ ProductController ~ images ~ images:", images);
+      res.json(images);
+      return images;
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
 }
 
 module.exports = ProductController;
