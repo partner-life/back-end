@@ -14,10 +14,14 @@ class ProductController {
 
   static async getProductById(req, res, next) {
     const productId = req.params.productId;
-    console.log("🚀 ~ ProductController ~ getProductById ~ productId:", productId);
     try {
+      if (!productId) {
+        throw { name: "BadRequest", message: "Product ID is required" };
+      }
       const product = await Product.findProductById(new ObjectId(productId));
-      console.log("🚀 ~ ProductController ~ getProductById ~ product:", product);
+      if (!product) {
+        throw { name: "NotFound", message: "Product not found" };
+      }
       res.status(200).json(product);
     } catch (error) {
       next(error);
@@ -38,6 +42,13 @@ class ProductController {
   static async deleteProduct(req, res, next) {
     const productId = req.params.productId;
     try {
+      if (!productId) {
+        throw { name: "BadRequest", message: "Product ID is required" };
+      }
+      const product = await Product.findProductById(new ObjectId(productId));
+      if (!product) {
+        throw { name: "BadRequest", message: "Product not found" };
+      }
       await Product.deleteProduct(new ObjectId(productId));
       res.status(200).json({ message: "Product deleted successfully" });
     } catch (error) {
@@ -49,6 +60,14 @@ class ProductController {
     const productId = req.params.productId;
     const updatedData = req.body;
     try {
+      if (!productId) {
+        throw { name: "BadRequest", message: "Product ID is required" };
+      }
+      const product = await Product.findProductById(new ObjectId(productId));
+      if (!product) {
+        throw { name: "BadRequest", message: "Product not found" };
+      }
+
       await Product.editProduct(new ObjectId(productId), updatedData);
       res.status(200).json({ message: "Product updated successfully" });
     } catch (error) {
