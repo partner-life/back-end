@@ -20,18 +20,22 @@ router.put("/editproduct/:productId", ProductController.editProduct);
 
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch("/add-images", upload.array("images", 10), ProductController.addImages);
+router.patch(
+  "/add-images",
+  upload.array("images", 10),
+  ProductController.addImages
+);
 
 // API CART
 
-router.post(
-  "/addtocart",
+router.post("/addtocart", authentication, cartController.addCart);
+router.get("/getcart/", authentication, cartController.getAllCart);
+router.get(
+  "/getcart/:cartId",
   authentication,
   authorization,
-  cartController.addCart
+  cartController.getCartById
 );
-router.get("/getcart/", authentication, cartController.getAllCart);
-router.get("/getcart/:cartId", cartController.getCartById);
 router.delete(
   "/deleteproductcart/:productId",
   authentication,

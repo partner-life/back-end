@@ -9,7 +9,7 @@ class CartController {
     try {
       const newCart = await Cart.addToCart(productId, UserId);
       console.log("��� ~ CartController ~ addCart ~ newCart:", newCart);
-      res.status(200).json(newCart);
+      res.status(200).json({ message: "succes add product to carts" });
     } catch (error) {
       next(error);
     }
