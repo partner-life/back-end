@@ -20,6 +20,11 @@ class cart {
          ...addcart,
       }
    }
+   static async getCart(userId) {
+      const cartCollection = this.collection();
+      const result = await cartCollection.findOne({ userId: userId });
+      return result;
+   }
 }
 
 module.exports = cart;

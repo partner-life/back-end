@@ -10,6 +10,15 @@ class CartController {
          next(error);
       }
    }
+   static async getCart(req, res, next) {
+      try {
+         const { userId } = req.params; 
+         const cart = await Cart.getCart(userId); 
+         res.status(200).json(cart);
+      } catch (error) {
+         next(error);
+      }
+   }
 }
 
 module.exports = CartController;
