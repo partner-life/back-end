@@ -13,6 +13,6 @@ router.get("/product", ProductController.getAllProducts);
 
 // API CART
 
-router.post("/addtocart", cartController.addToCart);
+router.post("/addtocart", cartController.addCart);
 
 module.exports = router;

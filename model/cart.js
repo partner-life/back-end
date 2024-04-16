@@ -1,20 +1,23 @@
 const database = require("../config/db");
 
 class cart {
-   static async addToCart(userId, productId, quantity) {
-      const db = await database.collection("Carts");
-      try {
-         const existingProduct = await db.findOne({ userId: userId, "products.productId": productId });
+   static collection() {
+      return database.collection("Carts");
+   }
+   static async addTocart({ userId, productId, quantity }) {
+      const cartCollection = this.collection();
 
-         if (existingProduct) {
-            await db.updateOne({ userId: userId, "products.productId": productId }, { $inc: { "products.$.quantity": quantity } });
-         } else {
-            await db.updateOne({ userId: userId }, { $push: { products: { productId: productId, quantity: quantity } } }, { upsert: true });
-         }
-         return { success: true, message: "Product added to cart successfully" };
-      } catch (error) {
-         console.error("Error adding product to cart:", error);
-         return { success: false, message: "Error adding product to cart" };
+      const addcart = { 
+         userId: userId,
+         productId: productId,
+         quantity,
+         createdAt: new Date(),
+         updatedAt: new Date(),
+      };
+      const result = await cartCollection.insertOne(addcart);
+      return {
+         _id:result.insertedId,
+         ...addcart,
       }
    }
 }
