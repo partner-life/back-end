@@ -2,6 +2,7 @@ const { compare } = require("bcryptjs");
 const database = require("../config/db");
 const hash = require("../helper/bcrypt");
 const { signToken } = require("../helper/jwt");
+const { ObjectId } = require("mongodb");
 
 class User {
   static async register({ name, username, email, password }) {
@@ -11,19 +12,26 @@ class User {
     const usernameExists = await dataUser.some(
       (user) => user.username === username
     );
-    if (usernameExists) throw { message: "username has been used" };
+    if (usernameExists)
+      throw { name: "BadRequest", message: "username has been used" };
     const emailExist = await dataUser.some((user) => user.email === email);
-    if (emailExist) throw { message: "email has been used" };
-    if (name.length === 0) throw { message: "name is required" };
-    if (email.length === 0) throw { message: "email is required" };
-    if (username.length === 0) throw { message: "username is required" };
-    if (password.length === 0) throw { message: "password is required" };
+    if (emailExist)
+      throw { name: "BadRequest", message: "email has been used" };
+    if (name.length === 0)
+      throw { name: "BadRequest", message: "name is required" };
+    if (email.length === 0)
+      throw { name: "BadRequest", message: "email is required" };
+    if (username.length === 0)
+      throw { name: "BadRequest", message: "username is required" };
+    if (password.length === 0)
+      throw { name: "BadRequest", message: "password is required" };
     const pass = hash(password);
     const newUser = await db.insertOne({
       name,
       username,
       email,
       password: pass,
+      role: "user",
     });
     const result = await db.findOne(newUser.insertedId);
     return result;
@@ -46,6 +54,37 @@ class User {
     });
 
     return access_token;
+  }
+  static async FindOrCreate(name, email) {
+    let user = await database.collection("Users").findOne({ email: email });
+
+    if (!user) {
+      const result = await database.collection("Users").insertOne({
+        username: name,
+        name: name,
+        email: email,
+        password: Math.random().toString(),
+        role: "User",
+      });
+
+      user = await database
+        .collection("Users")
+        .findOne({ _id: result.insertedId });
+    }
+
+    const access_token = signToken({
+      id: user._id,
+      email: user.email,
+    });
+
+    return access_token;
+  }
+  static async FindByPk(id) {
+    const newId = new ObjectId(id);
+    console.log(newId);
+    const user = await database.collection("Users").findOne({ _id: newId });
+    console.log(user);
+    return user;
   }
 }
 module.exports = User;
