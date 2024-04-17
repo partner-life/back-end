@@ -14,11 +14,11 @@ class PaymentController {
       const amount = +gross_amount;
 
       if (typeof amount !== "number") {
-        return res.status(400).json({ error: "Gross amount must be a number" });
+        throw { name: "BadRequest", message: "Amount must be a number" };
       }
 
       if (!order_id || !description) {
-        return res.status(400).json({ error: "Order ID and description are required" });
+        throw { name: "BadRequest", message: "Order ID and Description are required" };
       }
 
       const parameter = {
