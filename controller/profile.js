@@ -34,7 +34,7 @@ class ProfileController {
     try {
       const id = req.user._id;
       const result = await Profle.findById(id);
-      console.log(result);
+
       res.status(200).json(result);
     } catch (error) {
       next(error);
