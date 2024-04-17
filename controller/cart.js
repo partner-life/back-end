@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongodb");
 const Cart = require("../model/cart");
+const Profle = require("../model/profile");
 
 class CartController {
   static async addCart(req, res, next) {
@@ -7,8 +8,11 @@ class CartController {
     const userId = req.user._id;
 
     try {
+      const validateProfle = await Profle.findUserId(userId);
+      if (!validateProfle)
+        throw { name: "BadRequest", message: "you must create profile first" };
       const newCart = await Cart.addToCart(userId, productId);
-      console.log("New Cart:", newCart);
+
       res.status(200).json({ message: "Product added to cart successfully" });
     } catch (error) {
       next(error);
@@ -31,7 +35,7 @@ class CartController {
     const cartId = req.params.cartId;
 
     try {
-      const cart = await Cart.findCartById(cartId); 
+      const cart = await Cart.findCartById(cartId);
       console.log("Cart:", cart);
       res.status(200).json(cart);
     } catch (error) {

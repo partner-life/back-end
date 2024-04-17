@@ -32,8 +32,9 @@ class ProfileController {
   }
   static async findById(req, res, next) {
     try {
-      const id = req.params;
+      const id = req.user._id;
       const result = await Profle.findById(id);
+      console.log(result);
       res.status(200).json(result);
     } catch (error) {
       next(error);
