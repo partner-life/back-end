@@ -35,6 +35,9 @@ class ProductController {
   static async createProduct(req, res, next) {
     const { name, imageUrl, description, category } = req.body;
     try {
+      if (!name || !description || !category) {
+        throw { name: "BadRequest", message: "Name, description, and category cannot be empty" };
+      }
       const newProduct = await Product.createProduct({ name, imageUrl, description, category });
       console.log("🚀 ~ ProductController ~ createProduct ~ newProduct:", newProduct);
       res.status(201).json({ name, imageUrl, description, category });

@@ -4,7 +4,6 @@ class Product {
   static collection() {
     return database.collection("Products");
   }
-
   static async findAllProducts(page, limit, search) {
     const aggregations = [];
 
