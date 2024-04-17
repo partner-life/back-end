@@ -23,5 +23,31 @@ class Profle {
     const findOne = await this.collection().findOne((await result).insertedId);
     return findOne;
   }
+  static async findById(UserId) {
+    const result = await this.collection()
+      .aggregate([
+        { $match: { UserId: UserId } },
+        {
+          $lookup: {
+            from: "Users",
+            localField: "UserId",
+            foreignField: "_id",
+            as: "profile",
+          },
+        },
+        {
+          $unwind: {
+            path: "$profile",
+          },
+        },
+        {
+          $project: {
+            "profile.password": 0,
+          },
+        },
+      ])
+      .toArray();
+    return result;
+  }
 }
 module.exports = Profle;
