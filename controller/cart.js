@@ -19,7 +19,7 @@ class CartController {
     const userId = req.user._id;
 
     try {
-      const carts = await Cart.findCartsByUserId(userId);
+      const carts = await Cart.findAllCart(userId);
       console.log("Carts:", carts);
       res.status(200).json(carts);
     } catch (error) {
