@@ -20,8 +20,13 @@ router.put("/editproduct/:productId", ProductController.editProduct);
 
 const multer = require("multer");
 const PaymentController = require("../controller/payment");
+const ProfileController = require("../controller/profile");
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch("/add-images", upload.array("images", 10), ProductController.addImages);
+router.patch(
+  "/add-images",
+  upload.array("images", 10),
+  ProductController.addImages
+);
 
 // API PAYMENT GATEWAY
 
@@ -31,8 +36,28 @@ router.post("/create-transaction", PaymentController.createTransaction);
 
 router.post("/addtocart", authentication, cartController.addCart);
 router.get("/getcart/", authentication, cartController.getAllCart);
-router.get("/getcart/:cartId", authentication, authorization, cartController.getCartById);
-router.delete("/deleteproductcart/:productId", authentication, authorization, cartController.deleteCart);
-router.put("/editproductcart/:productId", authentication, authorization, cartController.updateCart);
+router.get(
+  "/getcart/:cartId",
+  authentication,
+  authorization,
+  cartController.getCartById
+);
+router.delete(
+  "/deleteproductcart/:productId",
+  authentication,
+  authorization,
+  cartController.deleteCart
+);
+router.put(
+  "/editproductcart/:productId",
+  authentication,
+  authorization,
+  cartController.updateCart
+);
+
+//API PROFILE
+router.post("/addProfile", authentication, ProfileController.createProfile);
+router.get("/showAllProfile", authentication, ProfileController.findAll);
+router.get("/showProfile", authentication, ProfileController.findById);
 
 module.exports = router;
