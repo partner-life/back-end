@@ -5,7 +5,6 @@ class Product {
   static collection() {
     return database.collection("Products");
   }
-
   static async findAllProducts(page, limit, search) {
     const aggregations = [];
 
@@ -39,18 +38,7 @@ class Product {
     return this.collection().deleteOne({ _id: productId });
   }
   static async editProduct(productId, updatedData) {
-    return this.collection().updateOne(
-      { _id: productId },
-      { $set: updatedData }
-    );
-  }
-  static async searchProduct(query) {
-    return this.collection()
-      .aggregate([
-        { $match: query },
-        { $project: { _id: 1, name: 1, category: 1 } },
-      ])
-      .toArray();
+    return this.collection().updateOne({ _id: productId }, { $set: updatedData });
   }
 }
 

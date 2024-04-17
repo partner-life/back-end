@@ -19,8 +19,13 @@ router.delete("/deleteproduct/:productId", ProductController.deleteProduct);
 router.put("/editproduct/:productId", ProductController.editProduct);
 
 const multer = require("multer");
+const PaymentController = require("../controller/payment");
 const upload = multer({ storage: multer.memoryStorage() });
 router.patch("/add-images", upload.array("images", 10), ProductController.addImages);
+
+// API PAYMENT GATEWAY
+
+router.post("/create-transaction", PaymentController.createTransaction);
 
 // API CART
 
