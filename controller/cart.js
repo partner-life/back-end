@@ -43,7 +43,7 @@ class CartController {
     const cartId = req.params.cartId;
 
     try {
-      const result = await Cart.deleteCartById(cartId);
+      const result = await Cart.deleteproductcart(cartId);
       if (result.success) {
         res.status(200).json({ message: "Cart deleted successfully" });
       } else {
@@ -59,7 +59,7 @@ class CartController {
     const { productId, quantity } = req.body;
 
     try {
-      const result = await Cart.updateProductInCart(cartId, productId, quantity);
+      const result = await Cart.editproductcart(cartId, productId, quantity);
       if (result.success) {
         res.status(200).json({ message: "Cart updated successfully" });
       } else {
