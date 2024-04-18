@@ -1,7 +1,8 @@
 const Orders = require("../model/order");
 const database = require("../config/db");
-const collection = database.collection("Users");
+const userCollection = database.collection("Users");
 const { ObjectId } = require("mongodb");
+const nodemailer = require("nodemailer");
 
 class OrdersController {
    static async createOrders(req, res, next) {
@@ -31,86 +32,91 @@ class OrdersController {
    static async nodemailer(req, res, next) {
       try {
          const { id: billId } = req.body;
+         const user = req.user;
+         //  console.log(user, "user");
          //  console.log(req.body, "<<<<<< body", billId);
-         const findMember = await collection.findOne({
-            _id: new ObjectId(req.body.id),
+
+         const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+               user: "rohimsaga3@gmail.com",
+               pass: "eurr llei kigc dhgx",
+            },
          });
 
-         findMember.users.map(async (el) => {
-            const transporter = nodemailer.createTransport({
-               service: "gmail",
-               auth: {
-                  user: "tobangado",
-                  pass: "edap rqsu dxjm llvx",
-               },
-            });
+         const htmlTemplate = `
+       <!DOCTYPE html>
+       <html lang="en">
+       <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Pembayaran</title>
+          <style>
+             body {
+                font-family: Arial, sans-serif;
+                background-color: #f2f2f2;
+                margin: 0;
+                padding: 0;
+             }
+             .container {
+                max-width: 600px;
+                margin: 20px auto;
+                background-color: #fff;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+             }
+             h1 {
+                color: #333;
+                text-align: center;
+             }
+             p {
+                color: #666;
+                line-height: 1.5;
+             }
+             .button {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 5px;
+                margin-top: 20px;
+                transition: background-color 0.3s ease;
+             }
+             .button:hover {
+                background-color: #0056b3;
+             }
+          </style>
+       </head>
+       <body>
+          <div class="container">
+             <h1>Halo ${user.name},</h1>
+             <p>Terima kasih telah menggunakan layanan kami. Anda memiliki pembayaran yang harus diselesaikan.</p>
+             <p>Silakan klik tautan di bawah ini untuk melihat detail pembayaran:</p>
+             <a href="${process.env.URL_CLIENT}/payment/${billId}/${user._id}" class="button" style="color: white;">Lihat Detail Pembayaran</a>
+             <p>Jika Anda memiliki pertanyaan atau membutuhkan bantuan lebih lanjut, jangan ragu untuk menghubungi kami.</p>
+             <p>Terima kasih.</p>
+          </div>
+       </body>
+       </html>
+       `;
+         //  const info = await transporter.sendMail({
+         //     from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
+         //     to: "rohimjoy70@gmail.com", // list of receivers
+         //     subject: "Hello ✔", // Subject line
+         //     text: "Hello world?", // plain text body
+         //     html: "<b>Hello world?</b>", // html body
+         //  });
+         //  console.log("Message sent: %s", info.messageId);
 
-            const htmlTemplate = `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Pembayaran</title>
-              <style>
-                body {
-                  font-family: Arial, sans-serif;
-                  background-color: #f2f2f2;
-                  margin: 0;
-                  padding: 0;
-                }
-                .container {
-                  max-width: 600px;
-                  margin: 20px auto;
-                  background-color: #fff;
-                  border-radius: 10px;
-                  padding: 20px;
-                  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                }
-                h1 {
-                  color: #333;
-                  text-align: center;
-                }
-                p {
-                  color: #666;
-                  line-height: 1.5;
-                }
-                .button {
-                  display: inline-block;
-                  padding: 10px 20px;
-                  background-color: #007bff;
-                  color: #fff; /* Ubah warna teks menjadi putih */
-                  text-decoration: none;
-                  border-radius: 5px;
-                  margin-top: 20px;
-                  transition: background-color 0.3s ease;
-                }
-                .button:hover {
-                  background-color: #0056b3;
-                }
-              </style>
-            </head>
-            <body>
-              <div class="container">
-                <h1>Halo ${el.name},</h1>
-                <p>Terima kasih telah menggunakan layanan kami. Anda memiliki pembayaran yang harus diselesaikan.</p>
-                <p>Silakan klik tautan di bawah ini untuk melihat detail pembayaran:</p>
-                <a href="${process.env.URL_CLIENT}/payment/${billId}/${el._id}" class="button" style="color: white;">Lihat Detail Pembayaran</a>
-                <p>Jika Anda memiliki pertanyaan atau membutuhkan bantuan lebih lanjut, jangan ragu untuk menghubungi kami.</p>
-                <p>Terima kasih.</p>
-              </div>
-            </body>
-            </html>
-                
-      `;
-
-            await transporter.sendMail({
-               from: "partner-life",
-               to: el.email,
-               subject: "Hello",
-               html: htmlTemplate,
-            });
+         await transporter.sendMail({
+            from: "partner-life",
+            to: user.email,
+            subject: "Hello",
+            html: htmlTemplate,
          });
+
          res.json({
             message: "success",
          });
