@@ -1,4 +1,6 @@
 const midtransClient = require("midtrans-client");
+const payment = require("../model/payment");
+const { ObjectId } = require("mongodb");
 
 const snap = new midtransClient.Snap({
   isProduction: false,
@@ -49,6 +51,27 @@ class PaymentController {
       const transaction = await snap.createTransaction(parameter);
 
       res.status(200).json(transaction);
+    } catch (error) {
+      console.log(error.message);
+      next(error);
+    }
+  }
+  static async handlingAfterPayment(req, res, next) {
+    try {
+      const { order_id, transaction_status } = req.body;
+
+      const data = await payment.findOrderById(new ObjectId(order_id));
+      console.log("🚀 ~ PaymentController ~ handlingAfterPayment ~ data:", data);
+      if (!data) {
+        throw { name: "NotFound", message: "Order not found" };
+      }
+
+      const status = await payment.updateOrderStatus(order_id, transaction_status);
+      if (status.modifiedCount === 1) {
+        res.status(200).json({ message: "Payment is successful" });
+      } else {
+        res.status(400).json({ message: "Payment failed" });
+      }
     } catch (error) {
       console.log(error.message);
       next(error);
