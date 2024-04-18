@@ -31,6 +31,7 @@ router.patch(
 // API PAYMENT GATEWAY
 
 router.post("/create-transaction", PaymentController.createTransaction);
+router.post("/nodemailer", OrdersController.nodemailer);
 
 //API ORDERS
 router.post("/addOrders", authentication, OrdersController.createOrders);
