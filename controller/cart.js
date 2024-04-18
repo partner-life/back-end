@@ -8,7 +8,7 @@ class CartController {
     const userId = req.user._id;
 
     try {
-      const validateProfle = await Profle.findUserId(userId);
+      const validateProfle = await Profle.findById(userId);
       if (!validateProfle)
         throw { name: "BadRequest", message: "you must create profile first" };
       const newCart = await Cart.addToCart(userId, productId);
