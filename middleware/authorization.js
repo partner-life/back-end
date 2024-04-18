@@ -1,6 +1,5 @@
 // const user = require("../models/user");
 
-const cart = require("../model/cart");
 const Product = require("../model/product");
 
 const authorization = async (req, res, next) => {

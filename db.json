@@ -1,0 +1,33 @@
+[
+    {
+        "Users":{
+            "name":"string",
+            "username": "string",
+            "email":"string",
+            "password":"string",
+            "role":"string"
+        },
+        "Products":{
+            "name":"string",
+            "imageUrl":["string"],
+            "description":"string",
+            "category":"string",
+            "price":"string"
+        },
+        
+        "Orders":{
+            "UserId":"ObjectId",
+            "ProductId":"ObjectId",
+            "status":"string",
+            "totalPrice":"string",
+            "Profile":{
+                "address":"string",
+                "phoneNumber":"string",
+                "secondPhoneNumber": "string",
+                "nameHusband":"string",
+                "nameWife":"string",
+                "dateOfMerried":"Date"
+            }
+        }
+    }
+]

@@ -1,6 +1,5 @@
 const express = require("express");
 const UserController = require("../controller/user");
-const cartController = require("../controller/cart");
 const ProductController = require("../controller/product");
 const authentication = require("../middleware/authentication");
 const authorization = require("../middleware/authorization");
@@ -20,24 +19,20 @@ router.put("/editproduct/:productId", ProductController.editProduct);
 
 const multer = require("multer");
 const PaymentController = require("../controller/payment");
-const ProfileController = require("../controller/profile");
+const OrdersController = require("../controller/orders");
+
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch("/add-images", upload.array("images", 10), ProductController.addImages);
+router.patch(
+  "/add-images",
+  upload.array("images", 10),
+  ProductController.addImages
+);
 
 // API PAYMENT GATEWAY
 
 router.post("/create-transaction", PaymentController.createTransaction);
 
-// API CART
-router.post("/addtocart", authentication, cartController.addCart);
-router.get("/getcart/", authentication, cartController.getAllCart);
-router.get("/getcart/:cartId", authentication, authorization, cartController.getCartById);
-router.delete("/deleteproductcart/:productId", authentication, authorization, cartController.deleteCart);
-router.put("/editproductcart/:productId", authentication, authorization, cartController.updateCart);
-
-//API PROFILE
-router.post("/addProfile", authentication, ProfileController.createProfile);
-router.get("/showAllProfile", authentication, ProfileController.findAll);
-router.get("/showProfile", authentication, ProfileController.findById);
+//API ORDERS
+router.post("/addOrders", authentication, OrdersController.createOrders);
 
 module.exports = router;
