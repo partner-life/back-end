@@ -1,38 +1,23 @@
 const express = require("express");
 const UserController = require("../controller/user");
-const ProductController = require("../controller/product");
-const authentication = require("../middleware/authentication");
-const authorization = require("../middleware/authorization");
+const PacketController = require("../controller/packet");
 const router = express.Router();
 
 router.post("/register", UserController.Register);
 router.post("/login", UserController.Login);
 router.post("/google-login", UserController.GoogleLogin);
 
-// API PRODUCT
-
-router.get("/product", authentication, ProductController.getAllProducts);
-router.get("/product/:productId", ProductController.getProductById);
-router.post("/createproduct", ProductController.createProduct);
-router.delete("/deleteproduct/:productId", ProductController.deleteProduct);
-router.put("/editproduct/:productId", ProductController.editProduct);
+router.get("/packet", PacketController.getAllPackets);
+router.get("/packet/:packetId", PacketController.getPacketById);
+router.post("/createpacket", PacketController.createPacket);
+router.delete("/deletepacket/:packetId", PacketController.deletePacket);
+router.put("/editpacket/:packetId", PacketController.editPacket);
 
 const multer = require("multer");
 const PaymentController = require("../controller/payment");
 const OrdersController = require("../controller/orders");
 
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch(
-  "/add-images",
-  upload.array("images", 10),
-  ProductController.addImages
-);
-
-// API PAYMENT GATEWAY
-
-router.post("/create-transaction", PaymentController.createTransaction);
-
-//API ORDERS
-router.post("/addOrders", authentication, OrdersController.createOrders);
+router.patch("/add-images", upload.array("images", 10), PacketController.addImages);
 
 module.exports = router;
