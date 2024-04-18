@@ -18,12 +18,12 @@ router.delete("/deletepacket/:packetId", PacketController.deletePacket);
 router.put("/editpacket/:packetId", PacketController.editPacket);
 
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch("/add-images", upload.array("images", 10), ProductController.addImages);
+router.patch("/add-images", upload.array("images", 10), PacketController.addImages);
 
 // API PAYMENT GATEWAY
 
 router.post("/create-transaction", PaymentController.createTransaction);
-router.post("/nodemailer", OrdersController.nodemailer);
+router.post("/nodemailer",authentication, OrdersController.nodemailer);
 
 //API ORDERS
 router.post("/addOrders", authentication, OrdersController.createOrders);
