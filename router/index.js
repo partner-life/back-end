@@ -1,23 +1,23 @@
 const express = require("express");
 const UserController = require("../controller/user");
 const cartController = require("../controller/cart");
-const ProductController = require("../controller/product");
+const PacketController = require("../controller/packet");
 const router = express.Router();
 
 router.get("/register", UserController.Register);
 router.get("/login", UserController.Login);
 
-// API PRODUCT
+// API PACKET
 
-router.get("/product", ProductController.getAllProducts);
-router.get("/product/:productId", ProductController.getProductById);
-router.post("/createproduct", ProductController.createProduct);
-router.delete("/deleteproduct/:productId", ProductController.deleteProduct);
-router.put("/editproduct/:productId", ProductController.editProduct);
+router.get("/packet", PacketController.getAllPackets);
+router.get("/packet/:packetId", PacketController.getPacketById);
+router.post("/createpacket", PacketController.createPacket);
+router.delete("/deletepacket/:packetId", PacketController.deletePacket);
+router.put("/editpacket/:packetId", PacketController.editPacket);
 
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch("/add-images", upload.array("images", 10), ProductController.addImages);
+router.patch("/add-images", upload.array("images", 10), PacketController.addImages);
 
 // API CART
 
