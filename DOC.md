@@ -473,4 +473,99 @@ This documentation reflects the operations available for managing cart items, in
     }
     ```
 
+---
+
+### Payment
+
+Creates a new transaction for a payment process.
+
+- **URL**
+
+  `/create-transaction`
+
+- **Method:**
+
+  `POST`
+  
+- **Authentication:**
+
+  None required for this example, but typically you would secure this endpoint with authentication middleware.
+
+- **URL Params**
+
+  None
+
+- **Data Params**
+
+  Required:
+  
+  ```json
+  {
+    "gross_amount": "[decimal]",
+    "order_id": "[string]",
+    "item_name": "[string]",
+    "first_name": "[string]",
+    "last_name": "[string]",
+    "phone": "[string]",
+    "address": "[string]",
+    "city": "[string]",
+    "postal_code": "[string]"
+  }
+  ```
+
+- **Success Response:**
+
+  - **Code:** 200 OK <br />
+    **Content:** 
+    ```json
+    {
+      "token": "[string]",
+      "redirect_url": "[string]"
+    }
+    ```
+  
+- **Error Response:**
+
+  - **Code:** 400 BAD REQUEST <br />
+    **Content:** 
+    ```json
+    { "error": "BadRequest", "message": "Amount must be a number" }
+    ```
+    
+  OR
+
+  - **Code:** 400 BAD REQUEST <br />
+    **Content:** 
+    ```json
+    { "error": "BadRequest", "message": "Order ID and Item Name are required" }
+    ```
+
+- **Sample Call:**
+
+  ```javascript
+  fetch('/create-transaction', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          gross_amount: 100.00,
+          order_id: "order123",
+          item_name: "Wedding Package",
+          first_name: "John",
+          last_name: "Doe",
+          phone: "123456789",
+          address: "1234 Main St",
+          city: "Anytown",
+          postal_code: "123456"
+      })
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch((error) => console.error('Error:', error));
+  ```
+
+- **Notes:**
+
+  The response includes a `token` and a `redirect_url` provided by the payment gateway (in this case, Midtrans) for further processing of the payment on the client side.
 
