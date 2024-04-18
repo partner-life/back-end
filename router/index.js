@@ -4,6 +4,10 @@ const cartController = require("../controller/cart");
 const PacketController = require("../controller/packet");
 const router = express.Router();
 
+router.get("/", (req, res) => {
+  res.json({ message: "Wedding Organizer" });
+});
+
 router.get("/register", UserController.Register);
 router.get("/login", UserController.Login);
 

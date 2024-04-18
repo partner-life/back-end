@@ -4,7 +4,8 @@ class Packet {
   static collection() {
     return database.collection("Packets");
   }
-  static async findAllPackets(page, limit, search) {
+  static async findAllPackets(page, limit, search, sortByPrice, category) {
+    console.log("🚀 ~ Packet ~ findAllPackets ~ sortByPrice:", sortByPrice);
     const aggregations = [];
 
     if (search) {
@@ -12,8 +13,13 @@ class Packet {
       aggregations.push({ $match: { name: { $regex: regex } } });
     }
 
+    if (category) {
+      aggregations.push({ $match: { category: category } });
+    }
+
     aggregations.push({ $skip: (page - 1) * limit });
     aggregations.push({ $limit: limit });
+    aggregations.push({ $sort: { price: +sortByPrice } });
     console.log("🚀 ~ Packet ~ findAllPackets ~ aggregations:", aggregations);
 
     return this.collection().aggregate(aggregations).toArray();

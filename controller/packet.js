@@ -6,9 +6,11 @@ class PacketController {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || Number.MAX_SAFE_INTEGER;
     const search = req.query.search || "";
+    const sortByPrice = req.query.sortByPrice || 1;
+    const category = req.query.category || "";
 
     try {
-      const packets = await Packet.findAllPackets(page, limit, search);
+      const packets = await Packet.findAllPackets(page, limit, search, sortByPrice, category);
       console.log("🚀 ~ PacketController ~ getAllPackets ~ packets:", packets);
       res.status(200).json({ page, limit, packets });
     } catch (error) {
@@ -33,14 +35,14 @@ class PacketController {
   }
 
   static async createPacket(req, res, next) {
-    const { name, imageUrl, description, category } = req.body;
+    const { name, imageUrl, description, category, price } = req.body;
     try {
-      if (!name || !description || !category) {
-        throw { name: "BadRequest", message: "Name, description, and category cannot be empty" };
+      if (!name || !description || !category || !price) {
+        throw { name: "BadRequest", message: "Name, description, category, and price cannot be empty" };
       }
-      const newPacket = await Packet.createPacket({ name, imageUrl, description, category });
+      const newPacket = await Packet.createPacket({ name, imageUrl, description, category, price });
       console.log("🚀 ~ PacketController ~ createPacket ~ newPacket:", newPacket);
-      res.status(201).json({ name, imageUrl, description, category });
+      res.status(201).json({ name, imageUrl, description, category, price });
     } catch (error) {
       next(error);
     }
