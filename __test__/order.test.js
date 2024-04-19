@@ -3,15 +3,18 @@ const database = require("../config/db");
 const request = require("supertest");
 const Orders = require("../model/order");
 const OrdersController = require("../controller/orders");
+const { signToken } = require("../helper/jwt");
 
-jest.setTimeout(60000);
+beforeAll(async () => {
+   let data = {
+      email: "rohimjoy70@gmail.com",
+      password: "test",
+   };
+   const login = await database.collection("Users").findOne({ email: data.email });
+   access_token = signToken({ id: login._id });
+});
 
-jest.mock("../middleware/authentication", () => ({
-   authentication: (req, res, next) => {
-      req.user = { _id: "662241ea3442e7b4201f418a", username: "rohimjoy" };
-      next();
-   },
-}));
+let access_token;
 
 const userData = {
    nameHusband: "Toba",
@@ -24,16 +27,17 @@ const userData = {
 
 describe("POST /addOrders", () => {
    test("should be able to add order", async () => {
-      const response = await request(app).post("/addOrders").send(userData);
-
+      // console.log(access_token)
+      const response = await request(app).post("/addOrders").set("Authorization", "Bearer " + access_token).send(userData);
+      console.log(response.body);
       expect(response.status).toBe(201);
 
       expect(response.body).toHaveProperty("_id");
-      expect(response.body.nameHusband).toBe(userData.nameHusband);
-      expect(response.body.nameWife).toBe(userData.nameWife);
-      expect(response.body.address).toBe(userData.address);
-      expect(response.body.phoneNumber).toBe(userData.phoneNumber);
-      expect(response.body.dateOfMerried).toBe(userData.dateOfMerried);
+      expect(response.body.Profile.nameHusband).toBe(userData.nameHusband);
+      expect(response.body.Profile.nameWife).toBe(userData.nameWife);
+      expect(response.body.Profile.address).toBe(userData.address);
+      expect(response.body.Profile.phoneNumber).toBe(userData.phoneNumber);
+      expect(response.body.Profile.dateOfMerried).toBe(userData.dateOfMerried);
 
       const createdOrder = await Orders.findOne({ nameHusband: userData.nameHusband });
       expect(createdOrder).toBeDefined();
@@ -43,7 +47,7 @@ describe("POST /addOrders", () => {
    test("should return error if nameHusband is missing", async () => {
       const { nameHusband, ...userDataWithoutNameHusband } = userData;
 
-      const response = await request(app).post("/addOrders").send(userDataWithoutNameHusband);
+      const response = await request(app).post("/addOrders").set("Authorization", "Bearer " + access_token).send(userDataWithoutNameHusband);
 
       expect(response.status).toBe(400);
 
@@ -54,7 +58,7 @@ describe("POST /addOrders", () => {
    test("should return error if nameWife is missing", async () => {
       const { nameWife, ...userDataWithoutNameWife } = userData;
 
-      const response = await request(app).post("/addOrders").send(userDataWithoutNameWife);
+      const response = await request(app).post("/addOrders").set("Authorization", "Bearer " + access_token).send(userDataWithoutNameWife);
 
       expect(response.status).toBe(400);
 
