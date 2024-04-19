@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 class OrdersController {
    static async createOrders(req, res, next) {
       try {
-         const { nameHusband, nameWife, address, phoneNumber, dateOfMerried, PacketId } = req.body;
+         const { nameHusband, nameWife, address, phoneNumber, dateOfMerried, packetId } = req.body;
 
          if (!nameHusband) throw { name: "BadRequest", message: "name of husband is required" };
          if (!nameWife) throw { name: "BadRequest", message: "name of wife is required" };
@@ -21,13 +21,13 @@ class OrdersController {
          }
 
          const userId = req.user._id;
-         const newOrder = await Orders.newOrders(userId, PacketId, address, phoneNumber, nameHusband, nameWife, dateOfMerried);
+         const newOrder = await Orders.newOrders(userId, packetId, address, phoneNumber, nameHusband, nameWife, dateOfMerried);
          const orderId = newOrder._id;
 
          req.body.id = orderId;
          await OrdersController.nodemailer(req, res, next);
          
-         res.status(201).json(newOrder);
+         // res.status(201).json(newOrder);
       } catch (error) {
          next(error);
       }

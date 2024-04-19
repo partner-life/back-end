@@ -4,8 +4,7 @@ const database = require("../config/db");
 class Orders {
    static async newOrders(userId, packetId, address, phoneNumber, nameHusband, nameWife, dateOfMerried) {
       const id = new ObjectId(packetId);
-      const packet = await database.collection("Packets").findOne({ _id: id });
-      // console.log(packet);
+      const packet = await database.collection("Packages").findOne({ _id: id });
       const newOrders = database.collection("Orders").insertOne({
          UserId: userId,
          PacketId: packetId,
@@ -18,7 +17,7 @@ class Orders {
             phoneNumber: phoneNumber,
             dateOfMerried: dateOfMerried,
          },
-      }); 
+      });
       const result = database.collection("Orders").findOne((await newOrders).insertedId);
       return result;
    }
