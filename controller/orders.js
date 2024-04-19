@@ -1,6 +1,5 @@
 const Orders = require("../model/order");
 const database = require("../config/db");
-const userCollection = database.collection("Users");
 const { ObjectId } = require("mongodb");
 const nodemailer = require("nodemailer");
 
@@ -31,10 +30,10 @@ class OrdersController {
 
    static async nodemailer(req, res, next) {
       try {
-         const { id: billId } = req.body;
+         const { id: orderId } = req.body;
          const user = req.user;
          //  console.log(user, "user");
-         //  console.log(req.body, "<<<<<< body", billId);
+         //  console.log(req.body, "<<<<<< body", orderId);
 
          const transporter = nodemailer.createTransport({
             service: "gmail",
@@ -94,7 +93,7 @@ class OrdersController {
              <h1>Halo ${user.name},</h1>
              <p>Terima kasih telah menggunakan layanan kami. Anda memiliki pembayaran yang harus diselesaikan.</p>
              <p>Silakan klik tautan di bawah ini untuk melihat detail pembayaran:</p>
-             <a href="${process.env.URL_CLIENT}/payment/${billId}/${user._id}" class="button" style="color: white;">Lihat Detail Pembayaran</a>
+             <a href="${process.env.URL_CLIENT}/payment/${orderId}/${user._id}" class="button" style="color: white;">Lihat Detail Pembayaran</a>
              <p>Jika Anda memiliki pertanyaan atau membutuhkan bantuan lebih lanjut, jangan ragu untuk menghubungi kami.</p>
              <p>Terima kasih.</p>
           </div>
