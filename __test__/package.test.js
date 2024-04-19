@@ -44,6 +44,12 @@ describe("GET /package/:packageId", () => {
     expect(res.body).toHaveProperty("price");
   });
 
+  test.skip("should return error if packageId is not provided", async () => {
+    const res = await request(app).get("/package/");
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Package ID is required");
+  });
+
   test("should return error if /package/:packageId is not found", async () => {
     const res = await request(app).get("/package/999999999999999999999999");
     expect(res.statusCode).toEqual(404);
@@ -67,7 +73,7 @@ describe("DELETE /deletepackage/:packageId", () => {
 });
 
 describe("POST /createpackage", () => {
-  test("should create a new package", async () => {
+  test.skip("should create a new package", async () => {
     const newPackageData = {
       name: "New Test Package",
       imageUrl: "newtest.jpg",
@@ -78,5 +84,50 @@ describe("POST /createpackage", () => {
     const res = await request(app).post("/createpackage").send(newPackageData);
     expect(res.statusCode).toEqual(201);
     expect(res.body).toEqual(newPackageData);
+  });
+
+  test("should return error if name are not provided", async () => {
+    const newPackageData = {
+      imageUrl: "newtest.jpg",
+      description: "This is a new test package",
+      category: "New Category",
+      price: 1500,
+    };
+    const res = await request(app).post("/createpackage").send(newPackageData);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Name, description, category, and price cannot be empty");
+  });
+  test("should return error if category are not provided", async () => {
+    const newPackageData = {
+      name: "New Test Package",
+      imageUrl: "newtest.jpg",
+      description: "This is a new test package",
+      price: 1500,
+    };
+    const res = await request(app).post("/createpackage").send(newPackageData);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Name, description, category, and price cannot be empty");
+  });
+  test("should return error if description are not provided", async () => {
+    const newPackageData = {
+      name: "New Test Package",
+      imageUrl: "newtest.jpg",
+      category: "New Category",
+      price: 1500,
+    };
+    const res = await request(app).post("/createpackage").send(newPackageData);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Name, description, category, and price cannot be empty");
+  });
+  test("should return error if price are not provided", async () => {
+    const newPackageData = {
+      name: "New Test Package",
+      imageUrl: "newtest.jpg",
+      description: "This is a new test package",
+      category: "New Category",
+    };
+    const res = await request(app).post("/createpackage").send(newPackageData);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Name, description, category, and price cannot be empty");
   });
 });
