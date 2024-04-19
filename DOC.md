@@ -127,445 +127,243 @@ Allows users to log in using their Google account. If the user does not exist in
 - This endpoint will create a new user if the email obtained from the Google ID token does not match any existing users in the database, leveraging the `FindOrCreate` method in the `User` model.
 
 
-### Product Management
+## Packet Management Endpoints
 
-#### Add Product
+### Get All Packets
 
-- **URL**: `/createproduct`
+Retrieves a list of all packets, with optional filters for pagination, search, sorting by price, and category filtering.
+
+- **URL**: `/packet`
+- **Method**: `GET`
+- **Auth Required**: Yes
+- **Query Parameters**:
+  - `page`: Page number for pagination (optional)
+  - `limit`: Number of packets per page (optional)
+  - `search`: Keyword for searching packets by name (optional)
+  - `sortByPrice`: Direction of price sorting, `1` for ascending, `-1` for descending (optional)
+  - `category`: Filter packets by category (optional)
+
+#### Success Response:
+
+- **Code**: `200 OK`
+- **Content**: 
+```json
+{
+  "page": 1,
+  "limit": 10,
+  "packets": [
+    {
+      "name": "Basic Wedding Package",
+      "imageUrl": "http://example.com/image.jpg",
+      "description": "A basic wedding package.",
+      "category": "Basic",
+      "price": 1000
+    }
+  ]
+}
+```
+
+### Get Packet By ID
+
+Retrieves a single packet by its unique identifier.
+
+- **URL**: `/packet/:packetId`
+- **Method**: `GET`
+- **Auth Required**: Yes
+- **URL Parameters**:
+  - `packetId`: The unique identifier of the packet
+
+#### Success Response:
+
+- **Code**: `200 OK`
+- **Content**: 
+```json
+{
+  "name": "Basic Wedding Package",
+  "imageUrl": "http://example.com/image.jpg",
+  "description": "A basic wedding package.",
+  "category": "Basic",
+  "price": 1000
+}
+```
+
+### Create Packet
+
+Allows for the creation of a new packet.
+
+- **URL**: `/createpacket`
 - **Method**: `POST`
-- **Auth Required**: Yes (Admin)
-- **Request Body**: Includes `name`, `imageUrl`, `description`, `category`.
-- **Responses**:
-  - **Success Response**:
-    ```json
-    {
-      "name": "Elegant Wedding Dress",
-      "imageUrl": "https://example.com/images/dress.jpg",
-      "description": "A beautiful and elegant wedding dress.",
-      "category": "Apparel"
-    }
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Name, description, and category cannot be empty"
-    }
-    ```
+- **Auth Required**: Yes
+- **Request Body**:
+  - `name` (required): Name of the packet
+  - `imageUrl` (optional): Image URL of the packet
+  - `description` (required): Description of the packet
+  - `category` (required): Category of the packet
+  - `price` (required): Price of the packet
 
-#### Get All Products
+#### Success Response:
 
-- **URL**: `/product`
-- **Method**: `GET`
-- **Auth Required**: No
-- **Query Parameters**: `page=[integer]`, `limit=[integer]`, `search=[string]`
-- **Responses**:
-  - **Success Response**:
-    ```json
-    {
-      "page": 1,
-      "limit": 10,
-      "products": [
-        {
-          "_id": "5f77a9b3e84a2d001f2a3a8d",
-          "name": "Elegant Wedding Dress",
-          "imageUrl": "https://example.com/images/dress.jpg",
-          "description": "A beautiful and elegant wedding dress.",
-          "category": "Apparel"
-        }
-      ]
-    }
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Failed to fetch products"
-    }
-    ```
+- **Code**: `201 Created`
+- **Content**: 
+```json
+{
+  "name": "Deluxe Wedding Package",
+  "imageUrl": "http://example.com/deluxe_image.jpg",
+  "description": "A deluxe wedding package.",
+  "category": "Deluxe",
+  "price": 2000
+}
+```
 
-#### Get Product By ID
+### Update Packet
 
-- **URL**: `/product/:productId`
-- **Method**: `GET`
-- **Auth Required**: No
-- **URL Parameters**: `productId=[string]`
-- **Responses**:
-  - **Success Response**:
-    ```json
-    {
-      "_id": "5f77a9b3e84a2d001f2a3a8d",
-      "name": "Elegant Wedding Dress",
-      "imageUrl": "https://example.com/images/dress.jpg",
-      "description": "A beautiful and elegant wedding dress.",
-      "category": "Apparel"
-    }
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Product not found"
-    }
-    ```
+Updates an existing packet by its unique identifier.
 
-#### Edit Product
-
-- **URL**: `/editproduct/:productId`
+- **URL**: `/editpacket/:packetId`
 - **Method**: `PUT`
-- **Auth Required**: Yes (Admin)
-- **URL Parameters**: `productId=[string]`
-- **Request Body**: Product details to be updated.
-- **Responses**:
-  - **Success Response**:
-    ```json
-    {
-      "message": "Product updated successfully"
-    }
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Failed to update product"
-    }
-    ```
+- **Auth Required**: Yes
+- **URL Parameters**:
+  - `packetId`: The unique identifier of the packet to update
+- **Request Body**:
+  - Any of the fields that can be created with the `Create Packet` endpoint
 
-#### Delete Product
+#### Success Response:
 
-- **URL**: `/deleteproduct/:productId`
+- **Code**: `200 OK`
+- **Content**: 
+```json
+{
+  "message": "Packet updated successfully"
+}
+```
+
+### Delete Packet
+
+Deletes a packet by its unique identifier.
+
+- **URL**: `/deletepacket/:packetId`
 - **Method**: `DELETE`
-- **Auth Required**: Yes (Admin)
-- **URL Parameters**: `productId=[string]`
-- **Responses**:
-  - **Success Response**:
-    ```json
-    {
-      "message": "Product deleted successfully"
-    }
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Product not found"
-    }
-    ```
+- **Auth Required**: Yes
+- **URL Parameters**:
+  - `packetId`: The unique identifier of the packet to delete
 
-### Add Images
+#### Success Response:
+
+- **Code**: `200 OK`
+- **Content**: 
+```json
+{
+  "message": "Packet deleted successfully"
+}
+```
+
+### Add Images to Packet
+
+Allows for adding multiple images to a packet. This endpoint might require a different setup or additional information on how images are uploaded (e.g., multipart/form-data for direct file uploads).
 
 - **URL**: `/add-images`
 - **Method**: `POST`
 - **Auth Required**: Yes
-- **Content-Type**: `multipart/form-data`
-- **Request Body**: Form data with one or more image files under the key `files`.
-- **Responses**:
-  - **Success Response**:
-    ```json
+- **Special Requirements**: This endpoint's implementation details are not fully provided. Ensure to handle image uploads appropriately.
+
+#### Success Response:
+
+- **Code**: `200 OK`
+- **Content**: 
+```json
+{
+  "images": [
     {
-      "images": [
-        {
-          "imgUrl": "https://example.com/uploads/image1.jpg"
-        }
-      ]
-    }
-    ```
-  - **Error Response**:
-    ```json
+      "imgUrl": "http://example.com/image1.jpg"
+    },
     {
-      "message": "Failed to upload images"
+      "imgUrl": "http://example.com/image2.jpg"
     }
-    ```
-
-#### Notes:
-
-- The `createProduct` endpoint requires `name`, `description`, and `category` fields to be non-empty. The `imageUrl` is optional.
-- The `editProduct` endpoint allows updating any product detail by providing the respective fields in the request body.
-- The `addImages` endpoint requires setting up Cloudinary and configuring the environment variables (`CLOUND_NAME`, `API_KEY`, `API_SECRET`) correctly.
-- Pagination in the `getAllProducts` endpoint defaults to page 1 with no limit if not specified. The `search` query parameter is optional and allows filtering products by name.
-
-
-### Cart Operations
-
-#### Add Product to Cart
-
-- **URL**: `/cart/add`
-- **Method**: `POST`
-- **Auth Required**: Yes
-- **Request Body**: 
-  ```json
-  {
-    "productId": "string"
-  }
-  ```
-- **Responses**:
-  - **Success Response**:
-    ```json
-    {
-      "message": "Product added to cart successfully"
-    }
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "you must create profile first"
-    }
-    ```
-
-#### Get All Cart Items
-
-- **URL**: `/cart/all`
-- **Method**: `GET`
-- **Auth Required**: Yes
-- **Responses**:
-  - **Success Response**:
-    ```json
-    [
-      {
-        "productId": "string",
-        "quantity": "number"
-      }
-    ]
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Error message"
-    }
-    ```
-
-#### Get Cart By ID
-
-- **URL**: `/cart/:cartId`
-- **Method**: `GET`
-- **Auth Required**: Yes
-- **URL Parameters**: `cartId=[string]`
-- **Responses**:
-  - **Success Response**:
-    ```json
-    {
-      "productId": "string",
-      "quantity": "number"
-    }
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Cart not found"
-    }
-    ```
-
-#### Delete Cart
-
-- **URL**: `/cart/delete/:cartId`
-- **Method**: `DELETE`
-- **Auth Required**: Yes
-- **URL Parameters**: `cartId=[string]`
-- **Responses**:
-  - **Success Response**:
-    ```json
-    {
-      "message": "Cart deleted successfully"
-    }
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Cart not found"
-    }
-    ```
-
-#### Update Cart
-
-- **URL**: `/cart/update/:cartId`
-- **Method**: `PUT`
-- **Auth Required**: Yes
-- **URL Parameters**: `cartId=[string]`
-- **Request Body**: 
-  ```json
-  {
-    "productId": "string",
-    "quantity": "number"
-  }
-  ```
-- **Responses**:
-  - **Success Response**:
-    ```json
-    {
-      "message": "Cart updated successfully"
-    }
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Cart not found"
-    }
-    ```
-
-This documentation reflects the operations available for managing cart items, including adding products to the cart, retrieving cart items, updating cart items, and deleting cart items. Each endpoint requires authentication, ensuring that cart operations are securely managed for each user.
-
-
-### Profile Management
-
-#### Create Profile
-
-- **URL**: `/profile/create`
-- **Method**: `POST`
-- **Auth Required**: Yes
-- **Request Body**: 
-  ```json
-  {
-    "address": "string",
-    "phoneNumber": "string"
-  }
-  ```
-- **Responses**:
-  - **Success Response**:
-    ```json
-    {
-      "message": "Profile has been successfully created"
-    }
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Error message detailing what went wrong"
-    }
-    ```
-
-#### Get All Profiles
-
-- **URL**: `/profile/all`
-- **Method**: `GET`
-- **Auth Required**: Yes
-- **Responses**:
-  - **Success Response**:
-    ```json
-    [
-      {
-        "userId": "string",
-        "address": "string",
-        "phoneNumber": "string"
-      }
-    ]
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Error message detailing what went wrong"
-    }
-    ```
-
-#### Get User Profile By ID
-
-- **URL**: `/profile/:userId`
-- **Method**: `GET`
-- **Auth Required**: Yes
-- **URL Parameters**: `userId=[string]`
-- **Responses**:
-  - **Success Response**:
-    ```json
-    {
-      "userId": "string",
-      "address": "string",
-      "phoneNumber": "string"
-    }
-    ```
-  - **Error Response**:
-    ```json
-    {
-      "message": "Profile not found"
-    }
-    ```
+  ]
+}
+```
+Based on the provided `OrdersController` code, here's an API documentation draft for the Orders management endpoints of your wedding organization website backend.
 
 ---
 
-### Payment
+# Orders Management Endpoints
 
-Creates a new transaction for a payment process.
+### Create Order
 
-- **URL**
+Allows for the creation of a new order with details about the wedding, including names of the husband and wife, address, phone number, date of marriage, and product ID.
 
-  `/create-transaction`
+- **URL**: `/addOrders`
+- **Method**: `POST`
+- **Auth Required**: Yes
+- **Request Body**:
+  - `nameHusband` (required): Name of the husband.
+  - `nameWife` (required): Name of the wife.
+  - `address` (required): Address for the wedding.
+  - `phoneNumber` (required): Contact phone number.
+  - `dateOfMerried` (required): Date of the marriage.
+  - `ProductId` (required): ID of the product/service being ordered.
 
-- **Method:**
+#### Success Response:
 
-  `POST`
-  
-- **Authentication:**
-
-  None required for this example, but typically you would secure this endpoint with authentication middleware.
-
-- **URL Params**
-
-  None
-
-- **Data Params**
-
-  Required:
-  
-  ```json
-  {
-    "gross_amount": "[decimal]",
-    "order_id": "[string]",
-    "item_name": "[string]",
-    "first_name": "[string]",
-    "last_name": "[string]",
-    "phone": "[string]",
-    "address": "[string]",
-    "city": "[string]",
-    "postal_code": "[string]"
+- **Code**: `201 Created`
+- **Content**: 
+```json
+{
+  "message": "Order created successfully",
+  "orderId": "unique_order_id",
+  "details": {
+    "nameHusband": "John Doe",
+    "nameWife": "Jane Doe",
+    "address": "123 Wedding Lane",
+    "phoneNumber": "1234567890",
+    "dateOfMerried": "2023-12-31",
+    "ProductId": "product_id"
   }
-  ```
+}
+```
 
-- **Success Response:**
+#### Error Response:
 
-  - **Code:** 200 OK <br />
-    **Content:** 
-    ```json
-    {
-      "token": "[string]",
-      "redirect_url": "[string]"
-    }
-    ```
-  
-- **Error Response:**
+- **Code**: `400 Bad Request`
+- **Content**: 
+```json
+{
+  "message": "name of husband is required"
+}
+```
 
-  - **Code:** 400 BAD REQUEST <br />
-    **Content:** 
-    ```json
-    { "error": "BadRequest", "message": "Amount must be a number" }
-    ```
-    
-  OR
+### Send Order Confirmation Email
 
-  - **Code:** 400 BAD REQUEST <br />
-    **Content:** 
-    ```json
-    { "error": "BadRequest", "message": "Order ID and Item Name are required" }
-    ```
+Sends an email to the user with details about their order and a link to view payment details.
 
-- **Sample Call:**
+- **URL**: `/nodemailer`
+- **Method**: `POST`
+- **Auth Required**: Yes
+- **Request Body**:
+  - `id` (required): Bill ID to include in the email for payment details.
 
-  ```javascript
-  fetch('/create-transaction', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-          gross_amount: 100.00,
-          order_id: "order123",
-          item_name: "Wedding Package",
-          first_name: "John",
-          last_name: "Doe",
-          phone: "123456789",
-          address: "1234 Main St",
-          city: "Anytown",
-          postal_code: "123456"
-      })
-  })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch((error) => console.error('Error:', error));
-  ```
+#### Success Response:
 
-- **Notes:**
+- **Code**: `200 OK`
+- **Content**: 
+```json
+{
+  "message": "success"
+}
+```
 
-  The response includes a `token` and a `redirect_url` provided by the payment gateway (in this case, Midtrans) for further processing of the payment on the client side.
+#### Error Response:
 
+- **Code**: `500 Internal Server Error`
+- **Content**: 
+```json
+{
+  "message": "An error occurred while sending the email"
+}
+```
+
+#### Notes:
+
+- The email is sent using the `nodemailer` package with a predefined Gmail account. Ensure that the Gmail account's "Less secure app access" setting is enabled or use OAuth2 for authentication in a production environment.
+- The email includes an HTML template with a personalized greeting, a thank you note, a call to action button linking to the payment details page, and contact information for further assistance.
+- The `process.env.URL_CLIENT` environment variable is used to construct the link to the payment details page, ensuring that the link is dynamic and can be adjusted based on the environment (development, staging, production).
