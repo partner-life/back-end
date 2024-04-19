@@ -1,32 +1,33 @@
 const express = require("express");
 const UserController = require("../controller/user");
-const PacketController = require("../controller/packet");
+const PackageController = require("../controller/package");
 const router = express.Router();
 const authentication = require("../middleware/authentication");
+const multer = require("multer");
 const PaymentController = require("../controller/payment");
 const OrdersController = require("../controller/orders");
-const multer = require("multer");
+
+router.get("/", (req, res) => {
+  res.json({ message: "Wedding Organizer" });
+});
 
 router.post("/register", UserController.Register);
 router.post("/login", UserController.Login);
 router.post("/google-login", UserController.GoogleLogin);
 
-router.get("/packet", PacketController.getAllPackets);
-router.get("/packet/:packetId", PacketController.getPacketById);
-router.post("/createpacket", PacketController.createPacket);
-router.delete("/deletepacket/:packetId", PacketController.deletePacket);
-router.put("/editpacket/:packetId", PacketController.editPacket);
+router.get("/package", PackageController.getAllPackages);
+router.get("/package/:packageId", PackageController.getPackageById);
+router.post("/createpackage", PackageController.createPackage);
+router.delete("/deletepackage/:packageId", PackageController.deletePackage);
+router.put("/editpackage/:packageId", PackageController.editPackage);
 
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch("/add-images", upload.array("images", 10), PacketController.addImages);
-
-// API PAYMENT GATEWAY
+router.patch("/add-images", upload.array("images", 10), PackageController.addImages);
 
 router.post("/create-transaction", PaymentController.createTransaction);
 router.post("/handling-after-payment", PaymentController.handleNotification);
 router.post("/nodemailer", authentication, OrdersController.nodemailer);
 
-//API ORDERS
 router.post("/addOrders", authentication, OrdersController.createOrders);
 
 module.exports = router;
