@@ -81,9 +81,9 @@ class User {
   }
   static async FindByPk(id) {
     const newId = new ObjectId(id);
-    console.log(newId);
+    // console.log(newId);
     const user = await database.collection("Users").findOne({ _id: newId });
-    console.log(user);
+    // console.log(user);
     return user;
   }
 }
