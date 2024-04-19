@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 class OrdersController {
    static async createOrders(req, res, next) {
       try {
-         const { nameHusband, nameWife, address, phoneNumber, dateOfMerried, ProductId } = req.body;
+         const { nameHusband, nameWife, address, phoneNumber, dateOfMerried, PacketId } = req.body;
 
          if (!nameHusband) throw { name: "BadRequest", message: "name of husband is required" };
          if (!nameWife) throw { name: "BadRequest", message: "name of wife is required" };
@@ -21,8 +21,13 @@ class OrdersController {
          }
 
          const userId = req.user._id;
-         const result = await Orders.newOrders(userId, ProductId, address, nameHusband, nameWife, phoneNumber, dateOfMerried);
-         res.status(201).json(result);
+         const newOrder = await Orders.newOrders(userId, PacketId, address, phoneNumber, nameHusband, nameWife, dateOfMerried);
+         const orderId = newOrder._id;
+
+         req.body.id = orderId;
+         await OrdersController.nodemailer(req, res, next);
+         
+         res.status(201).json(newOrder);
       } catch (error) {
          next(error);
       }
@@ -32,8 +37,6 @@ class OrdersController {
       try {
          const { id: orderId } = req.body;
          const user = req.user;
-         //  console.log(user, "user");
-         //  console.log(req.body, "<<<<<< body", orderId);
 
          const transporter = nodemailer.createTransport({
             service: "gmail",
@@ -100,14 +103,6 @@ class OrdersController {
        </body>
        </html>
        `;
-         //  const info = await transporter.sendMail({
-         //     from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
-         //     to: "rohimjoy70@gmail.com", // list of receivers
-         //     subject: "Hello ✔", // Subject line
-         //     text: "Hello world?", // plain text body
-         //     html: "<b>Hello world?</b>", // html body
-         //  });
-         //  console.log("Message sent: %s", info.messageId);
 
          await transporter.sendMail({
             from: "partner-life",
@@ -121,8 +116,8 @@ class OrdersController {
          });
       } catch (error) {
          next(error);
-         console.log(error);
       }
    }
 }
+
 module.exports = OrdersController;

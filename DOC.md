@@ -301,7 +301,7 @@ Allows for the creation of a new order with details about the wedding, including
   - `address` (required): Address for the wedding.
   - `phoneNumber` (required): Contact phone number.
   - `dateOfMerried` (required): Date of the marriage.
-  - `ProductId` (required): ID of the product/service being ordered.
+  - `PacketId` (required): ID of the product/service being ordered.
 
 #### Success Response:
 
@@ -317,7 +317,7 @@ Allows for the creation of a new order with details about the wedding, including
     "address": "123 Wedding Lane",
     "phoneNumber": "1234567890",
     "dateOfMerried": "2023-12-31",
-    "ProductId": "product_id"
+    "PacketId": "pakcet_id"
   }
 }
 ```
