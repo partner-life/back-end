@@ -31,3 +31,22 @@ describe("GET /package", () => {
     expect(res.body).toHaveProperty("packages");
   });
 });
+
+describe("GET /package/:packageId", () => {
+  test("should get a specific package by ID", async () => {
+    const packageId = "888888888888888888888888";
+    const res = await request(app).get(`/package/${packageId}`);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty("name");
+    expect(res.body).toHaveProperty("imageUrl");
+    expect(res.body).toHaveProperty("description");
+    expect(res.body).toHaveProperty("category");
+    expect(res.body).toHaveProperty("price");
+  });
+
+  test("should return error if /package/:packageId is not found", async () => {
+    const res = await request(app).get("/package/999999999999999999999999");
+    expect(res.statusCode).toEqual(404);
+    expect(res.body.message).toEqual("Package not found");
+  });
+});
