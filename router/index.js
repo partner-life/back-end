@@ -1,7 +1,7 @@
 const express = require("express");
 const UserController = require("../controller/user");
 const cartController = require("../controller/cart");
-const PacketController = require("../controller/packet");
+const PackageController = require("../controller/package");
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -11,17 +11,17 @@ router.get("/", (req, res) => {
 router.get("/register", UserController.Register);
 router.get("/login", UserController.Login);
 
-// API PACKET
+// API PACKAGE
 
-router.get("/packet", PacketController.getAllPackets);
-router.get("/packet/:packetId", PacketController.getPacketById);
-router.post("/createpacket", PacketController.createPacket);
-router.delete("/deletepacket/:packetId", PacketController.deletePacket);
-router.put("/editpacket/:packetId", PacketController.editPacket);
+router.get("/package", PackageController.getAllPackages);
+router.get("/package/:packageId", PackageController.getPackageById);
+router.post("/createpackage", PackageController.createPackage);
+router.delete("/deletepackage/:packageId", PackageController.deletePackage);
+router.put("/editpackage/:packageId", PackageController.editPackage);
 
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch("/add-images", upload.array("images", 10), PacketController.addImages);
+router.patch("/add-images", upload.array("images", 10), PackageController.addImages);
 
 // API CART
 
