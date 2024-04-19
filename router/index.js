@@ -23,6 +23,7 @@ router.patch("/add-images", upload.array("images", 10), PacketController.addImag
 // API PAYMENT GATEWAY
 
 router.post("/create-transaction", PaymentController.createTransaction);
+router.post("/handling-after-payment", PaymentController.handleNotification);
 router.post("/nodemailer", authentication, OrdersController.nodemailer);
 
 //API ORDERS
