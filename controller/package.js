@@ -54,7 +54,7 @@ class PackageController {
       }
       const packageData = await Package.findPackageById(new ObjectId(packageId));
       if (!packageData) {
-        throw { name: "BadRequest", message: "Package not found" };
+        throw { name: "NotFound", message: "Package not found" };
       }
       await Package.deletePackage(new ObjectId(packageId));
       res.status(200).json({ message: "Package deleted successfully" });
@@ -73,7 +73,7 @@ class PackageController {
       }
       const packageData = await Package.findPackageById(new ObjectId(packageId));
       if (!packageData) {
-        throw { name: "BadRequest", message: "Package not found" };
+        throw { name: "NotFound", message: "Package not found" };
       }
 
       await Package.editPackage(new ObjectId(packageId), { name, imageUrl, description, category, price });
@@ -87,7 +87,7 @@ class PackageController {
     const packageData = await Package.findPackageById(new ObjectId(packageId));
 
     if (!packageData) {
-      throw { name: "BadRequest", message: "Package not found" };
+      throw { name: "NotFound", message: "Package not found" };
     }
 
     try {
