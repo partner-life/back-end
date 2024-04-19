@@ -17,14 +17,7 @@ class User {
     const emailExist = await dataUser.some((user) => user.email === email);
     if (emailExist)
       throw { name: "BadRequest", message: "email has been used" };
-    if (name.length === 0)
-      throw { name: "BadRequest", message: "name is required" };
-    if (email.length === 0)
-      throw { name: "BadRequest", message: "email is required" };
-    if (username.length === 0)
-      throw { name: "BadRequest", message: "username is required" };
-    if (password.length === 0)
-      throw { name: "BadRequest", message: "password is required" };
+
     const pass = hash(password);
     const newUser = await db.insertOne({
       name,
@@ -81,9 +74,9 @@ class User {
   }
   static async FindByPk(id) {
     const newId = new ObjectId(id);
-    // console.log(newId);
+
     const user = await database.collection("Users").findOne({ _id: newId });
-    // console.log(user);
+
     return user;
   }
 }
