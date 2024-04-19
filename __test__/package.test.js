@@ -17,11 +17,11 @@ beforeAll(async () => {
   console.log("🚀 ~ beforeAll ~ data:", data);
 });
 
-// afterAll(async () => {
-//   const packageId = new ObjectId("888888888888888888888888");
-//   await Package.deletePackage(packageId);
-//   console.log("done");
-// });
+afterAll(async () => {
+  const packageId = new ObjectId("888888888888888888888888");
+  await Package.deletePackage(packageId);
+  console.log("done");
+});
 
 describe("GET /package", () => {
   test("should get all packages", async () => {
@@ -79,6 +79,36 @@ describe("PUT /editpackage/:packageId", () => {
     expect(res.body.message).toEqual("Package not found");
   });
 });
+
+// describe("POST /add-images", () => {
+//   test("should add images to a specific package", async () => {
+//     const packageId = "888888888888888888888888";
+//     const imageFiles = [
+//       { mimetype: "image/jpeg", buffer: Buffer.from("image1") },
+//       { mimetype: "image/png", buffer: Buffer.from("image2") },
+//     ];
+//     const res = await request(app).patch("/add-images").send({ packageId, images: imageFiles });
+//     expect(res.statusCode).toEqual(200);
+//     expect(res.body.message).toEqual("Images added successfully");
+//   });
+
+//   test("should return error if packageId is not provided", async () => {
+//     const imageFiles = [
+//       { mimetype: "image/jpeg", buffer: Buffer.from("image1") },
+//       { mimetype: "image/png", buffer: Buffer.from("image2") },
+//     ];
+//     const res = await request(app).patch("/add-images").send({ images: imageFiles });
+//     expect(res.statusCode).toEqual(400);
+//     expect(res.body.message).toEqual("Package ID is required");
+//   });
+
+//   test("should return error if images are not provided", async () => {
+//     const packageId = "888888888888888888888888";
+//     const res = await request(app).patch("/add-images").send({ packageId });
+//     expect(res.statusCode).toEqual(400);
+//     expect(res.body.message).toEqual("Images are required");
+//   });
+// });
 
 describe("DELETE /deletepackage/:packageId", () => {
   test("should delete a specific package by ID", async () => {
