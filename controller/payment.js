@@ -1,4 +1,5 @@
 const midtransClient = require("midtrans-client");
+const payment = require("../model/payment");
 
 const snap = new midtransClient.Snap({
   isProduction: false,
@@ -23,7 +24,7 @@ class PaymentController {
 
       const parameter = {
         transaction_details: {
-          order_id,
+          order_id: `${order_id}_${Math.floor(1000000 + Math.random() * 9000000)}`,
           gross_amount: amount,
         },
         item_details: [
@@ -52,6 +53,26 @@ class PaymentController {
     } catch (error) {
       console.log(error.message);
       next(error);
+    }
+  }
+
+  static async handleNotification(req, res) {
+    try {
+      const notificationJson = req.body;
+      const statusResponse = await snap.transaction.notification(notificationJson);
+
+      const [order_id, randomNumber] = statusResponse.order_id.split("_");
+      const transactionStatus = statusResponse.transaction_status;
+
+      if (transactionStatus == "settlement") {
+        await payment.updateOrderStatus(order_id, "Sudah dibayar");
+        res.status(200).send("Success Payment");
+      } else if (transactionStatus == "pending") {
+        await payment.updateOrderStatus(order_id, "Pending");
+      }
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).send("Error processing notification");
     }
   }
 }
