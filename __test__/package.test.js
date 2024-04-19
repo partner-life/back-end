@@ -50,3 +50,33 @@ describe("GET /package/:packageId", () => {
     expect(res.body.message).toEqual("Package not found");
   });
 });
+
+describe("DELETE /deletepackage/:packageId", () => {
+  test("should delete a specific package by ID", async () => {
+    const packageId = "888888888888888888888888";
+    const res = await request(app).delete(`/deletepackage/${packageId}`);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.message).toEqual("Package deleted successfully");
+  });
+
+  test("should return error if /deletepackage/:packageId is not found", async () => {
+    const res = await request(app).delete("/deletepackage/999999999999999999999999");
+    expect(res.statusCode).toEqual(404);
+    expect(res.body.message).toEqual("Package not found");
+  });
+});
+
+describe("POST /createpackage", () => {
+  test("should create a new package", async () => {
+    const newPackageData = {
+      name: "New Test Package",
+      imageUrl: "newtest.jpg",
+      description: "This is a new test package",
+      category: "New Category",
+      price: 1500,
+    };
+    const res = await request(app).post("/createpackage").send(newPackageData);
+    expect(res.statusCode).toEqual(201);
+    expect(res.body).toEqual(newPackageData);
+  });
+});
