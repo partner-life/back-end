@@ -1,6 +1,5 @@
 const midtransClient = require("midtrans-client");
 const payment = require("../model/payment");
-const { ObjectId } = require("mongodb");
 
 const snap = new midtransClient.Snap({
   isProduction: false,
@@ -25,7 +24,7 @@ class PaymentController {
 
       const parameter = {
         transaction_details: {
-          order_id,
+          order_id: `${order_id}_${Math.floor(1000000 + Math.random() * 9000000)}`,
           gross_amount: amount,
         },
         item_details: [
@@ -56,25 +55,24 @@ class PaymentController {
       next(error);
     }
   }
-  static async handlingAfterPayment(req, res, next) {
+
+  static async handleNotification(req, res) {
     try {
-      const { order_id, transaction_status } = req.body;
+      const notificationJson = req.body;
+      const statusResponse = await snap.transaction.notification(notificationJson);
 
-      const data = await payment.findOrderById(new ObjectId(order_id));
-      console.log("🚀 ~ PaymentController ~ handlingAfterPayment ~ data:", data);
-      if (!data) {
-        throw { name: "NotFound", message: "Order not found" };
-      }
+      const [order_id, randomNumber] = statusResponse.order_id.split("_");
+      const transactionStatus = statusResponse.transaction_status;
 
-      const status = await payment.updateOrderStatus(order_id, transaction_status);
-      if (status.modifiedCount === 1) {
-        res.status(200).json({ message: "Payment is successful" });
-      } else {
-        res.status(400).json({ message: "Payment failed" });
+      if (transactionStatus == "settlement") {
+        await payment.updateOrderStatus(order_id, "Sudah dibayar");
+        res.status(200).send("Success Payment");
+      } else if (transactionStatus == "pending") {
+        await payment.updateOrderStatus(order_id, "Pending");
       }
     } catch (error) {
       console.log(error.message);
-      next(error);
+      res.status(500).send("Error processing notification");
     }
   }
 }

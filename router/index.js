@@ -26,7 +26,7 @@ router.patch("/add-images", upload.array("images", 10), ProductController.addIma
 // API PAYMENT GATEWAY
 
 router.post("/create-transaction", PaymentController.createTransaction);
-router.post("/after-payment", PaymentController.handlingAfterPayment);
+router.post("/handling-after-payment", PaymentController.handleNotification);
 
 // API CART
 
