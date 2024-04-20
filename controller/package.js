@@ -82,11 +82,14 @@ class PackageController {
     }
   }
   static async addImages(req, res, next) {
-    const { packageId } = req.body;
-
+    const { packageId } = req.params;
     try {
+      console.log("🚀 ~ PackageController ~ addImages ~ img:", req.files);
       if (req.user.role !== "admin") {
         throw { name: "unauthorized", message: "You are not authorized to access this page" };
+      }
+      if (!req.files.length) {
+        throw { name: "BadRequest", message: "Files are required" };
       }
       const packageData = await Package.findPackageById(new ObjectId(packageId));
       if (!packageData) {
@@ -120,9 +123,9 @@ class PackageController {
       const data = await Package.editPackageImage(new ObjectId(packageId), images);
 
       if (data.modifiedCount > 0) {
-        res.status(200).json({ message: "Data modified successfully", images });
+        res.status(200).json({ message: "Images uploaded successfully", images });
       } else {
-        res.status(200).json({ message: "No data modified" });
+        res.status(200).json({ message: "No images uploaded" });
       }
 
       return images;

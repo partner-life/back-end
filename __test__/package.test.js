@@ -122,35 +122,23 @@ describe("PUT /editpackage/:packageId", () => {
   });
 });
 
-// // describe("POST /add-images", () => {
-// //   test("should add images to a specific package", async () => {
-// //     const packageId = "888888888888888888888888";
-// //     const imageFiles = [
-// //       { mimetype: "image/jpeg", buffer: Buffer.from("image1") },
-// //       { mimetype: "image/png", buffer: Buffer.from("image2") },
-// //     ];
-// //     const res = await request(app).patch("/add-images").send({ packageId, images: imageFiles });
-// //     expect(res.statusCode).toEqual(200);
-// //     expect(res.body.message).toEqual("Images added successfully");
-// //   });
+const fs = require("fs");
+const path = require("path");
+const filePath = path.resolve(__dirname, "./60x40-Image-Test.png");
+const image = fs.createReadStream(filePath);
+describe("PATCH /add-images/:packageId", () => {
+  test("should upload images to a specific package by ID", async () => {
+    const packageId = "6623cbee845cecc6a97b47d4";
+    const res = await request(app)
+      .patch(`/add-images/${packageId}`)
+      .set("Authorization", "Bearer " + access_tokenAdmin)
+      .attach("images", image, "Image-Test-1.png")
+      .attach("images", image, "Image-Test-2.png");
 
-// //   test("should return error if packageId is not provided", async () => {
-// //     const imageFiles = [
-// //       { mimetype: "image/jpeg", buffer: Buffer.from("image1") },
-// //       { mimetype: "image/png", buffer: Buffer.from("image2") },
-// //     ];
-// //     const res = await request(app).patch("/add-images").send({ images: imageFiles });
-// //     expect(res.statusCode).toEqual(400);
-// //     expect(res.body.message).toEqual("Package ID is required");
-// //   });
-
-// //   test("should return error if images are not provided", async () => {
-// //     const packageId = "888888888888888888888888";
-// //     const res = await request(app).patch("/add-images").send({ packageId });
-// //     expect(res.statusCode).toEqual(400);
-// //     expect(res.body.message).toEqual("Images are required");
-// //   });
-// // });
+    expect(res.body.message).toEqual("Images uploaded successfully");
+    expect(res.statusCode).toEqual(200);
+  });
+});
 
 describe("DELETE /deletepackage/:packageId", () => {
   test("should return error if no Authorization provided", async () => {
