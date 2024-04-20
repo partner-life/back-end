@@ -152,37 +152,37 @@ describe("PUT /editpackage/:packageId", () => {
 // //   });
 // // });
 
-// describe("DELETE /deletepackage/:packageId", () => {
-//   test("should return error if no Authorization provided", async () => {
-//     const res = await request(app).delete("/deletepackage/999999999999999999999999").send({});
-//     expect(res.statusCode).toEqual(401);
-//     expect(res.body.message).toEqual("Authorization Token is missing");
-//   });
-//   test("should return error if user is not admin when deleting a package", async () => {
-//     const res = await request(app)
-//       .delete("/deletepackage/888888888888888888888888")
-//       .set("Authorization", "Bearer " + access_tokenUser);
-//     expect(res.statusCode).toEqual(401);
-//     expect(res.body.message).toEqual("You are not authorized to access this page");
-//   });
+describe("DELETE /deletepackage/:packageId", () => {
+  test("should return error if no Authorization provided", async () => {
+    const res = await request(app).delete("/deletepackage/999999999999999999999999").send({});
+    expect(res.statusCode).toEqual(401);
+    expect(res.body.message).toEqual("Authorization Token is missing");
+  });
+  test("should return error if user is not admin when deleting a package", async () => {
+    const res = await request(app)
+      .delete("/deletepackage/888888888888888888888888")
+      .set("Authorization", "Bearer " + access_tokenUser);
+    expect(res.statusCode).toEqual(401);
+    expect(res.body.message).toEqual("You are not authorized to access this page");
+  });
 
-//   test("should delete a specific package by ID", async () => {
-//     const packageId = "888888888888888888888888";
-//     const res = await request(app)
-//       .delete(`/deletepackage/${packageId}`)
-//       .set("Authorization", "Bearer " + access_tokenAdmin);
-//     expect(res.statusCode).toEqual(200);
-//     expect(res.body.message).toEqual("Package deleted successfully");
-//   });
+  test("should delete a specific package by ID", async () => {
+    const packageId = "888888888888888888888888";
+    const res = await request(app)
+      .delete(`/deletepackage/${packageId}`)
+      .set("Authorization", "Bearer " + access_tokenAdmin);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.message).toEqual("Package deleted successfully");
+  });
 
-//   test("should return error if /deletepackage/:packageId is not found", async () => {
-//     const res = await request(app)
-//       .delete("/deletepackage/999999999999999999999999")
-//       .set("Authorization", "Bearer " + access_tokenAdmin);
-//     expect(res.statusCode).toEqual(404);
-//     expect(res.body.message).toEqual("Package not found");
-//   });
-// });
+  test("should return error if /deletepackage/:packageId is not found", async () => {
+    const res = await request(app)
+      .delete("/deletepackage/999999999999999999999999")
+      .set("Authorization", "Bearer " + access_tokenAdmin);
+    expect(res.statusCode).toEqual(404);
+    expect(res.body.message).toEqual("Package not found");
+  });
+});
 
 // describe("POST /createpackage", () => {
 //   // test.skip("should create a new package", async () => {
