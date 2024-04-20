@@ -20,9 +20,6 @@ class PackageController {
   static async getPackageById(req, res, next) {
     const packageId = req.params.packageId;
     try {
-      if (!packageId) {
-        throw { name: "BadRequest", message: "Package ID is required" };
-      }
       const packageData = await Package.findPackageById(new ObjectId(packageId));
       if (!packageData) {
         throw { name: "NotFound", message: "Package not found" };
@@ -36,6 +33,9 @@ class PackageController {
   static async createPackage(req, res, next) {
     const { name, imageUrl, description, category, price } = req.body;
     try {
+      if (req.user.role !== "admin") {
+        throw { name: "unauthorized", message: "You are not authorized to access this page" };
+      }
       if (!name || !description || !category || !price) {
         throw { name: "BadRequest", message: "Name, description, category, and price cannot be empty" };
       }
@@ -49,8 +49,8 @@ class PackageController {
   static async deletePackage(req, res, next) {
     const packageId = req.params.packageId;
     try {
-      if (!packageId) {
-        throw { name: "BadRequest", message: "Package ID is required" };
+      if (req.user.role !== "admin") {
+        throw { name: "unauthorized", message: "You are not authorized to access this page" };
       }
       const packageData = await Package.findPackageById(new ObjectId(packageId));
       if (!packageData) {
@@ -66,10 +66,9 @@ class PackageController {
   static async editPackage(req, res, next) {
     const packageId = req.params.packageId;
     const { name, imageUrl, description, category, price } = req.body;
-    // console.log("🚀 ~ PackageController ~ editPackage ~ updatedData:", { packageId, name, imageUrl, description, category, price });
     try {
-      if (!packageId) {
-        throw { name: "BadRequest", message: "Package ID is required" };
+      if (req.user.role !== "admin") {
+        throw { name: "unauthorized", message: "You are not authorized to access this page" };
       }
       const packageData = await Package.findPackageById(new ObjectId(packageId));
       if (!packageData) {
@@ -84,13 +83,15 @@ class PackageController {
   }
   static async addImages(req, res, next) {
     const { packageId } = req.body;
-    const packageData = await Package.findPackageById(new ObjectId(packageId));
-
-    if (!packageData) {
-      throw { name: "NotFound", message: "Package not found" };
-    }
 
     try {
+      if (req.user.role !== "admin") {
+        throw { name: "unauthorized", message: "You are not authorized to access this page" };
+      }
+      const packageData = await Package.findPackageById(new ObjectId(packageId));
+      if (!packageData) {
+        throw { name: "NotFound", message: "Package not found" };
+      }
       const cloudinary = require("cloudinary").v2;
 
       cloudinary.config({
@@ -112,8 +113,9 @@ class PackageController {
       const results = await Promise.all(uploadPromises);
 
       const images = results.map((element) => {
-        return { _id: new ObjectId(), imgUrl: element.url };
+        return element.url;
       });
+      console.log("🚀 ~ PackageController ~ images ~ images:", images);
 
       const data = await Package.editPackageImage(new ObjectId(packageId), images);
 

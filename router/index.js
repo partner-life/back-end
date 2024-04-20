@@ -16,13 +16,13 @@ router.post("/login", UserController.Login);
 router.post("/google-login", UserController.GoogleLogin);
 
 router.get("/package", PackageController.getAllPackages);
-router.get("/package/:packageId", PackageController.getPackageById);
-router.post("/createpackage", PackageController.createPackage);
-router.delete("/deletepackage/:packageId", PackageController.deletePackage);
-router.put("/editpackage/:packageId", PackageController.editPackage);
+router.get("/package/:packageId", authentication, PackageController.getPackageById);
+router.post("/createpackage", authentication, PackageController.createPackage);
+router.delete("/deletepackage/:packageId", authentication, PackageController.deletePackage);
+router.put("/editpackage/:packageId", authentication, PackageController.editPackage);
 
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch("/add-images", upload.array("images", 10), PackageController.addImages);
+router.patch("/add-images", upload.array("images", 10), authentication, PackageController.addImages);
 
 router.post("/create-transaction", PaymentController.createTransaction);
 router.post("/handling-after-payment", PaymentController.handleNotification);
