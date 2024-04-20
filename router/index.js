@@ -24,7 +24,7 @@ router.put("/editpackage/:packageId", authentication, PackageController.editPack
 const upload = multer({ storage: multer.memoryStorage() });
 router.patch("/add-images", upload.array("images", 10), authentication, PackageController.addImages);
 
-router.post("/create-transaction", PaymentController.createTransaction);
+router.post("/create-transaction", authentication, PaymentController.createTransaction);
 router.post("/handling-after-payment", PaymentController.handleNotification);
 router.post("/nodemailer", authentication, OrdersController.nodemailer);
 
