@@ -1,52 +1,70 @@
 const Orders = require("../model/order");
-const database = require("../config/db");
-const { ObjectId } = require("mongodb");
 const nodemailer = require("nodemailer");
 
 class OrdersController {
-   static async createOrders(req, res, next) {
-      try {
-         const { nameHusband, nameWife, address, phoneNumber, dateOfMerried, packetId } = req.body;
+  static async createOrders(req, res, next) {
+    try {
+      const {
+        nameHusband,
+        nameWife,
+        address,
+        phoneNumber,
+        dateOfMerried,
+        packetId,
+      } = req.body;
 
-         if (!nameHusband) throw { name: "BadRequest", message: "name of husband is required" };
-         if (!nameWife) throw { name: "BadRequest", message: "name of wife is required" };
-         if (!address) throw { name: "BadRequest", message: "address is required" };
-         if (!phoneNumber) throw { name: "BadRequest", message: "phone number is required" };
-         if (!dateOfMerried) throw { name: "BadRequest", message: "date is required" };
-         if (new Date(dateOfMerried) < new Date()) {
-            throw {
-               name: "BadRequest",
-               message: "Date of marriage cannot be before today",
-            };
-         }
-
-         const userId = req.user._id;
-         const newOrder = await Orders.newOrders(userId, packetId, address, phoneNumber, nameHusband, nameWife, dateOfMerried);
-         const orderId = newOrder._id;
-
-         req.body.id = orderId;
-         await OrdersController.nodemailer(req, res, next);
-         
-         // res.status(201).json(newOrder);
-      } catch (error) {
-         next(error);
+      if (!nameHusband)
+        throw { name: "BadRequest", message: "name of husband is required" };
+      if (!nameWife)
+        throw { name: "BadRequest", message: "name of wife is required" };
+      if (!address)
+        throw { name: "BadRequest", message: "address is required" };
+      if (!phoneNumber)
+        throw { name: "BadRequest", message: "phone number is required" };
+      if (!dateOfMerried)
+        throw { name: "BadRequest", message: "date is required" };
+      if (new Date(dateOfMerried) < new Date()) {
+        throw {
+          name: "BadRequest",
+          message: "Date of marriage cannot be before today",
+        };
       }
-   }
 
-   static async nodemailer(req, res, next) {
-      try {
-         const { id: orderId } = req.body;
-         const user = req.user;
+      const userId = req.user._id;
+      const newOrder = await Orders.newOrders(
+        userId,
+        packetId,
+        address,
+        phoneNumber,
+        nameHusband,
+        nameWife,
+        dateOfMerried
+      );
+      const orderId = newOrder._id;
 
-         const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-               user: "rohimsaga3@gmail.com",
-               pass: "eurr llei kigc dhgx",
-            },
-         });
+      req.body.id = orderId;
+      await OrdersController.nodemailer(req, res, next);
 
-         const htmlTemplate = `
+      // res.status(201).json(newOrder);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async nodemailer(req, res, next) {
+    try {
+      const { id: orderId } = req.body;
+      const user = req.user;
+
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "rohimsaga3@gmail.com",
+          pass: "eurr llei kigc dhgx",
+        },
+      });
+
+      const htmlTemplate = `
        <!DOCTYPE html>
        <html lang="en">
        <head>
@@ -104,20 +122,32 @@ class OrdersController {
        </html>
        `;
 
-         await transporter.sendMail({
-            from: "partner-life",
-            to: user.email,
-            subject: "Hello",
-            html: htmlTemplate,
-         });
+      await transporter.sendMail({
+        from: "partner-life",
+        to: user.email,
+        subject: "Hello",
+        html: htmlTemplate,
+      });
 
-         res.json({
-            message: "success",
-         });
-      } catch (error) {
-         next(error);
-      }
-   }
+      res.json({
+        message: "success",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async showOrderUser(req, res, next) {
+    try {
+      const userId = req.user._id;
+      if (!userId)
+        throw { name: "unauthorized", message: "you are unauthorized" };
+      const result = await Orders.findOrderUser(userId);
+      if (!result) throw { name: "NotFound", message: "orders Not Founds" };
+      res.status(404).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = OrdersController;

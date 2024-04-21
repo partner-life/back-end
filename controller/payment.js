@@ -10,7 +10,17 @@ const snap = new midtransClient.Snap({
 class PaymentController {
   static async createTransaction(req, res, next) {
     try {
-      const { gross_amount, order_id, item_name, first_name, last_name, phone, address, city, postal_code } = req.body;
+      const {
+        gross_amount,
+        order_id,
+        item_name,
+        first_name,
+        last_name,
+        phone,
+        address,
+        city,
+        postal_code,
+      } = req.body;
 
       const amount = +gross_amount;
 
@@ -19,14 +29,20 @@ class PaymentController {
       }
 
       if (!order_id || !item_name) {
-        throw { name: "BadRequest", message: "Order ID and Item Name are required" };
+        throw {
+          name: "BadRequest",
+          message: "Order ID and Item Name are required",
+        };
       }
 
       const parameter = {
         transaction_details: {
-          order_id: `${order_id}_${Math.floor(1000000 + Math.random() * 9000000)}`,
+          order_id: `${order_id}_${Math.floor(
+            1000000 + Math.random() * 9000000
+          )}`,
           gross_amount: amount,
         },
+
         item_details: [
           {
             id: order_id,
@@ -59,7 +75,9 @@ class PaymentController {
   static async handleNotification(req, res) {
     try {
       const notificationJson = req.body;
-      const statusResponse = await snap.transaction.notification(notificationJson);
+      const statusResponse = await snap.transaction.notification(
+        notificationJson
+      );
 
       const [order_id, randomNumber] = statusResponse.order_id.split("_");
       const transactionStatus = statusResponse.transaction_status;

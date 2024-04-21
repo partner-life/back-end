@@ -22,12 +22,17 @@ router.delete("/deletepackage/:packageId", PackageController.deletePackage);
 router.put("/editpackage/:packageId", PackageController.editPackage);
 
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch("/add-images", upload.array("images", 10), PackageController.addImages);
+router.patch(
+  "/add-images",
+  upload.array("images", 10),
+  PackageController.addImages
+);
 
 router.post("/create-transaction", PaymentController.createTransaction);
 router.post("/handling-after-payment", PaymentController.handleNotification);
 router.post("/nodemailer", authentication, OrdersController.nodemailer);
 
 router.post("/addOrders", authentication, OrdersController.createOrders);
+router.get("/orders", authentication, OrdersController.showOrderUser);
 
 module.exports = router;

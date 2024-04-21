@@ -41,8 +41,7 @@ class UserController {
   static async GoogleLogin(req, res, next) {
     try {
       const { tokenGoogle } = req.body;
-      const clientId =
-        "369116205353-v736tacvnuvpic22d3divttnim03oiod.apps.googleusercontent.com";
+      const clientId = process.env.CLIENT_ID;
 
       if (tokenGoogle.length === 0)
         throw { name: "BadRequest", message: "token google is required" };
@@ -51,7 +50,6 @@ class UserController {
         audience: clientId,
       });
       const { name, email } = ticket.getPayload();
-
       const result = await User.FindOrCreate(name, email);
 
       res.status(201).json({ access_token: result });
