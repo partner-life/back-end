@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.1% </span>
+                <span class="strong">65.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/29</span>
+                <span class='fraction'>19/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.5% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/8</span>
+                <span class='fraction'>4/8</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.1% </span>
+                <span class="strong">65.51% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/29</span>
+                <span class='fraction'>19/29</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -141,10 +141,10 @@
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
+<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -187,38 +187,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const midtransClient = require("midtrans-client");
 const payment = require("../model/payment");
 &nbsp;
@@ -265,7 +265,7 @@ class PaymentController {
 &nbsp;
       const transaction = await snap.createTransaction(parameter);
 &nbsp;
-      res.status(200).json(transaction);
+<span class="cstat-no" title="statement not covered" >      res.status(200).json(transaction);</span>
     } catch (error) {
       console.log(error.message);
       next(error);
@@ -277,21 +277,21 @@ class PaymentController {
       const notificationJson = req.body;
       console.log("🚀 ~ PaymentController ~ handleNotification ~ notificationJson:", notificationJson);
       const statusResponse = await snap.transaction.notification(notificationJson);
-      console.log("🚀 ~ PaymentController ~ handleNotification ~ statusResponse:", statusResponse);
+<span class="cstat-no" title="statement not covered" >      console.log("🚀 ~ PaymentController ~ handleNotification ~ statusResponse:", statusResponse);</span>
 &nbsp;
-      const [order_id, randomNumber] = statusResponse.order_id.split("_");
-      const transactionStatus = statusResponse.transaction_status;
+      const [order_id, randomNumber] = <span class="cstat-no" title="statement not covered" >statusResponse.order_id.split("_");</span>
+      const transactionStatus = <span class="cstat-no" title="statement not covered" >statusResponse.transaction_status;</span>
 &nbsp;
-      if (transactionStatus == "settlement") {
-        await payment.updateOrderStatus(order_id, "Sudah dibayar");
-        res.status(200).send({ message: "Success Payment" });
-      } else <span class="missing-if-branch" title="else path not taken" >E</span>if (transactionStatus == "pending") {
-        await payment.updateOrderStatus(order_id, "Belum dibayar");
-        res.status(200).send({ message: "Pending Payment" });
+<span class="cstat-no" title="statement not covered" >      if (transactionStatus == "settlement") {</span>
+<span class="cstat-no" title="statement not covered" >        await payment.updateOrderStatus(order_id, "Sudah dibayar");</span>
+<span class="cstat-no" title="statement not covered" >        res.status(200).send({ message: "Success Payment" });</span>
+      } else <span class="cstat-no" title="statement not covered" >if (transactionStatus == "pending") {</span>
+<span class="cstat-no" title="statement not covered" >        await payment.updateOrderStatus(order_id, "Belum dibayar");</span>
+<span class="cstat-no" title="statement not covered" >        res.status(200).send({ message: "Pending Payment" });</span>
       }
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.log(error.message);</span>
-<span class="cstat-no" title="statement not covered" >      next(error);</span>
+      console.log(error.message);
+      next(error);
     }
   }
 }
@@ -304,7 +304,7 @@ module.exports = PaymentController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-21T03:54:14.608Z
+                at 2024-04-21T06:46:51.149Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

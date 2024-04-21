@@ -41,8 +41,7 @@ class UserController {
   static async GoogleLogin(req, res, next) {
     try {
       const { tokenGoogle } = req.body;
-      const clientId =
-        "369116205353-v736tacvnuvpic22d3divttnim03oiod.apps.googleusercontent.com";
+      const clientId = process.env.CLIENT_ID;
 
       if (tokenGoogle.length === 0)
         throw { name: "BadRequest", message: "token google is required" };
@@ -55,6 +54,22 @@ class UserController {
       const result = await User.FindOrCreate(name, email);
 
       res.status(201).json({ access_token: result });
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async showAllUser(req, res, next) {
+    try {
+      const user = await User.findAll();
+      res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async showMuchUser(req, res, next) {
+    try {
+      const user = (await User.findAll()).length;
+      res.status(200).json(user);
     } catch (error) {
       next(error);
     }

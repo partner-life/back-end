@@ -1,6 +1,6 @@
 const jsonwebtoken = require("jsonwebtoken");
-
-const secret = "apajalah";
+require("dotenv").config();
+const secret = process.env.SECRET;
 
 function signToken(value) {
   return jsonwebtoken.sign(value, secret);
