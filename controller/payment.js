@@ -1,5 +1,7 @@
 const midtransClient = require("midtrans-client");
 const payment = require("../model/payment");
+const Orders = require("../model/order");
+const { ObjectId } = require("mongodb");
 
 const snap = new midtransClient.Snap({
   isProduction: false,
@@ -10,31 +12,22 @@ const snap = new midtransClient.Snap({
 class PaymentController {
   static async createTransaction(req, res, next) {
     try {
-      const {
-        gross_amount,
-        order_id,
-        item_name,
-        first_name,
-        last_name,
-        phone,
-        address,
-        city,
-        postal_code,
-      } = req.body;
+      const { orderId } = req.params;
+      const order = await Orders.ordersById(new ObjectId(orderId));
+      if (!order) {
+        throw { name: "NotFound", message: "Order not found" };
+      }
+      const { username } = req.user;
+      const { gross_amount, order_id, item_name } = req.body;
       const amount = Number(gross_amount);
 
       if (!order_id || !item_name) {
-        throw {
-          name: "BadRequest",
-          message: "Order ID and Item Name are required",
-        };
+        throw { name: "BadRequest", message: "Order ID and Item Name are required" };
       }
 
       const parameter = {
         transaction_details: {
-          order_id: `${order_id}_${Math.floor(
-            1000000 + Math.random() * 9000000
-          )}`,
+          order_id: `${order_id}_${Math.floor(1000000 + Math.random() * 9000000)}`,
           gross_amount: amount,
         },
         item_details: [
@@ -42,16 +35,14 @@ class PaymentController {
             id: order_id,
             price: amount,
             name: item_name,
+            quantity: 1,
           },
         ],
         customer_details: {
-          first_name,
-          last_name,
-          phone,
+          first_name: username,
+          phone: order.Profile.phoneNumber,
           shipping_address: {
-            address,
-            city,
-            postal_code,
+            address: order.Profile.address,
           },
         },
       };
@@ -68,17 +59,9 @@ class PaymentController {
   static async handleNotification(req, res, next) {
     try {
       const notificationJson = req.body;
-      console.log(
-        "🚀 ~ PaymentController ~ handleNotification ~ notificationJson:",
-        notificationJson
-      );
-      const statusResponse = await snap.transaction.notification(
-        notificationJson
-      );
-      console.log(
-        "🚀 ~ PaymentController ~ handleNotification ~ statusResponse:",
-        statusResponse
-      );
+      console.log("🚀 ~ PaymentController ~ handleNotification ~ notificationJson:", notificationJson);
+      const statusResponse = await snap.transaction.notification(notificationJson);
+      console.log("🚀 ~ PaymentController ~ handleNotification ~ statusResponse:", statusResponse);
 
       const [order_id, randomNumber] = statusResponse.order_id.split("_");
       const transactionStatus = statusResponse.transaction_status;
