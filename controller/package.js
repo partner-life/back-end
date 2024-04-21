@@ -35,7 +35,9 @@ class PackageController {
   static async getPackageById(req, res, next) {
     const packageId = req.params.packageId;
     try {
-      const packageData = await Package.findPackageById(new ObjectId(packageId));
+      const packageData = await Package.findPackageById(
+        new ObjectId(packageId)
+      );
       if (!packageData) {
         throw { name: "NotFound", message: "Package not found" };
       }
@@ -49,12 +51,24 @@ class PackageController {
     const { name, imageUrl, description, category, price } = req.body;
     try {
       if (req.user.role !== "admin") {
-        throw { name: "unauthorized", message: "You are not authorized to access this page" };
+        throw {
+          name: "unauthorized",
+          message: "You are not authorized to access this page",
+        };
       }
       if (!name || !description || !category || !price) {
-        throw { name: "BadRequest", message: "Name, description, category, and price cannot be empty" };
+        throw {
+          name: "BadRequest",
+          message: "Name, description, category, and price cannot be empty",
+        };
       }
-      const newPackage = await Package.createPackage({ name, imageUrl, description, category, price });
+      const newPackage = await Package.createPackage({
+        name,
+        imageUrl,
+        description,
+        category,
+        price,
+      });
       res.status(201).json({ name, imageUrl, description, category, price });
     } catch (error) {
       next(error);
@@ -65,9 +79,14 @@ class PackageController {
     const packageId = req.params.packageId;
     try {
       if (req.user.role !== "admin") {
-        throw { name: "unauthorized", message: "You are not authorized to access this page" };
+        throw {
+          name: "unauthorized",
+          message: "You are not authorized to access this page",
+        };
       }
-      const packageData = await Package.findPackageById(new ObjectId(packageId));
+      const packageData = await Package.findPackageById(
+        new ObjectId(packageId)
+      );
       if (!packageData) {
         throw { name: "NotFound", message: "Package not found" };
       }
@@ -83,14 +102,25 @@ class PackageController {
     const { name, imageUrl, description, category, price } = req.body;
     try {
       if (req.user.role !== "admin") {
-        throw { name: "unauthorized", message: "You are not authorized to access this page" };
+        throw {
+          name: "unauthorized",
+          message: "You are not authorized to access this page",
+        };
       }
-      const packageData = await Package.findPackageById(new ObjectId(packageId));
+      const packageData = await Package.findPackageById(
+        new ObjectId(packageId)
+      );
       if (!packageData) {
         throw { name: "NotFound", message: "Package not found" };
       }
 
-      await Package.editPackage(new ObjectId(packageId), { name, imageUrl, description, category, price });
+      await Package.editPackage(new ObjectId(packageId), {
+        name,
+        imageUrl,
+        description,
+        category,
+        price,
+      });
       res.status(200).json({ message: "Package updated successfully" });
     } catch (error) {
       next(error);
@@ -101,12 +131,17 @@ class PackageController {
     try {
       console.log("🚀 ~ PackageController ~ addImages ~ img:", req.files);
       if (req.user.role !== "admin") {
-        throw { name: "unauthorized", message: "You are not authorized to access this page" };
+        throw {
+          name: "unauthorized",
+          message: "You are not authorized to access this page",
+        };
       }
       if (!req.files.length) {
         throw { name: "BadRequest", message: "Files are required" };
       }
-      const packageData = await Package.findPackageById(new ObjectId(packageId));
+      const packageData = await Package.findPackageById(
+        new ObjectId(packageId)
+      );
       if (!packageData) {
         throw { name: "NotFound", message: "Package not found" };
       }
@@ -135,15 +170,36 @@ class PackageController {
       });
       console.log("🚀 ~ PackageController ~ images ~ images:", images);
 
-      const data = await Package.editPackageImage(new ObjectId(packageId), images);
+      const data = await Package.editPackageImage(
+        new ObjectId(packageId),
+        images
+      );
 
       if (data.modifiedCount > 0) {
-        res.status(200).json({ message: "Images uploaded successfully", images });
+        res
+          .status(200)
+          .json({ message: "Images uploaded successfully", images });
       } else {
         res.status(200).json({ message: "No images uploaded" });
       }
 
       return images;
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async showPackage(req, res, next) {
+    try {
+      const package = await Package.findAllPackages();
+      res.status(200).json(package);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async showMuchPackage(req, res, next) {
+    try {
+      const package = await (await Package.findAllPackages()).length;
+      res.status(200).json(package);
     } catch (error) {
       next(error);
     }
