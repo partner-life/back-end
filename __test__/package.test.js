@@ -198,6 +198,21 @@ describe("DELETE /deletepackage/:packageId", () => {
 });
 
 describe("POST /createpackage", () => {
+  test("should add a new test if no Authorization provided", async () => {
+    const res = await request(app).post("/createpackage").send({}).set("Authorization", "");
+    expect(res.statusCode).toEqual(401);
+    expect(res.body.message).toEqual("Authorization Token is missing");
+  });
+
+  test("should add a new test if not an admin", async () => {
+    const res = await request(app)
+      .post("/createpackage")
+      .send({})
+      .set("Authorization", "Bearer " + access_tokenUser);
+    expect(res.statusCode).toEqual(401);
+    expect(res.body.message).toEqual("You are not authorized to access this page");
+  });
+
   test("should create a new package", async () => {
     const newPackageData = {
       name: "New Test Package",

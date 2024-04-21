@@ -10,7 +10,22 @@ class PackageController {
     const category = req.query.category || "";
 
     try {
-      const packages = await Package.findAllPackages(page, limit, search, sortByPrice, category);
+      const aggregations = [];
+
+      if (search) {
+        const regex = new RegExp(search, "i");
+        aggregations.push({ $match: { name: { $regex: regex } } });
+      }
+
+      if (category) {
+        aggregations.push({ $match: { category: category } });
+      }
+
+      aggregations.push({ $skip: (page - 1) * limit });
+      aggregations.push({ $limit: limit });
+      aggregations.push({ $sort: { price: +sortByPrice } });
+
+      const packages = await Package.findAllPackages(aggregations);
       res.status(200).json({ page, limit, packages });
     } catch (error) {
       next(error);
