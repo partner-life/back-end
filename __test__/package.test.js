@@ -4,6 +4,11 @@ const database = require("../config/db");
 const app = require("../app");
 const Package = require("../model/package");
 const { signToken } = require("../helper/jwt");
+const fs = require("fs");
+const path = require("path");
+const filePath = path.resolve(__dirname, "./60x40-Image-Test.png");
+const image = fs.createReadStream(filePath);
+const image2 = fs.createReadStream(filePath);
 
 let access_tokenAdmin;
 let access_tokenUser;
@@ -122,21 +127,41 @@ describe("PUT /editpackage/:packageId", () => {
   });
 });
 
-const fs = require("fs");
-const path = require("path");
-const filePath = path.resolve(__dirname, "./60x40-Image-Test.png");
-const image = fs.createReadStream(filePath);
 describe("PATCH /add-images/:packageId", () => {
-  test("should upload images to a specific package by ID", async () => {
-    const packageId = "6623cbee845cecc6a97b47d4";
+  test("should return error if no Authorization provided", async () => {
+    const res = await request(app).patch("/add-images/6623cbee845cecc6a97b47d4");
+    expect(res.statusCode).toEqual(401);
+    expect(res.body.message).toEqual("Authorization Token is missing");
+  });
+
+  test("should add a new test if not admin", async () => {
     const res = await request(app)
-      .patch(`/add-images/${packageId}`)
+      .patch("/add-images/888888888888888888888888")
+      .set("Authorization", "Bearer " + access_tokenUser);
+
+    expect(res.statusCode).toEqual(401);
+    expect(res.body.message).toEqual("You are not authorized to access this page");
+  });
+
+  test("should upload images to a specific package by ID", async () => {
+    const res = await request(app)
+      .patch("/add-images/888888888888888888888888")
       .set("Authorization", "Bearer " + access_tokenAdmin)
       .attach("images", image, "Image-Test-1.png")
       .attach("images", image, "Image-Test-2.png");
 
     expect(res.body.message).toEqual("Images uploaded successfully");
     expect(res.statusCode).toEqual(200);
+  });
+
+  test("should add a new test if package is not found", async () => {
+    const res = await request(app)
+      .patch("/add-images/999999999999999999999999")
+      .set("Authorization", "Bearer " + access_tokenAdmin)
+      .attach("images", image2, "Image-Test.png");
+
+    expect(res.statusCode).toEqual(404);
+    expect(res.body.message).toEqual("Package not found");
   });
 });
 
