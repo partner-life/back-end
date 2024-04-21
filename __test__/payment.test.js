@@ -58,7 +58,7 @@ describe("POST /create-transaction", () => {
     };
 
     const res = await request(app)
-      .post("/create-transaction")
+      .post("/create-transaction/6625592b3dc9c2355eb60375")
       .send(transactionData)
       .set("Authorization", "Bearer " + access_tokenUser);
 
@@ -80,7 +80,7 @@ describe("POST /create-transaction", () => {
       postal_code: "12345",
     };
 
-    const res = await request(app).post("/create-transaction").send(transactionData);
+    const res = await request(app).post("/create-transaction/6625592b3dc9c2355eb60375").send(transactionData);
 
     expect(res.statusCode).toEqual(401);
     expect(res.body.message).toEqual("Authorization Token is missing");
@@ -99,7 +99,7 @@ describe("POST /create-transaction", () => {
     };
 
     const res = await request(app)
-      .post("/create-transaction")
+      .post("/create-transaction/6625592b3dc9c2355eb60375")
       .send(transactionData)
       .set("Authorization", "Bearer " + access_tokenUser);
 
@@ -119,7 +119,7 @@ describe("POST /create-transaction", () => {
     };
 
     const res = await request(app)
-      .post("/create-transaction")
+      .post("/create-transaction/6625592b3dc9c2355eb60375")
       .send(transactionData)
       .set("Authorization", "Bearer " + access_tokenUser);
 
@@ -138,7 +138,7 @@ describe("POST /create-transaction", () => {
     };
 
     const res = await request(app)
-      .post("/create-transaction")
+      .post("/create-transaction/6625592b3dc9c2355eb60375")
       .send(transactionData)
       .set("Authorization", "Bearer " + access_tokenUser);
 
