@@ -188,22 +188,6 @@ class PackageController {
       next(error);
     }
   }
-  static async showPackage(req, res, next) {
-    try {
-      const package = await Package.findAllPackages();
-      res.status(200).json(package);
-    } catch (error) {
-      next(error);
-    }
-  }
-  static async showMuchPackage(req, res, next) {
-    try {
-      const package = await (await Package.findAllPackages()).length;
-      res.status(200).json(package);
-    } catch (error) {
-      next(error);
-    }
-  }
 }
 
 module.exports = PackageController;

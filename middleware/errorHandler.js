@@ -16,6 +16,10 @@ function errorHandler(err, req, res, next) {
       statusCode = 404;
       errorMessage = err.message || "Not Found";
       break;
+    case "Forbidden":
+      statusCode = 403;
+      errorMessage = err.message || "You're not authorized";
+      break;
     default:
       statusCode = 500;
       errorMessage = "Internal Server Error";

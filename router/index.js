@@ -6,6 +6,7 @@ const authentication = require("../middleware/authentication");
 const multer = require("multer");
 const PaymentController = require("../controller/payment");
 const OrdersController = require("../controller/orders");
+const authorization = require("../middleware/authorization");
 
 router.get("/", (req, res) => {
   res.json({ message: "Wedding Organizer" });
@@ -42,8 +43,6 @@ router.patch(
   authentication,
   PackageController.addImages
 );
-router.get("/muchPackage", PackageController.showMuchPackage);
-router.get("/showAllPackage", PackageController.showMuchPackage);
 
 router.post(
   "/create-transaction",
@@ -54,5 +53,20 @@ router.post("/handling-after-payment", PaymentController.handleNotification);
 router.post("/nodemailer", authentication, OrdersController.nodemailer);
 
 router.post("/addOrders", authentication, OrdersController.createOrders);
+router.put(
+  "/updateOrders/:orderId",
+  authentication,
+  authorization,
+  OrdersController.editOrders
+);
+router.delete(
+  "/delOrder/:orderId",
+  authentication,
+  authorization,
+  OrdersController.deleteOrders
+);
+router.get("/totalPrice", OrdersController.showTotalPrice);
+router.get("/allOrders", OrdersController.showAllOrders);
+router.get("/muchOrder", OrdersController.showMuchOrders);
 
 module.exports = router;

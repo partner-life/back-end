@@ -138,6 +138,73 @@ class OrdersController {
       next(error);
     }
   }
+  static async editOrders(req, res, next) {
+    try {
+      const { orderId } = req.params;
+      const { HusbandName, WifeName, address, phoneNumber, dateOfMerried } =
+        req.body;
+      if (!HusbandName)
+        throw { name: "BadRequest", message: "name of husband is required" };
+      if (!WifeName)
+        throw { name: "BadRequest", message: "name of wife is required" };
+      if (!address)
+        throw { name: "BadRequest", message: "address is required" };
+      if (!phoneNumber)
+        throw { name: "BadRequest", message: "phone number is required" };
+      if (!dateOfMerried)
+        throw { name: "BadRequest", message: "date is required" };
+      if (new Date(dateOfMerried) < new Date()) {
+        throw {
+          name: "BadRequest",
+          message: "Date of marriage cannot be before today",
+        };
+      }
+      const result = await Orders.updateOrders(
+        orderId,
+        address,
+        phoneNumber,
+        HusbandName,
+        WifeName,
+        dateOfMerried
+      );
+      res.status(201).json("succes to update");
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async deleteOrders(req, res, next) {
+    try {
+      const { orderId } = req.params;
+      await Orders.destroyOrders(orderId);
+      res.status(200).json("succes to delete orders");
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async showTotalPrice(req, res, next) {
+    try {
+      const result = await Orders.getTotalPrice();
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async showAllOrders(req, res, next) {
+    try {
+      const result = await Orders.finOrders();
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async showMuchOrders(req, res, next) {
+    try {
+      const result = await (await Orders.finOrders()).length;
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = OrdersController;
