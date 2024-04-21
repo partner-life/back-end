@@ -11,12 +11,7 @@ class PaymentController {
   static async createTransaction(req, res, next) {
     try {
       const { gross_amount, order_id, item_name, first_name, last_name, phone, address, city, postal_code } = req.body;
-
-      const amount = +gross_amount;
-
-      if (typeof amount !== "number") {
-        throw { name: "BadRequest", message: "Amount must be a number" };
-      }
+      const amount = Number(gross_amount);
 
       if (!order_id || !item_name) {
         throw { name: "BadRequest", message: "Order ID and Item Name are required" };
@@ -56,23 +51,26 @@ class PaymentController {
     }
   }
 
-  static async handleNotification(req, res) {
+  static async handleNotification(req, res, next) {
     try {
       const notificationJson = req.body;
+      console.log("🚀 ~ PaymentController ~ handleNotification ~ notificationJson:", notificationJson);
       const statusResponse = await snap.transaction.notification(notificationJson);
+      console.log("🚀 ~ PaymentController ~ handleNotification ~ statusResponse:", statusResponse);
 
       const [order_id, randomNumber] = statusResponse.order_id.split("_");
       const transactionStatus = statusResponse.transaction_status;
 
       if (transactionStatus == "settlement") {
         await payment.updateOrderStatus(order_id, "Sudah dibayar");
-        res.status(200).send("Success Payment");
+        res.status(200).send({ message: "Success Payment" });
       } else if (transactionStatus == "pending") {
-        await payment.updateOrderStatus(order_id, "Pending");
+        await payment.updateOrderStatus(order_id, "Belum dibayar");
+        res.status(200).send({ message: "Pending Payment" });
       }
     } catch (error) {
       console.log(error.message);
-      res.status(500).send("Error processing notification");
+      next(error);
     }
   }
 }

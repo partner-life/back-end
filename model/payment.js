@@ -8,8 +8,5 @@ class payment {
   static updateOrderStatus(orderId, newStatus) {
     return this.collection().updateOne({ _id: new ObjectId(orderId) }, { $set: { status: newStatus } });
   }
-  static findOrderById(orderId) {
-    return this.collection().findOne({ _id: orderId });
-  }
 }
 module.exports = payment;

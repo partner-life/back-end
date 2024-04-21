@@ -146,3 +146,67 @@ describe("POST /create-transaction", () => {
     expect(res.body.message).toEqual("Order ID and Item Name are required");
   });
 });
+
+describe("POST /handling-after-payment", () => {
+  test("should handle payment notification successfully", async () => {
+    const notificationJson = {
+      status_code: "200",
+      transaction_id: "6176c10d-3e30-4094-8c7d-f6b606714294",
+      gross_amount: "980000.00",
+      currency: "IDR",
+      order_id: "662207f6879b096013a84f43_2198720",
+      payment_type: "bank_transfer",
+      signature_key:
+        "6a1dbda2be0b1702bd8bd27edd272ac11e2635ec249f3aff9e99148c7017488860deb1fd057f2c8893b3b14978ce5c479b148ab59849003c67f2cf84c1249c33",
+      transaction_status: "settlement",
+      fraud_status: "accept",
+      status_message: "Success, transaction is found",
+      merchant_id: "G639025300",
+      va_numbers: [
+        {
+          bank: "bca",
+          va_number: "25300348242",
+        },
+      ],
+      payment_amounts: [],
+      transaction_time: "2024-04-21 10:07:25",
+      settlement_time: "2024-04-21 10:07:33",
+      expiry_time: "2024-04-22 10:07:25",
+    };
+
+    const res = await request(app).post("/handling-after-payment").send(notificationJson);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.message).toEqual("Success Payment");
+  });
+  test("Should handle pending payment notifications", async () => {
+    const notificationJson = {
+      status_code: "201",
+      transaction_id: "0a7cf8f4-0412-4872-946d-8aa1ca57ce4e",
+      gross_amount: "980000.00",
+      currency: "IDR",
+      order_id: "662207f6879b096013a84f43_6133253",
+      payment_type: "bank_transfer",
+      signature_key:
+        "f061fe3a66a445280dea5ac0531b5b973674883a267d2fe4406b48d3b607a68e55720427d2393e3056b66654f6b7c205dfc1464b2ca4dba116346bed02f924fa",
+      transaction_status: "pending",
+      fraud_status: "accept",
+      status_message: "Success, transaction is found",
+      merchant_id: "G639025300",
+      va_numbers: [
+        {
+          bank: "bca",
+          va_number: "25300657994",
+        },
+      ],
+      payment_amounts: [],
+      transaction_time: "2024-04-21 10:35:44",
+      expiry_time: "2024-04-22 10:35:44",
+    };
+
+    const res = await request(app).post("/handling-after-payment").send(notificationJson);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.message).toEqual("Pending Payment");
+  });
+});
