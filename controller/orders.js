@@ -184,14 +184,7 @@ class OrdersController {
       next(error);
     }
   }
-  static async showMuchOrders(req, res, next) {
-    try {
-      const result = await (await Orders.finOrders()).length;
-      res.status(200).json(result);
-    } catch (error) {
-      next(error);
-    }
-  }
+
   static async showOrderById(req, res, next) {
     try {
       const userId = req.user._id;

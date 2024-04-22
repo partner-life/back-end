@@ -100,7 +100,7 @@ class Orders {
       .toArray();
   }
   static async findOrderByUser(userId) {
-    return database
+    return await database
       .collection("Orders")
       .aggregate([
         {

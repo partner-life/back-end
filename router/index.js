@@ -59,15 +59,10 @@ router.put(
   authorization,
   OrdersController.editOrders
 );
-router.delete(
-  "/delOrder/:orderId",
-  authentication,
-  authorization,
-  OrdersController.deleteOrders
-);
+
 router.get("/totalPrice", OrdersController.showTotalPrice);
 router.get("/allOrders", OrdersController.showAllOrders);
-router.get("/muchOrder", OrdersController.showMuchOrders);
+
 router.get("/historyOrder", authentication, OrdersController.showOrderById);
 
 module.exports = router;

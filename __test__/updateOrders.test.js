@@ -103,6 +103,21 @@ describe("POST /updateOrders/:orderId", () => {
 
     expect(response.status).toBe(403);
   });
+  test("should return error if nameWife is missing", async () => {
+    const response = await request(app)
+      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
+      .set("Authorization", "Bearer " + access_token)
+      .send({
+        HusbandName: "Toba",
+        WifeName: "NameOfWife",
+        address: "123 Main Street",
+        phoneNumber: "123-456-7890",
+        dateOfMerried: "2024-04-01",
+      });
+    console.log(response.body);
+
+    expect(response.status).toBe(400);
+  });
 });
 
 afterAll(async () => {
