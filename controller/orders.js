@@ -192,11 +192,11 @@ class OrdersController {
       next(error);
     }
   }
-  static async finOrdersById(req, res, next) {
+  static async showOrderById(req, res, next) {
     try {
       const { orderId } = req.params;
       if (!orderId) throw { name: "NotFound", message: "Order Not Found" };
-      const result = await this.finOrdersById(orderId);
+      const result = await Orders.findOrderById(orderId);
       res.status(200).json(result);
     } catch (error) {
       next(error);
