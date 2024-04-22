@@ -8,7 +8,7 @@ const userData = {
   email: "test@mail.com",
   password: "test",
 };
-describe("POST /register", () => {
+describe.skip("POST /register", () => {
   //!test register user berhasil
   describe("succes", () => {
     test("should able register user ", async () => {

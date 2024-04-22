@@ -79,5 +79,8 @@ class User {
 
     return user;
   }
+  static async findByEmail(email) {
+    return database.collection("Users").findOne({ email: email });
+  }
 }
 module.exports = User;

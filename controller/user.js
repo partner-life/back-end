@@ -33,7 +33,8 @@ class UserController {
       if (!password)
         throw { name: "BadRequest", message: "password is required" };
       const result = await User.Login(email, password);
-      res.status(200).json({ access_token: result });
+      const findEmail = await User.findByEmail(email);
+      res.status(200).json({ access_token: result, user: findEmail });
     } catch (error) {
       next(error);
     }
