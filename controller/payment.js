@@ -22,12 +22,17 @@ class PaymentController {
       const amount = Number(gross_amount);
 
       if (!order_id || !item_name) {
-        throw { name: "BadRequest", message: "Order ID and Item Name are required" };
+        throw {
+          name: "BadRequest",
+          message: "Order ID and Item Name are required",
+        };
       }
 
       const parameter = {
         transaction_details: {
-          order_id: `${order_id}_${Math.floor(1000000 + Math.random() * 9000000)}`,
+          order_id: `${order_id}_${Math.floor(
+            1000000 + Math.random() * 9000000
+          )}`,
           gross_amount: amount,
         },
         item_details: [
@@ -59,9 +64,17 @@ class PaymentController {
   static async handleNotification(req, res, next) {
     try {
       const notificationJson = req.body;
-      console.log("🚀 ~ PaymentController ~ handleNotification ~ notificationJson:", notificationJson);
-      const statusResponse = await snap.transaction.notification(notificationJson);
-      console.log("🚀 ~ PaymentController ~ handleNotification ~ statusResponse:", statusResponse);
+      console.log(
+        "🚀 ~ PaymentController ~ handleNotification ~ notificationJson:",
+        notificationJson
+      );
+      const statusResponse = await snap.transaction.notification(
+        notificationJson
+      );
+      console.log(
+        "🚀 ~ PaymentController ~ handleNotification ~ statusResponse:",
+        statusResponse
+      );
 
       const [order_id, randomNumber] = statusResponse.order_id.split("_");
       const transactionStatus = statusResponse.transaction_status;

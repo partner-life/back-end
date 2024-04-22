@@ -25,13 +25,17 @@ beforeAll(async () => {
     email: "admin@mail.com",
     password: "12345",
   };
-  const loginAdmin = await database.collection("Users").findOne({ email: dataAdmin.email });
+  const loginAdmin = await database
+    .collection("Users")
+    .findOne({ email: dataAdmin.email });
   access_tokenAdmin = signToken({ id: loginAdmin._id });
   let dataUser = {
     email: "user@mail.com",
     password: "12345",
   };
-  const loginUser = await database.collection("Users").findOne({ email: dataUser.email });
+  const loginUser = await database
+    .collection("Users")
+    .findOne({ email: dataUser.email });
   access_tokenUser = signToken({ id: loginUser._id });
 });
 
@@ -43,7 +47,7 @@ afterAll(async () => {
 
 describe("POST /handling-after-payment", () => {});
 
-describe.skip("POST /create-transaction", () => {
+describe("POST /create-transaction", () => {
   test("should create a new transaction", async () => {
     const transactionData = {
       gross_amount: 100,
@@ -80,7 +84,9 @@ describe.skip("POST /create-transaction", () => {
       postal_code: "12345",
     };
 
-    const res = await request(app).post("/create-transaction/6625592b3dc9c2355eb60375").send(transactionData);
+    const res = await request(app)
+      .post("/create-transaction/6625592b3dc9c2355eb60375")
+      .send(transactionData);
 
     expect(res.statusCode).toEqual(401);
     expect(res.body.message).toEqual("Authorization Token is missing");
@@ -147,7 +153,7 @@ describe.skip("POST /create-transaction", () => {
   });
 });
 
-describe.skip("POST /handling-after-payment", () => {
+describe("POST /handling-after-payment", () => {
   test("should handle payment notification successfully", async () => {
     const notificationJson = {
       status_code: "200",
@@ -174,7 +180,9 @@ describe.skip("POST /handling-after-payment", () => {
       expiry_time: "2024-04-22 10:07:25",
     };
 
-    const res = await request(app).post("/handling-after-payment").send(notificationJson);
+    const res = await request(app)
+      .post("/handling-after-payment")
+      .send(notificationJson);
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.message).toEqual("Success Payment");
@@ -204,7 +212,9 @@ describe.skip("POST /handling-after-payment", () => {
       expiry_time: "2024-04-22 10:35:44",
     };
 
-    const res = await request(app).post("/handling-after-payment").send(notificationJson);
+    const res = await request(app)
+      .post("/handling-after-payment")
+      .send(notificationJson);
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.message).toEqual("Pending Payment");

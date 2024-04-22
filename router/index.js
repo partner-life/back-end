@@ -9,7 +9,7 @@ const OrdersController = require("../controller/orders");
 const authorization = require("../middleware/authorization");
 
 router.get("/", (req, res) => {
-   res.json({ message: "Wedding Organizer" });
+  res.json({ message: "Wedding Organizer" });
 });
 
 router.post("/register", UserController.Register);
@@ -21,20 +21,59 @@ router.get("/showMuchUser", UserController.showMuchUser);
 router.get("/package", PackageController.getAllPackages);
 router.get("/package/:packageId", PackageController.getPackageById);
 router.post("/createpackage", authentication, PackageController.createPackage);
-router.delete("/deletepackage/:packageId", authentication, PackageController.deletePackage);
-router.put("/editpackage/:packageId", authentication, PackageController.editPackage);
+router.delete(
+  "/deletepackage/:packageId",
+  authentication,
+  PackageController.deletePackage
+);
+router.put(
+  "/editpackage/:packageId",
+  authentication,
+  PackageController.editPackage
+);
 
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch("/add-images/:packageId", upload.array("images", 10), authentication, PackageController.addImages);
+router.patch(
+  "/add-images/:packageId",
+  upload.array("images", 10),
+  authentication,
+  PackageController.addImages
+);
 
-router.post("/create-transaction/:orderId", authentication, PaymentController.createTransaction);
+router.post(
+  "/create-transaction/:orderId",
+  authentication,
+  PaymentController.createTransaction
+);
 router.post("/handling-after-payment", PaymentController.handleNotification);
 router.post("/nodemailer", authentication, OrdersController.nodemailer);
 
-router.post("/addOrders/:packetId", authentication, OrdersController.createOrders);
-router.put("/updateOrders/:orderId", authentication, authorization, OrdersController.editOrders);
+router.post(
+  "/addOrders/:packetId",
+  authentication,
+  OrdersController.createOrders
+);
+router.put(
+  "/updateOrders/:orderId",
+  authentication,
+  authorization,
+  OrdersController.editOrders
+);
+router.post(
+  "/addOrders/:packetId",
+  authentication,
+  OrdersController.createOrders
+);
+router.put(
+  "/updateOrders/:orderId",
+  authentication,
+  authorization,
+  OrdersController.editOrders
+);
+
 router.get("/totalPrice", OrdersController.showTotalPrice);
 router.get("/allOrders", OrdersController.showAllOrders);
+
 router.get("/historyOrder", authentication, OrdersController.showOrderById);
 
 module.exports = router;

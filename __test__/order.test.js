@@ -19,14 +19,14 @@ beforeAll(async () => {
 let access_token;
 
 const userData = {
-  nameHusband: "Toba",
-  nameWife: "NameOfWife",
+  husbandName: "Toba",
+  wifeName: "NameOfWife",
   address: "123 Main Street",
   phoneNumber: "123-456-7890",
   dateOfMerried: "2024-05-01",
 };
 
-describe.skip("POST /addOrders", () => {
+describe("POST /addOrders", () => {
   test("should be able to add order", async () => {
     // console.log(access_token)
     const response = await request(app)
@@ -37,7 +37,7 @@ describe.skip("POST /addOrders", () => {
   });
 
   test("should return error if nameHusband is missing", async () => {
-    const { nameHusband, ...userDataWithoutNameHusband } = userData;
+    const { husbandName, ...userDataWithoutNameHusband } = userData;
 
     const response = await request(app)
       .post("/addOrders/66223439ea966fac0f1487a2")
@@ -48,7 +48,7 @@ describe.skip("POST /addOrders", () => {
   });
 
   test("should return error if nameWife is missing", async () => {
-    const { nameWife, ...userDataWithoutNameWife } = userData;
+    const { wifeName, ...userDataWithoutNameWife } = userData;
 
     const response = await request(app)
       .post("/addOrders/66223439ea966fac0f1487a2")
@@ -97,11 +97,27 @@ describe.skip("POST /addOrders", () => {
   });
   test("should return error if nameWife is missing", async () => {
     const response = await request(app)
-      .post("/addOrders/16783672")
+      .post("/addOrders/16784232")
       .set("Authorization", "Bearer " + access_token)
       .send(userData);
+    console.log(response.body);
 
     expect(response.status).toBe(404);
+  });
+  test("should return error if nameWife is missing", async () => {
+    const response = await request(app)
+      .post("/addOrders/66234fdc5de01fedc08b3fcf")
+      .set("Authorization", "Bearer " + access_token)
+      .send({
+        husbandName: "Toba",
+        wifeName: "NameOfWife",
+        address: "123 Main Street",
+        phoneNumber: "123-456-7890",
+        dateOfMerried: "2024-04-01",
+      });
+    console.log(response.body);
+
+    expect(response.status).toBe(400);
   });
 });
 

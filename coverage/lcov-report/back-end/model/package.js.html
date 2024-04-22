@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.22% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.22% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -96,65 +96,65 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const database = require("../config/db");
 &nbsp;
 class Package {
-<span class="fstat-no" title="function not covered" >  st</span>atic collection() {
-<span class="cstat-no" title="statement not covered" >    return database.collection("Packages");</span>
+  static collection() {
+    return database.collection("Packages");
   }
-<span class="fstat-no" title="function not covered" >  st</span>atic async findAllPackages(aggregations) {
-<span class="cstat-no" title="statement not covered" >    return this.collection().aggregate(aggregations).toArray();</span>
+  static async findAllPackages(aggregations) {
+    return this.collection().aggregate(aggregations).toArray();
   }
-<span class="fstat-no" title="function not covered" >  st</span>atic async findPackageById(packageId) {
-<span class="cstat-no" title="statement not covered" >    return this.collection().findOne({ _id: packageId });</span>
+  static async findPackageById(packageId) {
+    return this.collection().findOne({ _id: packageId });
   }
-<span class="fstat-no" title="function not covered" >  st</span>atic async createPackage(packageData) {
-<span class="cstat-no" title="statement not covered" >    return this.collection().insertOne(packageData);</span>
+  static async createPackage(packageData) {
+    return this.collection().insertOne(packageData);
   }
-<span class="fstat-no" title="function not covered" >  st</span>atic async deletePackage(packageId) {
-<span class="cstat-no" title="statement not covered" >    return this.collection().deleteOne({ _id: packageId });</span>
+  static async deletePackage(packageId) {
+    return this.collection().deleteOne({ _id: packageId });
   }
-<span class="fstat-no" title="function not covered" >  st</span>atic async editPackage(packageId, updatedData) {
-<span class="cstat-no" title="statement not covered" >    return this.collection().updateOne(</span>
+  static async editPackage(packageId, updatedData) {
+    return this.collection().updateOne(
       { _id: packageId },
       { $set: updatedData }
     );
   }
-<span class="fstat-no" title="function not covered" >  st</span>atic async editPackageImage(packageId, imageData) {
-<span class="cstat-no" title="statement not covered" >    return this.collection().updateOne(</span>
+  static async editPackageImage(packageId, imageData) {
+    return this.collection().updateOne(
       { _id: packageId },
       { $set: { image: imageData } }
     );
@@ -169,7 +169,7 @@ module.exports = Package;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-22T10:33:44.733Z
+                at 2024-04-22T19:01:12.720Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

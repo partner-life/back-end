@@ -1,12 +1,12 @@
 const app = require("../app");
 const request = require("supertest");
 
-describe("get /showAllUser", () => {
+describe("get /allOrders", () => {
   describe("succes", () => {
     test("should able register user ", async () => {
-      const respons = await request(app).get("/showAllUser");
+      const respons = await request(app).get("/allOrders");
 
-      //   expect(respons.status).toBe(201);
+      expect(respons.status).toBe(200);
     });
   });
 });
