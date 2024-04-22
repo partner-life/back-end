@@ -19,11 +19,7 @@ router.get("/showAllUser", UserController.showAllUser);
 router.get("/showMuchUser", UserController.showMuchUser);
 
 router.get("/package", PackageController.getAllPackages);
-router.get(
-  "/package/:packageId",
-  authentication,
-  PackageController.getPackageById
-);
+router.get("/package/:packageId", PackageController.getPackageById);
 router.post("/createpackage", authentication, PackageController.createPackage);
 router.delete(
   "/deletepackage/:packageId",
