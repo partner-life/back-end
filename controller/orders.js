@@ -167,15 +167,7 @@ class OrdersController {
       next(error);
     }
   }
-  static async deleteOrders(req, res, next) {
-    try {
-      const { orderId } = req.params;
-      await Orders.destroyOrders(orderId);
-      res.status(200).json("succes to delete orders");
-    } catch (error) {
-      next(error);
-    }
-  }
+
   static async showTotalPrice(req, res, next) {
     try {
       const result = await Orders.getTotalPrice();
@@ -195,6 +187,16 @@ class OrdersController {
   static async showMuchOrders(req, res, next) {
     try {
       const result = await (await Orders.finOrders()).length;
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async finOrdersById(req, res, next) {
+    try {
+      const { orderId } = req.params;
+      if (!orderId) throw { name: "NotFound", message: "Order Not Found" };
+      const result = await this.finOrdersById(orderId);
       res.status(200).json(result);
     } catch (error) {
       next(error);

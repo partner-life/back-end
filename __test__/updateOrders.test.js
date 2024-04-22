@@ -14,17 +14,11 @@ beforeAll(async () => {
     .collection("Users")
     .findOne({ email: data.email });
   access_token = signToken({ id: login._id });
-  let order = await Orders.newOrders(userData);
 });
 
 let access_token;
-let order;
-const userData = {
-  UserId: "6624fdb5a004ed8151377370",
-  PackageId: "66234fdc5de01fedc08b3fcf",
-  status: "false",
-  price: 100000000,
 
+const userData = {
   HusbandName: "Toba",
   WifeName: "NameOfWife",
   address: "123 Main Street",
@@ -36,78 +30,78 @@ describe("POST /updateOrders/:orderId", () => {
   test("should be able to update order", async () => {
     // console.log(access_token)
     const response = await request(app)
-      .put("/updateOrders/" + order._id)
+      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
       .set("Authorization", "Bearer " + access_token)
       .send(userData);
-    console.log(response.body);
+    // console.log(response.body);
   });
 
   test("should return error if nameHusband is missing", async () => {
-    const { nameHusband, ...userDataWithoutNameHusband } = userData;
+    const { HusbandName, ...userDataWithoutNameHusband } = userData;
 
     const response = await request(app)
-      .put("/updateOrders/" + order._id)
+      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutNameHusband);
     console.log(response.body);
     expect(response.status).toBe(400);
   });
 
-  test.skip("should return error if nameWife is missing", async () => {
-    const { nameWife, ...userDataWithoutNameWife } = userData;
+  test("should return error if nameWife is missing", async () => {
+    const { WifeName, ...userDataWithoutNameWife } = userData;
 
     const response = await request(app)
-      .post("/addOrders/6626178e5d8beda72bc16784")
+      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutNameWife);
 
     expect(response.status).toBe(400);
   });
-  test.skip("should return error if nameWife is missing", async () => {
+  test("should return error if nameWife is missing", async () => {
     const { address, ...userDataWithoutAddress } = userData;
 
     const response = await request(app)
-      .post("/addOrders/66223439ea966fac0f1487a2")
+      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutAddress);
 
     expect(response.status).toBe(400);
   });
-  test.skip("should return error if nameWife is missing", async () => {
+  test("should return error if nameWife is missing", async () => {
     const { phoneNumber, ...userDataWithoutPhoneNumber } = userData;
 
     const response = await request(app)
-      .post("/addOrders/66223439ea966fac0f1487a2")
+      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutPhoneNumber);
 
     expect(response.status).toBe(400);
   });
-  test.skip("should return error if nameWife is missing", async () => {
+  test("should return error if nameWife is missing", async () => {
     const { dateOfMerried, ...userDataWithoutDate } = userData;
 
     const response = await request(app)
-      .post("/addOrders/66223439ea966fac0f1487a2")
+      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutDate);
 
     expect(response.status).toBe(400);
   });
-  test.skip("should return error if nameWife is missing", async () => {
+  test("should return error if nameWife is missing", async () => {
     const response = await request(app)
-      .post("/addOrders/")
+      .put("/updateOrders/")
       .set("Authorization", "Bearer " + access_token)
       .send(userData);
 
     expect(response.status).toBe(404);
   });
-  test.skip("should return error if nameWife is missing", async () => {
+  test("should return error if nameWife is missing", async () => {
     const response = await request(app)
-      .post("/addOrders/16783672")
+      .put("/updateOrders/662630f838e1357fa07aba40")
       .set("Authorization", "Bearer " + access_token)
       .send(userData);
 
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
   });
 });
 

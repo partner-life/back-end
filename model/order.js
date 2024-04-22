@@ -46,6 +46,7 @@ class Orders {
     dateOfMerried
   ) {
     const id = new ObjectId(orderId);
+
     const order = await database.collection("Orders").updateOne(
       { _id: id },
       {
@@ -63,11 +64,6 @@ class Orders {
   static async findOrderById(orderId) {
     const id = new ObjectId(orderId);
     return await database.collection("Orders").findOne({ _id: id });
-  }
-
-  static async destroyOrders(orderId) {
-    const id = new ObjectId(orderId);
-    return await database.collection("Orders").deleteOne({ _id: id });
   }
   static async getTotalPrice() {
     const allOrders = await database.collection("Orders").find({}).toArray();
