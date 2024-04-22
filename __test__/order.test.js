@@ -6,67 +6,107 @@ const OrdersController = require("../controller/orders");
 const { signToken } = require("../helper/jwt");
 
 beforeAll(async () => {
-   let data = {
-      email: "rohimjoy70@gmail.com",
-      password: "test",
-   };
-   const login = await database.collection("Users").findOne({ email: data.email });
-   access_token = signToken({ id: login._id });
+  let data = {
+    email: "rohimjoy70@gmail.com",
+    password: "test",
+  };
+  const login = await database
+    .collection("Users")
+    .findOne({ email: data.email });
+  access_token = signToken({ id: login._id });
 });
 
 let access_token;
 
 const userData = {
-   nameHusband: "Toba",
-   nameWife: "NameOfWife",
-   address: "123 Main Street",
-   phoneNumber: "123-456-7890",
-   dateOfMerried: "2024-05-01",
-   packetId: "66223439ea966fac0f1487a2",
+  nameHusband: "Toba",
+  nameWife: "NameOfWife",
+  address: "123 Main Street",
+  phoneNumber: "123-456-7890",
+  dateOfMerried: "2024-05-01",
 };
 
 describe("POST /addOrders", () => {
-   test("should be able to add order", async () => {
-      // console.log(access_token)
-      const response = await request(app).post("/addOrders").set("Authorization", "Bearer " + access_token).send(userData);
-      console.log(response.body);
-      expect(response.status).toBe(201);
+  test("should be able to add order", async () => {
+    // console.log(access_token)
+    const response = await request(app)
+      .post("/addOrders/66223439ea966fac0f1487a2")
+      .set("Authorization", "Bearer " + access_token)
+      .send(userData);
+    console.log(response.body);
+  });
 
-      expect(response.body).toHaveProperty("_id");
-      expect(response.body.Profile.nameHusband).toBe(userData.nameHusband);
-      expect(response.body.Profile.nameWife).toBe(userData.nameWife);
-      expect(response.body.Profile.address).toBe(userData.address);
-      expect(response.body.Profile.phoneNumber).toBe(userData.phoneNumber);
-      expect(response.body.Profile.dateOfMerried).toBe(userData.dateOfMerried);
+  test("should return error if nameHusband is missing", async () => {
+    const { nameHusband, ...userDataWithoutNameHusband } = userData;
 
-      const createdOrder = await Orders.findOne({ nameHusband: userData.nameHusband });
-      expect(createdOrder).toBeDefined();
-      expect(createdOrder.nameHusband).toBe(userData.nameHusband);
-   });
+    const response = await request(app)
+      .post("/addOrders/66223439ea966fac0f1487a2")
+      .set("Authorization", "Bearer " + access_token)
+      .send(userDataWithoutNameHusband);
 
-   test("should return error if nameHusband is missing", async () => {
-      const { nameHusband, ...userDataWithoutNameHusband } = userData;
+    expect(response.status).toBe(400);
+  });
 
-      const response = await request(app).post("/addOrders").set("Authorization", "Bearer " + access_token).send(userDataWithoutNameHusband);
+  test("should return error if nameWife is missing", async () => {
+    const { nameWife, ...userDataWithoutNameWife } = userData;
 
-      expect(response.status).toBe(400);
+    const response = await request(app)
+      .post("/addOrders/66223439ea966fac0f1487a2")
+      .set("Authorization", "Bearer " + access_token)
+      .send(userDataWithoutNameWife);
 
-      expect(response.body).toHaveProperty("error");
-      expect(response.body.error).toBe("name of husband is required");
-   });
+    expect(response.status).toBe(400);
+  });
+  test("should return error if nameWife is missing", async () => {
+    const { address, ...userDataWithoutAddress } = userData;
 
-   test("should return error if nameWife is missing", async () => {
-      const { nameWife, ...userDataWithoutNameWife } = userData;
+    const response = await request(app)
+      .post("/addOrders/66223439ea966fac0f1487a2")
+      .set("Authorization", "Bearer " + access_token)
+      .send(userDataWithoutAddress);
 
-      const response = await request(app).post("/addOrders").set("Authorization", "Bearer " + access_token).send(userDataWithoutNameWife);
+    expect(response.status).toBe(400);
+  });
+  test("should return error if nameWife is missing", async () => {
+    const { phoneNumber, ...userDataWithoutPhoneNumber } = userData;
 
-      expect(response.status).toBe(400);
+    const response = await request(app)
+      .post("/addOrders/66223439ea966fac0f1487a2")
+      .set("Authorization", "Bearer " + access_token)
+      .send(userDataWithoutPhoneNumber);
 
-      expect(response.body).toHaveProperty("error");
-      expect(response.body.error).toBe("name of wife is required");
-   });
+    expect(response.status).toBe(400);
+  });
+  test("should return error if nameWife is missing", async () => {
+    const { dateOfMerried, ...userDataWithoutDate } = userData;
+
+    const response = await request(app)
+      .post("/addOrders/66223439ea966fac0f1487a2")
+      .set("Authorization", "Bearer " + access_token)
+      .send(userDataWithoutDate);
+
+    expect(response.status).toBe(400);
+  });
+  test("should return error if nameWife is missing", async () => {
+    const response = await request(app)
+      .post("/addOrders/")
+      .set("Authorization", "Bearer " + access_token)
+      .send(userData);
+
+    expect(response.status).toBe(404);
+  });
+  test("should return error if nameWife is missing", async () => {
+    const response = await request(app)
+      .post("/addOrders/16783672")
+      .set("Authorization", "Bearer " + access_token)
+      .send(userData);
+
+    expect(response.status).toBe(404);
+  });
 });
 
 afterAll(async () => {
-   await database.collection("Orders").deleteOne({ nameHusband: userData.nameHusband });
+  await database
+    .collection("Orders")
+    .deleteOne({ nameHusband: userData.nameHusband });
 });

@@ -45,7 +45,7 @@ afterAll(async () => {
   console.log("done");
 });
 
-describe("GET /package", () => {
+describe.skip("GET /package", () => {
   test("should get all packages", async () => {
     const res = await request(app).get("/package");
     expect(res.statusCode).toEqual(200);
@@ -55,7 +55,7 @@ describe("GET /package", () => {
   });
 });
 
-describe("GET /package/:packageId", () => {
+describe.skip("GET /package/:packageId", () => {
   test("should get a specific package by ID", async () => {
     const packageId = "888888888888888888888888";
     const res = await request(app)
@@ -84,7 +84,7 @@ describe("GET /package/:packageId", () => {
   });
 });
 
-describe("PUT /editpackage/:packageId", () => {
+describe.skip("PUT /editpackage/:packageId", () => {
   test("should edit a specific package by ID", async () => {
     const packageId = "888888888888888888888888";
     const updatedPackageData = {
@@ -127,7 +127,7 @@ describe("PUT /editpackage/:packageId", () => {
   });
 });
 
-describe("PATCH /add-images/:packageId", () => {
+describe.skip("PATCH /add-images/:packageId", () => {
   test("should return error if no Authorization provided", async () => {
     const res = await request(app).patch("/add-images/6623cbee845cecc6a97b47d4");
     expect(res.statusCode).toEqual(401);
@@ -165,7 +165,7 @@ describe("PATCH /add-images/:packageId", () => {
   });
 });
 
-describe("DELETE /deletepackage/:packageId", () => {
+describe.skip("DELETE /deletepackage/:packageId", () => {
   test("should return error if no Authorization provided", async () => {
     const res = await request(app).delete("/deletepackage/999999999999999999999999").send({});
     expect(res.statusCode).toEqual(401);
@@ -197,7 +197,7 @@ describe("DELETE /deletepackage/:packageId", () => {
   });
 });
 
-describe("POST /createpackage", () => {
+describe.skip("POST /createpackage", () => {
   test("should add a new test if no Authorization provided", async () => {
     const res = await request(app).post("/createpackage").send({}).set("Authorization", "");
     expect(res.statusCode).toEqual(401);

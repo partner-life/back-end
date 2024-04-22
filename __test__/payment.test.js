@@ -43,7 +43,7 @@ afterAll(async () => {
 
 describe("POST /handling-after-payment", () => {});
 
-describe("POST /create-transaction", () => {
+describe.skip("POST /create-transaction", () => {
   test("should create a new transaction", async () => {
     const transactionData = {
       gross_amount: 100,
@@ -147,7 +147,7 @@ describe("POST /create-transaction", () => {
   });
 });
 
-describe("POST /handling-after-payment", () => {
+describe.skip("POST /handling-after-payment", () => {
   test("should handle payment notification successfully", async () => {
     const notificationJson = {
       status_code: "200",

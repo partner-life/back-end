@@ -20,6 +20,10 @@ function errorHandler(err, req, res, next) {
       statusCode = 403;
       errorMessage = err.message || "You're not authorized";
       break;
+    case "BSONError":
+      statusCode = 404;
+      errorMessage = "Packet Not Found";
+      break;
     default:
       statusCode = 500;
       errorMessage = "Internal Server Error";

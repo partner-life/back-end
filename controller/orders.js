@@ -6,15 +6,10 @@ const nodemailer = require("nodemailer");
 class OrdersController {
   static async createOrders(req, res, next) {
     try {
-      const {
-        nameHusband,
-        nameWife,
-        address,
-        phoneNumber,
-        dateOfMerried,
-        packetId,
-      } = req.body;
-
+      const { nameHusband, nameWife, address, phoneNumber, dateOfMerried } =
+        req.body;
+      const { packetId } = req.params;
+      if (!packetId) throw { name: "NotFound", message: "Packet Not Found" };
       if (!nameHusband)
         throw { name: "BadRequest", message: "name of husband is required" };
       if (!nameWife)
