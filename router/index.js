@@ -68,5 +68,6 @@ router.delete(
 router.get("/totalPrice", OrdersController.showTotalPrice);
 router.get("/allOrders", OrdersController.showAllOrders);
 router.get("/muchOrder", OrdersController.showMuchOrders);
+router.get("/detailOrder/:orderId", OrdersController.finOrdersById);
 
 module.exports = router;
