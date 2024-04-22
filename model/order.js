@@ -99,5 +99,33 @@ class Orders {
       ])
       .toArray();
   }
+  static async findOrderByUser(userId) {
+    return database
+      .collection("Orders")
+      .aggregate([
+        {
+          $match: {
+            UserId: userId,
+          },
+        },
+        {
+          $lookup: {
+            from: "Users",
+            localField: "UserId",
+            foreignField: "_id",
+            as: "User",
+          },
+        },
+        {
+          $lookup: {
+            from: "Packages",
+            localField: "PackageId",
+            foreignField: "_id",
+            as: "Package",
+          },
+        },
+      ])
+      .toArray();
+  }
 }
 module.exports = Orders;
