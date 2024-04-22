@@ -15,7 +15,7 @@ class Orders {
     const packet = await database.collection("Packages").findOne({ _id: id });
     const newOrders = database.collection("Orders").insertOne({
       UserId: userId,
-      PacketId: packetId,
+      PackageId: id,
       status: "false",
       price: packet.price,
       Profile: {
@@ -81,7 +81,27 @@ class Orders {
     return formattedResult;
   }
   static async finOrders() {
-    return database.collection("Orders").find({}).toArray();
+    return await database
+      .collection("Orders")
+      .aggregate([
+        {
+          $lookup: {
+            from: "Users",
+            localField: "UserId",
+            foreignField: "_id",
+            as: "User",
+          },
+        },
+        {
+          $lookup: {
+            from: "Packages",
+            localField: "PackageId",
+            foreignField: "_id",
+            as: "Package",
+          },
+        },
+      ])
+      .toArray();
   }
 }
 module.exports = Orders;

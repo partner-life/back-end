@@ -19,18 +19,24 @@ beforeAll(async () => {
 let access_token;
 
 const userData = {
-  nameHusband: "Toba",
-  nameWife: "NameOfWife",
-  address: "123 Main Street",
-  phoneNumber: "123-456-7890",
-  dateOfMerried: "2024-05-01",
+  UserId: "6624fdb5a004ed8151377370",
+  PackagesId: "66234fdc5de01fedc08b3fcf",
+  status: "false",
+  price: 100000000,
+  Profil: {
+    HusbandName: "Toba",
+    WifeName: "NameOfWife",
+    address: "123 Main Street",
+    phoneNumber: "123-456-7890",
+    dateOfMerried: "2024-05-01",
+  },
 };
 
-describe.skip("POST /addOrders", () => {
-  test("should be able to add order", async () => {
+describe("POST /updateOrders/:orderId", () => {
+  test("should be able to update order", async () => {
     // console.log(access_token)
     const response = await request(app)
-      .post("/addOrders/66223439ea966fac0f1487a2")
+      .put("/updateOrders/6626178e5d8beda72bc16784")
       .set("Authorization", "Bearer " + access_token)
       .send(userData);
     console.log(response.body);
@@ -40,24 +46,24 @@ describe.skip("POST /addOrders", () => {
     const { nameHusband, ...userDataWithoutNameHusband } = userData;
 
     const response = await request(app)
-      .post("/addOrders/66223439ea966fac0f1487a2")
+      .put("/updateOrders/662617da4c9ff35ceb2e15d9")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutNameHusband);
-
+    console.log(response.body);
     expect(response.status).toBe(400);
   });
 
-  test("should return error if nameWife is missing", async () => {
+  test.skip("should return error if nameWife is missing", async () => {
     const { nameWife, ...userDataWithoutNameWife } = userData;
 
     const response = await request(app)
-      .post("/addOrders/66223439ea966fac0f1487a2")
+      .post("/addOrders/6626178e5d8beda72bc16784")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutNameWife);
 
     expect(response.status).toBe(400);
   });
-  test("should return error if nameWife is missing", async () => {
+  test.skip("should return error if nameWife is missing", async () => {
     const { address, ...userDataWithoutAddress } = userData;
 
     const response = await request(app)
@@ -67,7 +73,7 @@ describe.skip("POST /addOrders", () => {
 
     expect(response.status).toBe(400);
   });
-  test("should return error if nameWife is missing", async () => {
+  test.skip("should return error if nameWife is missing", async () => {
     const { phoneNumber, ...userDataWithoutPhoneNumber } = userData;
 
     const response = await request(app)
@@ -77,7 +83,7 @@ describe.skip("POST /addOrders", () => {
 
     expect(response.status).toBe(400);
   });
-  test("should return error if nameWife is missing", async () => {
+  test.skip("should return error if nameWife is missing", async () => {
     const { dateOfMerried, ...userDataWithoutDate } = userData;
 
     const response = await request(app)
@@ -87,7 +93,7 @@ describe.skip("POST /addOrders", () => {
 
     expect(response.status).toBe(400);
   });
-  test("should return error if nameWife is missing", async () => {
+  test.skip("should return error if nameWife is missing", async () => {
     const response = await request(app)
       .post("/addOrders/")
       .set("Authorization", "Bearer " + access_token)
@@ -95,7 +101,7 @@ describe.skip("POST /addOrders", () => {
 
     expect(response.status).toBe(404);
   });
-  test("should return error if nameWife is missing", async () => {
+  test.skip("should return error if nameWife is missing", async () => {
     const response = await request(app)
       .post("/addOrders/16783672")
       .set("Authorization", "Bearer " + access_token)

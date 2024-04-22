@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
+                <span class="strong">41.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/24</span>
+                <span class='fraction'>10/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">14.28% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/14</span>
+                <span class='fraction'>2/14</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
+                <span class="strong">41.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/24</span>
+                <span class='fraction'>10/24</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -98,15 +98,11 @@
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -120,27 +116,31 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">function errorHandler(err, req, res, next) {
   let statusCode = 500;
   let errorMessage = "Internal Server Error";
   console.log({ errorName: err.name });
   console.log({ errorMessage: err.message });
   switch (err.name) {
-    case "BadRequest":
-      statusCode = 400;
-      errorMessage = err.message || <span class="branch-1 cbranch-no" title="branch not covered" >"Bad Request";</span>
-      break;
+<span class="branch-0 cbranch-no" title="branch not covered" >    case "BadRequest":</span>
+<span class="cstat-no" title="statement not covered" >      statusCode = 400;</span>
+<span class="cstat-no" title="statement not covered" >      errorMessage = err.message || "Bad Request";</span>
+<span class="cstat-no" title="statement not covered" >      break;</span>
 <span class="branch-1 cbranch-no" title="branch not covered" >    case "unauthorized":</span>
 <span class="cstat-no" title="statement not covered" >      statusCode = 401;</span>
 <span class="cstat-no" title="statement not covered" >      errorMessage = err.message || "Unauthorized";</span>
@@ -149,17 +149,17 @@
 <span class="cstat-no" title="statement not covered" >      statusCode = 404;</span>
 <span class="cstat-no" title="statement not covered" >      errorMessage = err.message || "Not Found";</span>
 <span class="cstat-no" title="statement not covered" >      break;</span>
-<span class="branch-3 cbranch-no" title="branch not covered" >    case "Forbidden":</span>
-<span class="cstat-no" title="statement not covered" >      statusCode = 403;</span>
-<span class="cstat-no" title="statement not covered" >      errorMessage = err.message || "You're not authorized";</span>
-<span class="cstat-no" title="statement not covered" >      break;</span>
-    case "BSONError":
-      statusCode = 404;
-      errorMessage = "Packet Not Found";
+    case "Forbidden":
+      statusCode = 403;
+      errorMessage = err.message || <span class="branch-1 cbranch-no" title="branch not covered" >"You're not authorized";</span>
       break;
-    default:
-      statusCode = 500;
-      errorMessage = "Internal Server Error";
+<span class="branch-4 cbranch-no" title="branch not covered" >    case "BSONError":</span>
+<span class="cstat-no" title="statement not covered" >      statusCode = 404;</span>
+<span class="cstat-no" title="statement not covered" >      errorMessage = "Packet Not Found";</span>
+<span class="cstat-no" title="statement not covered" >      break;</span>
+<span class="branch-5 cbranch-no" title="branch not covered" >    default:</span>
+<span class="cstat-no" title="statement not covered" >      statusCode = 500;</span>
+<span class="cstat-no" title="statement not covered" >      errorMessage = "Internal Server Error";</span>
   }
   res.status(statusCode).json({ message: errorMessage });
 }
@@ -172,7 +172,7 @@ module.exports = errorHandler;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-22T06:56:12.333Z
+                at 2024-04-22T07:57:42.762Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
