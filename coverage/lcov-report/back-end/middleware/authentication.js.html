@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">22.22% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/18</span>
+                <span class='fraction'>4/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.33% </span>
+                <span class="strong">26.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/15</span>
+                <span class='fraction'>4/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -90,20 +90,20 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -112,21 +112,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { verifyToken } = require("../helper/jwt");
 const User = require("../model/user");
 &nbsp;
-const authentication = async (req, res, next) =&gt; {
-  try {
-    const bearerToken = req.headers.authorization;
+const authentication = <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const bearerToken = <span class="cstat-no" title="statement not covered" >req.headers.authorization;</span>
 &nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!bearerToken) <span class="cstat-no" title="statement not covered" >throw { name: "unauthorized", message: "Authorization Token is missing" };</span>
-    const access_token = bearerToken.slice("Bearer ".length);
+<span class="cstat-no" title="statement not covered" >    if (!bearerToken) <span class="cstat-no" title="statement not covered" >throw { name: "unauthorized", message: "Authorization Token is missing" };</span></span>
+    const access_token = <span class="cstat-no" title="statement not covered" >bearerToken.slice("Bearer ".length);</span>
 &nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!access_token) <span class="cstat-no" title="statement not covered" >throw { name: "unauthorized", message: "Invalid Token" };</span>
-    const { id } = verifyToken(access_token);
+<span class="cstat-no" title="statement not covered" >    if (!access_token) <span class="cstat-no" title="statement not covered" >throw { name: "unauthorized", message: "Invalid Token" };</span></span>
+    const { id } = <span class="cstat-no" title="statement not covered" >verifyToken(access_token);</span>
 &nbsp;
-    const user = await User.FindByPk(id);
+    const user = <span class="cstat-no" title="statement not covered" >await User.FindByPk(id);</span>
 &nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) <span class="cstat-no" title="statement not covered" >throw { name: "unauthorized", message: "User not authorized" };</span>
-    req.user = user;
-    next();
+<span class="cstat-no" title="statement not covered" >    if (!user) <span class="cstat-no" title="statement not covered" >throw { name: "unauthorized", message: "User not authorized" };</span></span>
+<span class="cstat-no" title="statement not covered" >    req.user = user;</span>
+<span class="cstat-no" title="statement not covered" >    next();</span>
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    next(error);</span>
   }
@@ -139,7 +139,7 @@ module.exports = authentication;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-22T07:57:42.762Z
+                at 2024-04-22T08:41:20.184Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
