@@ -59,6 +59,17 @@ router.put(
   authorization,
   OrdersController.editOrders
 );
+router.post(
+  "/addOrders/:packetId",
+  authentication,
+  OrdersController.createOrders
+);
+router.put(
+  "/updateOrders/:orderId",
+  authentication,
+  authorization,
+  OrdersController.editOrders
+);
 
 router.get("/totalPrice", OrdersController.showTotalPrice);
 router.get("/allOrders", OrdersController.showAllOrders);

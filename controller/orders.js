@@ -184,7 +184,6 @@ class OrdersController {
       next(error);
     }
   }
-
   static async showOrderById(req, res, next) {
     try {
       const userId = req.user._id;
