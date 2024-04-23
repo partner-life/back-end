@@ -16,7 +16,7 @@ class Orders {
     const newOrders = database.collection("Orders").insertOne({
       UserId: userId,
       PackageId: id,
-      status: "false",
+      status: "Belum Bayar",
       price: packet.price,
       Profile: {
         husbandName: husbandName,
