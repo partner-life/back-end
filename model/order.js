@@ -30,26 +30,26 @@ class Orders {
    static async updateOrders(orderId, address, phoneNumber, nameHusband, nameWife, dateOfMerried) {
       const id = new ObjectId(orderId);
 
-      const order = await database.collection("Orders").updateOne(
-         { _id: id },
-         {
-            $set: {
-               address: address,
-               phoneNumber: phoneNumber,
-               nameHusband: nameHusband,
-               nameWife: nameWife,
-               dateOfMarried: dateOfMerried,
-            },
-         }
-      );
-      return order;
-   }
-   static async findOrderById(orderId) {
-      const id = new ObjectId(orderId);
-      return await database.collection("Orders").findOne({ _id: id });
-   }
-   static async getTotalPrice() {
-      const allOrders = await database.collection("Orders").find({}).toArray();
+    const order = await database.collection("Orders").updateOne(
+      { _id: id },
+      {
+        $set: {
+          "Profil.address": address,
+          "Profil.phoneNumber": phoneNumber,
+          "Profil.nameHusband": nameHusband,
+          "Profil.nameWife": nameWife,
+          "Profil.dateOfMarried": dateOfMerried,
+        },
+      }
+    );
+    return order;
+  }
+  static async findOrderById(orderId) {
+    const id = new ObjectId(orderId);
+    return await database.collection("Orders").findOne({ _id: id });
+  }
+  static async getTotalPrice() {
+    const allOrders = await database.collection("Orders").find({}).toArray();
 
       const result = allOrders.reduce((total, order) => {
          return total + parseInt(order.price);

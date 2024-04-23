@@ -30,11 +30,18 @@ router.patch("/add-images/:packageId", upload.array("images", 10), authenticatio
 router.post("/create-transaction/:orderId", authentication, PaymentController.createTransaction);
 router.post("/handling-after-payment", PaymentController.handleNotification);
 router.post("/nodemailer", authentication, OrdersController.nodemailer);
-router.post("/paidNodemailer", authentication, PaymentController.paidNodemailer);
 
-router.post("/addOrders/:packetId", authentication, OrdersController.createOrders);
-router.put("/updateOrders/:orderId", authentication, authorization, OrdersController.editOrders);
-router.put("/updateOrders/:orderId", authentication, authorization, OrdersController.editOrders);
+router.post(
+  "/addOrders/:packetId",
+  authentication,
+  OrdersController.createOrders
+);
+router.put(
+  "/updateOrders/:orderId",
+  authentication,
+  authorization,
+  OrdersController.editOrders
+);
 
 router.get("/totalPrice", OrdersController.showTotalPrice);
 router.get("/allOrders", OrdersController.showAllOrders);

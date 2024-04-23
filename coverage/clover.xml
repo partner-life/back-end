@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1713841572637" clover="3.2.0">
-  <project timestamp="1713841572638" name="All files">
-    <metrics statements="435" coveredstatements="387" conditionals="126" coveredconditionals="105" methods="55" coveredmethods="51" elements="616" coveredelements="543" complexity="0" loc="435" ncloc="435" packages="7" files="16" classes="16"/>
+<coverage generated="1713814013721" clover="3.2.0">
+  <project timestamp="1713814013721" name="All files">
+    <metrics statements="423" coveredstatements="382" conditionals="126" coveredconditionals="106" methods="54" coveredmethods="51" elements="603" coveredelements="539" complexity="0" loc="423" ncloc="423" packages="7" files="16" classes="16"/>
     <package name="back-end">
       <metrics statements="14" coveredstatements="14" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
       <file name="app.js" path="C:\Users\rohim\back-end\app.js">
