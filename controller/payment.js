@@ -52,7 +52,6 @@ class PaymentController {
          };
 
          const transaction = await snap.createTransaction(parameter);
-
          res.status(200).json(transaction);
       } catch (error) {
          console.log(error.message);
