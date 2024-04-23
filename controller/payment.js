@@ -71,7 +71,6 @@ class PaymentController {
 
          if (transactionStatus == "settlement") {
             await payment.updateOrderStatus(order_id, "Sudah dibayar");
-            await PaymentController.paidNodemailer(req, res, next);
             res.status(200).send({ message: "Success Payment" });
          } else if (transactionStatus == "pending") {
             await payment.updateOrderStatus(order_id, "Belum dibayar");

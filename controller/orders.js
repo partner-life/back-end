@@ -38,6 +38,7 @@ class OrdersController {
       try {
          const { orderId } = req.body;
          const user = req.user;
+         console.log(orderId, "orderId");
 
          const transporter = nodemailer.createTransport({
             service: "gmail",
