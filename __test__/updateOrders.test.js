@@ -36,28 +36,28 @@ describe("POST /updateOrders/:orderId", () => {
     // console.log(response.body);
   });
 
-  test("should return error if nameHusband is missing", async () => {
-    const { HusbandName, ...userDataWithoutNameHusband } = userData;
+  test("should return error if husbandName is missing", async () => {
+    const { HusbandName, ...userDataWithoutHusbandName } = userData;
 
     const response = await request(app)
       .put("/updateOrders/66262b298bfaffc0f1dc44d1")
       .set("Authorization", "Bearer " + access_token)
-      .send(userDataWithoutNameHusband);
+      .send(userDataWithoutHusbandName);
     console.log(response.body);
     expect(response.status).toBe(400);
   });
 
-  test("should return error if nameWife is missing", async () => {
-    const { WifeName, ...userDataWithoutNameWife } = userData;
+  test("should return error if wifeName is missing", async () => {
+    const { WifeName, ...userDataWithoutWifeName } = userData;
 
     const response = await request(app)
       .put("/updateOrders/66262b298bfaffc0f1dc44d1")
       .set("Authorization", "Bearer " + access_token)
-      .send(userDataWithoutNameWife);
+      .send(userDataWithoutWifeName);
 
     expect(response.status).toBe(400);
   });
-  test("should return error if nameWife is missing", async () => {
+  test("should return error if wifeName is missing", async () => {
     const { address, ...userDataWithoutAddress } = userData;
 
     const response = await request(app)
@@ -67,7 +67,7 @@ describe("POST /updateOrders/:orderId", () => {
 
     expect(response.status).toBe(400);
   });
-  test("should return error if nameWife is missing", async () => {
+  test("should return error if wifeName is missing", async () => {
     const { phoneNumber, ...userDataWithoutPhoneNumber } = userData;
 
     const response = await request(app)
@@ -77,7 +77,7 @@ describe("POST /updateOrders/:orderId", () => {
 
     expect(response.status).toBe(400);
   });
-  test("should return error if nameWife is missing", async () => {
+  test("should return error if wifeName is missing", async () => {
     const { dateOfMerried, ...userDataWithoutDate } = userData;
 
     const response = await request(app)
@@ -87,7 +87,7 @@ describe("POST /updateOrders/:orderId", () => {
 
     expect(response.status).toBe(400);
   });
-  test("should return error if nameWife is missing", async () => {
+  test("should return error if wifeName is missing", async () => {
     const response = await request(app)
       .put("/updateOrders/")
       .set("Authorization", "Bearer " + access_token)
@@ -95,7 +95,7 @@ describe("POST /updateOrders/:orderId", () => {
 
     expect(response.status).toBe(404);
   });
-  test("should return error if nameWife is missing", async () => {
+  test("should return error if wifeName is missing", async () => {
     const response = await request(app)
       .put("/updateOrders/662630f838e1357fa07aba40")
       .set("Authorization", "Bearer " + access_token)
@@ -103,7 +103,7 @@ describe("POST /updateOrders/:orderId", () => {
 
     expect(response.status).toBe(403);
   });
-  test("should return error if nameWife is missing", async () => {
+  test("should return error if wifeName is missing", async () => {
     const response = await request(app)
       .put("/updateOrders/66262b298bfaffc0f1dc44d1")
       .set("Authorization", "Bearer " + access_token)
@@ -123,5 +123,5 @@ describe("POST /updateOrders/:orderId", () => {
 afterAll(async () => {
   await database
     .collection("Orders")
-    .deleteOne({ Profil: { nameHusband: userData.nameHusband } });
+    .deleteOne({ Profil: { husbandName: userData.husbandName } });
 });

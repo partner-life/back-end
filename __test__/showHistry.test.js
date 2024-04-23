@@ -28,7 +28,7 @@ describe("POST /historyOrder", () => {
     // console.log(response.body);
   });
 
-  test("should return error if nameHusband is missing", async () => {
+  test("should return error if husbandName is missing", async () => {
     const response = await request(app)
       .get("/historyOrder")
       .set("Authorization", "Bea " + access_token);

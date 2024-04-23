@@ -7,8 +7,8 @@ class Orders {
     packetId,
     address,
     phoneNumber,
-    nameHusband,
-    nameWife,
+    husbandName,
+    wifeName,
     dateOfMerried
   ) {
     const id = new ObjectId(packetId);
@@ -19,8 +19,8 @@ class Orders {
       status: "false",
       price: packet.price,
       Profile: {
-        nameHusband: nameHusband,
-        nameWife: nameWife,
+        husbandName: husbandName,
+        wifeName: wifeName,
         address: address,
         phoneNumber: phoneNumber,
         dateOfMerried: dateOfMerried,
@@ -41,8 +41,8 @@ class Orders {
     orderId,
     address,
     phoneNumber,
-    nameHusband,
-    nameWife,
+    husbandName,
+    wifeName,
     dateOfMerried
   ) {
     const id = new ObjectId(orderId);
@@ -53,8 +53,8 @@ class Orders {
         $set: {
           "Profil.address": address,
           "Profil.phoneNumber": phoneNumber,
-          "Profil.nameHusband": nameHusband,
-          "Profil.nameWife": nameWife,
+          "Profil.husbandName": husbandName,
+          "Profil.wifeName": wifeName,
           "Profil.dateOfMarried": dateOfMerried,
         },
       }

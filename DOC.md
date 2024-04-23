@@ -296,8 +296,8 @@ Allows for the creation of a new order with details about the wedding, including
 - **Method**: `POST`
 - **Auth Required**: Yes
 - **Request Body**:
-  - `nameHusband` (required): Name of the husband.
-  - `nameWife` (required): Name of the wife.
+  - `husbandName` (required): Name of the husband.
+  - `wifeName` (required): Name of the wife.
   - `address` (required): Address for the wedding.
   - `phoneNumber` (required): Contact phone number.
   - `dateOfMerried` (required): Date of the marriage.
@@ -312,8 +312,8 @@ Allows for the creation of a new order with details about the wedding, including
   "message": "Order created successfully",
   "orderId": "unique_order_id",
   "details": {
-    "nameHusband": "John Doe",
-    "nameWife": "Jane Doe",
+    "husbandName": "John Doe",
+    "wifeName": "Jane Doe",
     "address": "123 Wedding Lane",
     "phoneNumber": "1234567890",
     "dateOfMerried": "2023-12-31",
