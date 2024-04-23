@@ -19,7 +19,7 @@ beforeAll(async () => {
 let access_token;
 
 const userData = {
-  HusbandName: "Toba",
+  husbandName: "Toba",
   WifeName: "NameOfWife",
   address: "123 Main Street",
   phoneNumber: "123-456-7890",
@@ -37,7 +37,7 @@ describe("POST /updateOrders/:orderId", () => {
   });
 
   test("should return error if husbandName is missing", async () => {
-    const { HusbandName, ...userDataWithoutHusbandName } = userData;
+    const { husbandName, ...userDataWithoutHusbandName } = userData;
 
     const response = await request(app)
       .put("/updateOrders/66262b298bfaffc0f1dc44d1")
@@ -108,8 +108,8 @@ describe("POST /updateOrders/:orderId", () => {
       .put("/updateOrders/66262b298bfaffc0f1dc44d1")
       .set("Authorization", "Bearer " + access_token)
       .send({
-        HusbandName: "Toba",
-        WifeName: "NameOfWife",
+        husbandName: "Toba",
+        wifeName: "NameOfWife",
         address: "123 Main Street",
         phoneNumber: "123-456-7890",
         dateOfMerried: "2024-04-01",
