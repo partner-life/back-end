@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1713862317930" clover="3.2.0">
-  <project timestamp="1713862317930" name="All files">
-    <metrics statements="436" coveredstatements="358" conditionals="126" coveredconditionals="92" methods="55" coveredmethods="49" elements="617" coveredelements="499" complexity="0" loc="436" ncloc="436" packages="7" files="16" classes="16"/>
+<coverage generated="1713864012752" clover="3.2.0">
+  <project timestamp="1713864012752" name="All files">
+    <metrics statements="440" coveredstatements="385" conditionals="126" coveredconditionals="105" methods="55" coveredmethods="51" elements="621" coveredelements="541" complexity="0" loc="440" ncloc="440" packages="7" files="16" classes="16"/>
     <package name="back-end">
       <metrics statements="14" coveredstatements="14" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
       <file name="app.js" path="/Users/abdularifin/Desktop/back-end/app.js">
@@ -35,9 +35,9 @@
       </file>
     </package>
     <package name="back-end.controller">
-      <metrics statements="244" coveredstatements="182" conditionals="90" coveredconditionals="67" methods="22" coveredmethods="20"/>
+      <metrics statements="244" coveredstatements="200" conditionals="90" coveredconditionals="79" methods="22" coveredmethods="21"/>
       <file name="orders.js" path="/Users/abdularifin/Desktop/back-end/controller/orders.js">
-        <metrics statements="68" coveredstatements="34" conditionals="26" coveredconditionals="13" methods="6" coveredmethods="4"/>
+        <metrics statements="68" coveredstatements="52" conditionals="26" coveredconditionals="25" methods="6" coveredmethods="5"/>
         <line num="1" count="12" type="stmt"/>
         <line num="2" count="12" type="stmt"/>
         <line num="3" count="12" type="stmt"/>
@@ -74,24 +74,24 @@
         <line num="124" count="0" type="stmt"/>
         <line num="131" count="0" type="stmt"/>
         <line num="135" count="0" type="stmt"/>
-        <line num="139" count="0" type="stmt"/>
-        <line num="140" count="0" type="stmt"/>
-        <line num="142" count="0" type="stmt"/>
-        <line num="143" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="144" count="0" type="stmt"/>
-        <line num="145" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="146" count="0" type="stmt"/>
-        <line num="147" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="148" count="0" type="stmt"/>
-        <line num="149" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="150" count="0" type="stmt"/>
-        <line num="151" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="152" count="0" type="stmt"/>
-        <line num="153" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="154" count="0" type="stmt"/>
-        <line num="159" count="0" type="stmt"/>
-        <line num="167" count="0" type="stmt"/>
-        <line num="169" count="0" type="stmt"/>
+        <line num="139" count="7" type="stmt"/>
+        <line num="140" count="7" type="stmt"/>
+        <line num="142" count="7" type="stmt"/>
+        <line num="143" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="144" count="1" type="stmt"/>
+        <line num="145" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="146" count="1" type="stmt"/>
+        <line num="147" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="148" count="1" type="stmt"/>
+        <line num="149" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="150" count="1" type="stmt"/>
+        <line num="151" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="152" count="1" type="stmt"/>
+        <line num="153" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="154" count="1" type="stmt"/>
+        <line num="159" count="1" type="stmt"/>
+        <line num="167" count="1" type="stmt"/>
+        <line num="169" count="6" type="stmt"/>
         <line num="174" count="1" type="stmt"/>
         <line num="175" count="1" type="stmt"/>
         <line num="176" count="1" type="stmt"/>
@@ -314,7 +314,7 @@
       </file>
     </package>
     <package name="back-end.middleware">
-      <metrics statements="53" coveredstatements="50" conditionals="24" coveredconditionals="16" methods="3" coveredmethods="3"/>
+      <metrics statements="56" coveredstatements="55" conditionals="24" coveredconditionals="17" methods="3" coveredmethods="3"/>
       <file name="authentication.js" path="/Users/abdularifin/Desktop/back-end/middleware/authentication.js">
         <metrics statements="15" coveredstatements="15" conditionals="6" coveredconditionals="4" methods="1" coveredmethods="1"/>
         <line num="1" count="12" type="stmt"/>
@@ -334,7 +334,7 @@
         <line num="23" count="12" type="stmt"/>
       </file>
       <file name="authorization.js" path="/Users/abdularifin/Desktop/back-end/middleware/authorization.js">
-        <metrics statements="14" coveredstatements="11" conditionals="4" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <metrics statements="17" coveredstatements="16" conditionals="4" coveredconditionals="3" methods="1" coveredmethods="1"/>
         <line num="3" count="12" type="stmt"/>
         <line num="5" count="12" type="stmt"/>
         <line num="6" count="8" type="stmt"/>
@@ -343,45 +343,48 @@
         <line num="11" count="8" type="stmt"/>
         <line num="13" count="8" type="cond" truecount="1" falsecount="1"/>
         <line num="14" count="0" type="stmt"/>
-        <line num="17" count="8" type="cond" truecount="1" falsecount="1"/>
+        <line num="16" count="8" type="stmt"/>
+        <line num="17" count="8" type="stmt"/>
         <line num="18" count="8" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="22" count="8" type="stmt"/>
-        <line num="25" count="12" type="stmt"/>
+        <line num="20" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="7" type="stmt"/>
+        <line num="23" count="7" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="28" count="12" type="stmt"/>
       </file>
       <file name="errorHandler.js" path="/Users/abdularifin/Desktop/back-end/middleware/errorHandler.js">
         <metrics statements="24" coveredstatements="24" conditionals="14" coveredconditionals="10" methods="1" coveredmethods="1"/>
-        <line num="2" count="54" type="stmt"/>
-        <line num="3" count="54" type="stmt"/>
-        <line num="4" count="54" type="stmt"/>
-        <line num="5" count="54" type="stmt"/>
-        <line num="6" count="54" type="cond" truecount="6" falsecount="0"/>
-        <line num="8" count="19" type="stmt"/>
-        <line num="9" count="19" type="cond" truecount="1" falsecount="1"/>
-        <line num="10" count="19" type="stmt"/>
+        <line num="2" count="53" type="stmt"/>
+        <line num="3" count="53" type="stmt"/>
+        <line num="4" count="53" type="stmt"/>
+        <line num="5" count="53" type="stmt"/>
+        <line num="6" count="53" type="cond" truecount="6" falsecount="0"/>
+        <line num="8" count="25" type="stmt"/>
+        <line num="9" count="25" type="cond" truecount="1" falsecount="1"/>
+        <line num="10" count="25" type="stmt"/>
         <line num="12" count="12" type="stmt"/>
         <line num="13" count="12" type="cond" truecount="1" falsecount="1"/>
         <line num="14" count="12" type="stmt"/>
         <line num="16" count="9" type="stmt"/>
         <line num="17" count="9" type="cond" truecount="1" falsecount="1"/>
         <line num="18" count="9" type="stmt"/>
-        <line num="20" count="8" type="stmt"/>
-        <line num="21" count="8" type="cond" truecount="1" falsecount="1"/>
-        <line num="22" count="8" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="22" count="1" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
         <line num="25" count="1" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
         <line num="28" count="5" type="stmt"/>
         <line num="29" count="5" type="stmt"/>
-        <line num="31" count="54" type="stmt"/>
+        <line num="31" count="53" type="stmt"/>
         <line num="34" count="12" type="stmt"/>
       </file>
     </package>
     <package name="back-end.model">
-      <metrics statements="75" coveredstatements="63" conditionals="10" coveredconditionals="8" methods="26" coveredmethods="23"/>
+      <metrics statements="76" coveredstatements="67" conditionals="10" coveredconditionals="8" methods="26" coveredmethods="24"/>
       <file name="order.js" path="/Users/abdularifin/Desktop/back-end/model/order.js">
-        <metrics statements="22" coveredstatements="16" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="7"/>
+        <metrics statements="23" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="8"/>
         <line num="1" count="12" type="stmt"/>
         <line num="2" count="12" type="stmt"/>
         <line num="14" count="2" type="stmt"/>
@@ -389,21 +392,22 @@
         <line num="16" count="1" type="stmt"/>
         <line num="29" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="35" count="4" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="65" count="9" type="stmt"/>
-        <line num="66" count="9" type="stmt"/>
-        <line num="94" count="1" type="stmt"/>
-        <line num="96" count="1" type="stmt"/>
+        <line num="35" count="12" type="stmt"/>
+        <line num="36" count="12" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+        <line num="67" count="1" type="stmt"/>
+        <line num="95" count="1" type="stmt"/>
         <line num="97" count="1" type="stmt"/>
-        <line num="100" count="1" type="stmt"/>
-        <line num="102" count="1" type="stmt"/>
-        <line num="105" count="1" type="stmt"/>
-        <line num="128" count="1" type="stmt"/>
-        <line num="156" count="12" type="stmt"/>
+        <line num="98" count="5" type="stmt"/>
+        <line num="101" count="1" type="stmt"/>
+        <line num="103" count="1" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="129" count="1" type="stmt"/>
+        <line num="157" count="12" type="stmt"/>
       </file>
       <file name="package.js" path="/Users/abdularifin/Desktop/back-end/model/package.js">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>

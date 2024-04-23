@@ -24,6 +24,8 @@ class Orders {
         address: address,
         phoneNumber: phoneNumber,
         dateOfMerried: dateOfMerried,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     });
     const result = database
@@ -31,8 +33,9 @@ class Orders {
       .findOne((await newOrders).insertedId);
     return result;
   }
-  static async ordersById(_id) {
-    return await database.collection("Orders").findOne(_id);
+  static async ordersById(orderId) {
+    const id = new ObjectId(orderId);
+    return await database.collection("Orders").findOne({ _id: id });
   }
   static async allOrders() {
     return await database.collection("Orders").find({}).toArray();

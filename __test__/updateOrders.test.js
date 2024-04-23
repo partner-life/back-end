@@ -20,7 +20,7 @@ let access_token;
 
 const userData = {
   husbandName: "Toba",
-  WifeName: "NameOfWife",
+  wifeName: "NameOfWife",
   address: "123 Main Street",
   phoneNumber: "123-456-7890",
   dateOfMerried: "2024-05-01",
@@ -30,7 +30,7 @@ describe("POST /updateOrders/:orderId", () => {
   test("should be able to update order", async () => {
     // console.log(access_token)
     const response = await request(app)
-      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
+      .put("/updateOrders/66277a7d99575bf6c39e0e26")
       .set("Authorization", "Bearer " + access_token)
       .send(userData);
     // console.log(response.body);
@@ -40,18 +40,18 @@ describe("POST /updateOrders/:orderId", () => {
     const { husbandName, ...userDataWithoutHusbandName } = userData;
 
     const response = await request(app)
-      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
+      .put("/updateOrders/66277a7d99575bf6c39e0e26")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutHusbandName);
-    console.log(response.body);
+
     expect(response.status).toBe(400);
   });
 
   test("should return error if wifeName is missing", async () => {
-    const { WifeName, ...userDataWithoutWifeName } = userData;
+    const { wifeName, ...userDataWithoutWifeName } = userData;
 
     const response = await request(app)
-      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
+      .put("/updateOrders/66277a7d99575bf6c39e0e26")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutWifeName);
 
@@ -61,7 +61,7 @@ describe("POST /updateOrders/:orderId", () => {
     const { address, ...userDataWithoutAddress } = userData;
 
     const response = await request(app)
-      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
+      .put("/updateOrders/66277a7d99575bf6c39e0e26")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutAddress);
 
@@ -71,7 +71,7 @@ describe("POST /updateOrders/:orderId", () => {
     const { phoneNumber, ...userDataWithoutPhoneNumber } = userData;
 
     const response = await request(app)
-      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
+      .put("/updateOrders/66277a7d99575bf6c39e0e26")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutPhoneNumber);
 
@@ -81,7 +81,7 @@ describe("POST /updateOrders/:orderId", () => {
     const { dateOfMerried, ...userDataWithoutDate } = userData;
 
     const response = await request(app)
-      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
+      .put("/updateOrders/66277a7d99575bf6c39e0e26")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutDate);
 
@@ -97,7 +97,7 @@ describe("POST /updateOrders/:orderId", () => {
   });
   test("should return error if wifeName is missing", async () => {
     const response = await request(app)
-      .put("/updateOrders/662630f838e1357fa07aba40")
+      .put("/updateOrders/662779945e85405c4261fbaf")
       .set("Authorization", "Bearer " + access_token)
       .send(userData);
 
@@ -105,7 +105,7 @@ describe("POST /updateOrders/:orderId", () => {
   });
   test("should return error if wifeName is missing", async () => {
     const response = await request(app)
-      .put("/updateOrders/66262b298bfaffc0f1dc44d1")
+      .put("/updateOrders/66277a7d99575bf6c39e0e26")
       .set("Authorization", "Bearer " + access_token)
       .send({
         husbandName: "Toba",
@@ -120,8 +120,8 @@ describe("POST /updateOrders/:orderId", () => {
   });
 });
 
-afterAll(async () => {
-  await database
-    .collection("Orders")
-    .deleteOne({ Profil: { husbandName: userData.husbandName } });
-});
+// afterAll(async () => {
+//   await database
+//     .collection("Orders")
+//     .deleteOne({ Profil: { husbandName: userData.husbandName } });
+// });
