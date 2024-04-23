@@ -24,8 +24,8 @@
                 "address":"string",
                 "phoneNumber":"string",
                 "secondPhoneNumber": "string",
-                "nameHusband":"string",
-                "nameWife":"string",
+                "husbandName":"string",
+                "wifeName":"string",
                 "dateOfMerried":"Date"
             }
         }
