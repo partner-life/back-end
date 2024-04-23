@@ -71,7 +71,8 @@ class PaymentController {
 
          if (transactionStatus == "settlement") {
             await payment.updateOrderStatus(order_id, "Sudah dibayar");
-            res.status(200).send({ message: "Success Payment" });
+            await PaymentController.paidNodemailer(req, res, next);
+            // res.status(200).send({ message: "Success Payment" });
          } else if (transactionStatus == "pending") {
             await payment.updateOrderStatus(order_id, "Belum dibayar");
             res.status(200).send({ message: "Pending Payment" });
@@ -84,8 +85,14 @@ class PaymentController {
 
    static async paidNodemailer(req, res, next) {
       try {
-         const { order_id, price } = req.body;
-         const user = req.user;
+         const { order_id, gross_amount } = req.body;
+         const [id, randomNumber] = order_id.split("_");
+         // console.log(id, "id masuk <<<<<<");
+         // console.log(order_id, "order id <<<<<<");
+         // console.log(gross_amount, "price <<<<<<");
+         const order = await Orders.findOrderById(new ObjectId(id));
+         const emailToUser = order[0].User[0].email;
+         const username = order[0].User[0].name;
 
          const transporter = nodemailer.createTransport({
             service: "gmail",
@@ -121,9 +128,10 @@ class PaymentController {
                   }
          
                   h1 {
-                     color: #007bff;
-                     text-align: center;
-                     margin-bottom: 30px;
+                     font-family: Times New Roman, Times, serif;
+                      color: #fc065c;
+                      text-align: start-end;
+                      
                   }
          
                   p {
@@ -151,8 +159,9 @@ class PaymentController {
             </head>
             <body>
                <div class="container">
-                  <h1>Terima Kasih, ${user.name}</h1>
-                  <p>Pembayaran Anda sebesar <strong>Rp ${price}</strong> telah berhasil diselesaikan.</p>
+               <h1>Partner-of-life</h1>
+               <h4>Terimakasih ${username},</h4>
+                  <p>Pembayaran Anda sebesar <strong>Rp ${gross_amount}</strong> telah berhasil diselesaikan.</p>
                   <p>Berikut adalah detail pembayaran:</p>
                   <ul>
                      <li><strong>Order ID:</strong> ${order_id}</li>
@@ -166,7 +175,7 @@ class PaymentController {
 
          await transporter.sendMail({
             from: "partner-life",
-            to: user.email,
+            to: emailToUser,
             subject: "Hello",
             html: htmlTemplate,
          });
