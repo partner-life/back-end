@@ -4,50 +4,66 @@ const { ObjectId } = require("mongodb");
 const nodemailer = require("nodemailer");
 
 class OrdersController {
-   static async createOrders(req, res, next) {
-      try {
-         const { husbandName, wifeName, address, phoneNumber, dateOfMerried } = req.body;
-         const { packetId } = req.params;
-         if (!packetId) throw { name: "NotFound", message: "Packet Not Found" };
-         if (!husbandName) throw { name: "BadRequest", message: "name of husband is required" };
-         if (!wifeName) throw { name: "BadRequest", message: "name of wife is required" };
-         if (!address) throw { name: "BadRequest", message: "address is required" };
-         if (!phoneNumber) throw { name: "BadRequest", message: "phone number is required" };
-         if (!dateOfMerried) throw { name: "BadRequest", message: "date is required" };
-         if (new Date(dateOfMerried) < new Date()) {
-            throw {
-               name: "BadRequest",
-               message: "Date of marriage cannot be before today",
-            };
-         }
-
-         const userId = req.user._id;
-         const newOrder = await Orders.newOrders(userId, packetId, address, phoneNumber, husbandName, wifeName, dateOfMerried);
-         const orderId = newOrder._id;
-
-         req.body.id = orderId;
-         await OrdersController.nodemailer(req, res, next);
-
-         // res.status(201).json(newOrder);
-      } catch (error) {
-         next(error);
+  static async createOrders(req, res, next) {
+    try {
+      const { husbandName, wifeName, address, phoneNumber, dateOfMerried } =
+        req.body;
+      const { packetId } = req.params;
+      if (!packetId) throw { name: "NotFound", message: "Packet Not Found" };
+      if (!husbandName)
+        throw { name: "BadRequest", message: "name of husband is required" };
+      if (!wifeName)
+        throw { name: "BadRequest", message: "name of wife is required" };
+      if (!address)
+        throw { name: "BadRequest", message: "address is required" };
+      if (!phoneNumber)
+        throw { name: "BadRequest", message: "phone number is required" };
+      if (!dateOfMerried)
+        throw { name: "BadRequest", message: "date is required" };
+      if (new Date(dateOfMerried) < new Date()) {
+        throw {
+          name: "BadRequest",
+          message: "Date of marriage cannot be before today",
+        };
       }
-   }
 
-   static async nodemailer(req, res, next) {
-      try {
-         const { orderId } = req.body;
-         const user = req.user;
+      const userId = req.user._id;
+      const newOrder = await Orders.newOrders(
+        userId,
+        packetId,
+        address,
+        phoneNumber,
+        husbandName,
+        wifeName,
+        dateOfMerried
+      );
+      const orderId = newOrder._id;
 
-         const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-               user: "rohimsaga3@gmail.com",
-               pass: "eurr llei kigc dhgx",
-            },
-         });
+      req.body.id = orderId;
+      await OrdersController.nodemailer(req, res, next);
 
-         const htmlTemplate = `
+      // res.status(201).json(newOrder);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async nodemailer(req, res, next) {
+    try {
+      const { id } = req.body;
+      let orderId = id;
+
+      const user = req.user;
+
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "rohimsaga3@gmail.com",
+          pass: "eurr llei kigc dhgx",
+        },
+      });
+
+      const htmlTemplate = `
        <!DOCTYPE html>
        <html lang="en">
        <head>
@@ -105,68 +121,81 @@ class OrdersController {
        </html>
        `;
 
-         await transporter.sendMail({
-            from: "partner-life",
-            to: user.email,
-            subject: "Hello",
-            html: htmlTemplate,
-         });
+      await transporter.sendMail({
+        from: "partner-life",
+        to: user.email,
+        subject: "Hello",
+        html: htmlTemplate,
+      });
 
-         res.json({
-            message: "success",
-         });
-      } catch (error) {
-         next(error);
+      res.json({
+        message: "success",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async editOrders(req, res, next) {
+    try {
+      const { orderId } = req.params;
+      const { HusbandName, WifeName, address, phoneNumber, dateOfMerried } =
+        req.body;
+      if (!HusbandName)
+        throw { name: "BadRequest", message: "name of husband is required" };
+      if (!WifeName)
+        throw { name: "BadRequest", message: "name of wife is required" };
+      if (!address)
+        throw { name: "BadRequest", message: "address is required" };
+      if (!phoneNumber)
+        throw { name: "BadRequest", message: "phone number is required" };
+      if (!dateOfMerried)
+        throw { name: "BadRequest", message: "date is required" };
+      if (new Date(dateOfMerried) < new Date()) {
+        throw {
+          name: "BadRequest",
+          message: "Date of marriage cannot be before today",
+        };
       }
-   }
-   static async editOrders(req, res, next) {
-      try {
-         const { orderId } = req.params;
-         const { HusbandName, WifeName, address, phoneNumber, dateOfMerried } = req.body;
-         if (!HusbandName) throw { name: "BadRequest", message: "name of husband is required" };
-         if (!WifeName) throw { name: "BadRequest", message: "name of wife is required" };
-         if (!address) throw { name: "BadRequest", message: "address is required" };
-         if (!phoneNumber) throw { name: "BadRequest", message: "phone number is required" };
-         if (!dateOfMerried) throw { name: "BadRequest", message: "date is required" };
-         if (new Date(dateOfMerried) < new Date()) {
-            throw {
-               name: "BadRequest",
-               message: "Date of marriage cannot be before today",
-            };
-         }
-         const result = await Orders.updateOrders(orderId, address, phoneNumber, HusbandName, WifeName, dateOfMerried);
-         res.status(201).json("succes to update");
-      } catch (error) {
-         next(error);
-      }
-   }
+      const result = await Orders.updateOrders(
+        orderId,
+        address,
+        phoneNumber,
+        HusbandName,
+        WifeName,
+        dateOfMerried
+      );
+      res.status(201).json("succes to update");
+    } catch (error) {
+      next(error);
+    }
+  }
 
-   static async showTotalPrice(req, res, next) {
-      try {
-         const result = await Orders.getTotalPrice();
-         res.status(200).json(result);
-      } catch (error) {
-         next(error);
-      }
-   }
-   static async showAllOrders(req, res, next) {
-      try {
-         const result = await Orders.finOrders();
-         res.status(200).json(result);
-      } catch (error) {
-         next(error);
-      }
-   }
-   static async showOrderById(req, res, next) {
-      try {
-         const userId = req.user._id;
+  static async showTotalPrice(req, res, next) {
+    try {
+      const result = await Orders.getTotalPrice();
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async showAllOrders(req, res, next) {
+    try {
+      const result = await Orders.finOrders();
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async showOrderById(req, res, next) {
+    try {
+      const userId = req.user._id;
 
-         const result = await Orders.findOrderByUser(userId);
-         res.status(200).json(result);
-      } catch (error) {
-         next(error);
-      }
-   }
+      const result = await Orders.findOrderByUser(userId);
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = OrdersController;
