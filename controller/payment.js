@@ -62,9 +62,9 @@ class PaymentController {
    static async handleNotification(req, res, next) {
       try {
          const notificationJson = req.body;
-         console.log("🚀 ~ PaymentController ~ handleNotification ~ notificationJson:", notificationJson);
+         // console.log("🚀 ~ PaymentController ~ handleNotification ~ notificationJson:", notificationJson);
          const statusResponse = await snap.transaction.notification(notificationJson);
-         console.log("🚀 ~ PaymentController ~ handleNotification ~ statusResponse:", statusResponse);
+         // console.log("🚀 ~ PaymentController ~ handleNotification ~ statusResponse:", statusResponse);
 
          const [order_id, randomNumber] = statusResponse.order_id.split("_");
          const transactionStatus = statusResponse.transaction_status;
@@ -167,7 +167,7 @@ class PaymentController {
                      <li><strong>Order ID:</strong> ${order_id}</li>
                   </ul>
                   <p>Jika Anda memiliki pertanyaan atau membutuhkan bantuan lebih lanjut, jangan ragu untuk menghubungi kami.</p>
-                  <p class="footer">Terima kasih atas kepercayaan telah menggunakan partner-of-life.</p>
+                  <p class="footer">Terima kasih atas kepercayaan anda telah menggunakan partner-of-life.</p>
                </div>
             </body>
          </html>         
