@@ -35,9 +35,7 @@ class PackageController {
   static async getPackageById(req, res, next) {
     const packageId = req.params.packageId;
     try {
-      const packageData = await Package.findPackageById(
-        new ObjectId(packageId)
-      );
+      const packageData = await Package.findPackageById(new ObjectId(packageId));
       if (!packageData) {
         throw { name: "NotFound", message: "Package not found" };
       }
@@ -84,9 +82,7 @@ class PackageController {
           message: "You are not authorized to access this page",
         };
       }
-      const packageData = await Package.findPackageById(
-        new ObjectId(packageId)
-      );
+      const packageData = await Package.findPackageById(new ObjectId(packageId));
       if (!packageData) {
         throw { name: "NotFound", message: "Package not found" };
       }
@@ -107,9 +103,7 @@ class PackageController {
           message: "You are not authorized to access this page",
         };
       }
-      const packageData = await Package.findPackageById(
-        new ObjectId(packageId)
-      );
+      const packageData = await Package.findPackageById(new ObjectId(packageId));
       if (!packageData) {
         throw { name: "NotFound", message: "Package not found" };
       }
@@ -127,23 +121,10 @@ class PackageController {
     }
   }
   static async addImages(req, res, next) {
-    const { packageId } = req.params;
     try {
       console.log("🚀 ~ PackageController ~ addImages ~ img:", req.files);
-      if (req.user.role !== "admin") {
-        throw {
-          name: "unauthorized",
-          message: "You are not authorized to access this page",
-        };
-      }
       if (!req.files.length) {
         throw { name: "BadRequest", message: "Files are required" };
-      }
-      const packageData = await Package.findPackageById(
-        new ObjectId(packageId)
-      );
-      if (!packageData) {
-        throw { name: "NotFound", message: "Package not found" };
       }
       const cloudinary = require("cloudinary").v2;
 
@@ -169,20 +150,7 @@ class PackageController {
         return element.url;
       });
       console.log("🚀 ~ PackageController ~ images ~ images:", images);
-
-      const data = await Package.editPackageImage(
-        new ObjectId(packageId),
-        images
-      );
-
-      if (data.modifiedCount > 0) {
-        res
-          .status(200)
-          .json({ message: "Images uploaded successfully", images });
-      } else {
-        res.status(200).json({ message: "No images uploaded" });
-      }
-
+      res.status(200).json({ message: "Images uploaded successfully", images });
       return images;
     } catch (error) {
       next(error);

@@ -9,7 +9,7 @@ const OrdersController = require("../controller/orders");
 const authorization = require("../middleware/authorization");
 
 router.get("/", (req, res) => {
-   res.json({ message: "Wedding Organizer" });
+  res.json({ message: "Wedding Organizer" });
 });
 
 router.post("/register", UserController.Register);
@@ -25,7 +25,7 @@ router.delete("/deletepackage/:packageId", authentication, PackageController.del
 router.put("/editpackage/:packageId", authentication, PackageController.editPackage);
 
 const upload = multer({ storage: multer.memoryStorage() });
-router.patch("/add-images/:packageId", upload.array("images", 10), authentication, PackageController.addImages);
+router.patch("/add-images", upload.array("images", 10), PackageController.addImages);
 
 router.post("/create-transaction/:orderId", authentication, PaymentController.createTransaction);
 router.post("/handling-after-payment", PaymentController.handleNotification);
