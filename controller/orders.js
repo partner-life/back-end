@@ -6,13 +6,13 @@ const nodemailer = require("nodemailer");
 class OrdersController {
   static async createOrders(req, res, next) {
     try {
-      const { husbandName, wifeName, address, phoneNumber, dateOfMerried } =
+      const { HusbandName, WifeName, address, phoneNumber, dateOfMerried } =
         req.body;
       const { packetId } = req.params;
       if (!packetId) throw { name: "NotFound", message: "Packet Not Found" };
-      if (!husbandName)
+      if (!HusbandName)
         throw { name: "BadRequest", message: "name of husband is required" };
-      if (!wifeName)
+      if (!WifeName)
         throw { name: "BadRequest", message: "name of wife is required" };
       if (!address)
         throw { name: "BadRequest", message: "address is required" };
@@ -33,8 +33,8 @@ class OrdersController {
         packetId,
         address,
         phoneNumber,
-        husbandName,
-        wifeName,
+        HusbandName,
+        WifeName,
         dateOfMerried
       );
       const orderId = newOrder._id;
