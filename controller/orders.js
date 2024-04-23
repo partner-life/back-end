@@ -26,9 +26,9 @@ class OrdersController {
          const orderId = newOrder._id;
 
          req.body.id = orderId;
-         await OrdersController.nodemailer(req, res, next);
+         // await OrdersController.nodemailer(req, res, next);
 
-         // res.status(201).json(newOrder);
+         res.status(201).json(newOrder);
       } catch (error) {
          next(error);
       }
