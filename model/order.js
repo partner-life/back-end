@@ -54,11 +54,11 @@ class Orders {
       { _id: id },
       {
         $set: {
-          "Profil.address": address,
-          "Profil.phoneNumber": phoneNumber,
-          "Profil.husbandName": husbandName,
-          "Profil.wifeName": wifeName,
-          "Profil.dateOfMarried": dateOfMerried,
+          "Profile.address": address,
+          "Profile.phoneNumber": phoneNumber,
+          "Profile.husbandName": husbandName,
+          "Profile.wifeName": wifeName,
+          "Profile.dateOfMarried": dateOfMerried,
         },
       }
     );
