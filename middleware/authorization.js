@@ -8,11 +8,14 @@ const authorization = async (req, res, next) => {
 
     const userId = req.user._id;
 
-    const dataOrder = await Orders.findOrderById(orderId);
+    const dataOrder = await Orders.ordersById(orderId);
 
     if (!dataOrder) {
       throw { name: "NotFound", message: `order not found` };
     }
+    console.log(userId);
+    console.log(orderId);
+    console.log(dataOrder.UserId);
 
     if (String(userId) !== String(dataOrder.UserId))
       throw { name: "Forbidden", message: "you are not authorized" };
