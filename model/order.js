@@ -24,9 +24,9 @@ class Orders {
         address: address,
         phoneNumber: phoneNumber,
         dateOfMerried: dateOfMerried,
-        createdAt: new Date(),
-        updatedAt: new Date(),
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
     const result = database
       .collection("Orders")
@@ -94,7 +94,10 @@ class Orders {
       .toArray();
   }
   static async getTotalPrice() {
-    const allOrders = await database.collection("Orders").find({}).toArray();
+    const allOrders = await database
+      .collection("Orders")
+      .find({ status: "Sudah Dibayar" })
+      .toArray();
 
     const result = allOrders.reduce((total, order) => {
       return total + parseInt(order.price);
