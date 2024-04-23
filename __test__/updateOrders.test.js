@@ -43,7 +43,7 @@ describe("POST /updateOrders/:orderId", () => {
       .put("/updateOrders/66262b298bfaffc0f1dc44d1")
       .set("Authorization", "Bearer " + access_token)
       .send(userDataWithoutNameHusband);
-    console.log(response.body);
+
     expect(response.status).toBe(400);
   });
 
@@ -123,5 +123,5 @@ describe("POST /updateOrders/:orderId", () => {
 afterAll(async () => {
   await database
     .collection("Orders")
-    .deleteOne({ Profil: { nameHusband: userData.nameHusband } });
+    .deleteOne({ Profil: { HusbandName: userData.HusbandName } });
 });
