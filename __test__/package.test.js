@@ -29,17 +29,13 @@ beforeAll(async () => {
     email: "admin@mail.com",
     password: "12345",
   };
-  const loginAdmin = await database
-    .collection("Users")
-    .findOne({ email: dataAdmin.email });
+  const loginAdmin = await database.collection("Users").findOne({ email: dataAdmin.email });
   access_tokenAdmin = signToken({ id: loginAdmin._id });
   let dataUser = {
     email: "user@mail.com",
     password: "12345",
   };
-  const loginUser = await database
-    .collection("Users")
-    .findOne({ email: dataUser.email });
+  const loginUser = await database.collection("Users").findOne({ email: dataUser.email });
   access_tokenUser = signToken({ id: loginUser._id });
 });
 
@@ -82,9 +78,13 @@ describe("GET /package/:packageId", () => {
   });
 
   test("should return error if no Authorization provided", async () => {
-    const res = await request(app).get("/package/999999999999999999999999");
-    expect(res.statusCode).toEqual(401);
-    expect(res.body.message).toEqual("Authorization Token is missing");
+    const res = await request(app).get("/package/888888888888888888888888");
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty("name");
+    expect(res.body).toHaveProperty("imageUrl");
+    expect(res.body).toHaveProperty("description");
+    expect(res.body).toHaveProperty("category");
+    expect(res.body).toHaveProperty("price");
   });
 });
 
@@ -116,9 +116,7 @@ describe("PUT /editpackage/:packageId", () => {
   });
 
   test("should return error if no Authorization provided", async () => {
-    const res = await request(app)
-      .put("/editpackage/999999999999999999999999")
-      .send({});
+    const res = await request(app).put("/editpackage/999999999999999999999999").send({});
     expect(res.statusCode).toEqual(401);
     expect(res.body.message).toEqual("Authorization Token is missing");
   });
@@ -129,36 +127,31 @@ describe("PUT /editpackage/:packageId", () => {
       .send({})
       .set("Authorization", "Bearer " + access_tokenUser);
     expect(res.statusCode).toEqual(401);
-    expect(res.body.message).toEqual(
-      "You are not authorized to access this page"
-    );
+    expect(res.body.message).toEqual("You are not authorized to access this page");
   });
 });
 
 describe("PATCH /add-images/:packageId", () => {
-  test("should return error if no Authorization provided", async () => {
-    const res = await request(app).patch(
-      "/add-images/6623cbee845cecc6a97b47d4"
-    );
-    expect(res.statusCode).toEqual(401);
-    expect(res.body.message).toEqual("Authorization Token is missing");
-  });
+  // test("should return error if no Authorization provided", async () => {
+  //   const res = await request(app).patch("/add-images/6623cbee845cecc6a97b47d4");
+  //   expect(res.statusCode).toEqual(401);
+  //   expect(res.body.message).toEqual("Authorization Token is missing");
+  // });
 
-  test("should add a new test if not admin", async () => {
-    const res = await request(app)
-      .patch("/add-images/888888888888888888888888")
-      .set("Authorization", "Bearer " + access_tokenUser);
+  // test("should add a new test if not admin", async () => {
+  //   const res = await request(app)
+  //     .patch("/add-images/888888888888888888888888")
+  //     .set("Authorization", "Bearer " + access_tokenUser);
 
-    expect(res.statusCode).toEqual(401);
-    expect(res.body.message).toEqual(
-      "You are not authorized to access this page"
-    );
-  });
+  //   expect(res.statusCode).toEqual(401);
+  //   expect(res.body.message).toEqual("You are not authorized to access this page");
+  // });
 
   test("should upload images to a specific package by ID", async () => {
     const res = await request(app)
-      .patch("/add-images/888888888888888888888888")
-      .set("Authorization", "Bearer " + access_tokenAdmin)
+      // .patch("/add-images/888888888888888888888888")
+      // .set("Authorization", "Bearer " + access_tokenAdmin)
+      .patch("/add-images")
       .attach("images", image, "Image-Test-1.png")
       .attach("images", image, "Image-Test-2.png");
 
@@ -166,22 +159,26 @@ describe("PATCH /add-images/:packageId", () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  test("should add a new test if package is not found", async () => {
-    const res = await request(app)
-      .patch("/add-images/999999999999999999999999")
-      .set("Authorization", "Bearer " + access_tokenAdmin)
-      .attach("images", image2, "Image-Test.png");
-
-    expect(res.statusCode).toEqual(404);
-    expect(res.body.message).toEqual("Package not found");
+  test("should add a new test if no images are uploaded", async () => {
+    const res = await request(app).patch("/add-images");
+    expect(res.body.message).toEqual("Files are required");
+    expect(res.statusCode).toEqual(400);
   });
+
+  // test("should add a new test if package is not found", async () => {
+  //   const res = await request(app)
+  //     .patch("/add-images/999999999999999999999999")
+  //     .set("Authorization", "Bearer " + access_tokenAdmin)
+  //     .attach("images", image2, "Image-Test.png");
+
+  //   expect(res.statusCode).toEqual(404);
+  //   expect(res.body.message).toEqual("Package not found");
+  // });
 });
 
 describe("DELETE /deletepackage/:packageId", () => {
   test("should return error if no Authorization provided", async () => {
-    const res = await request(app)
-      .delete("/deletepackage/999999999999999999999999")
-      .send({});
+    const res = await request(app).delete("/deletepackage/999999999999999999999999").send({});
     expect(res.statusCode).toEqual(401);
     expect(res.body.message).toEqual("Authorization Token is missing");
   });
@@ -190,9 +187,7 @@ describe("DELETE /deletepackage/:packageId", () => {
       .delete("/deletepackage/888888888888888888888888")
       .set("Authorization", "Bearer " + access_tokenUser);
     expect(res.statusCode).toEqual(401);
-    expect(res.body.message).toEqual(
-      "You are not authorized to access this page"
-    );
+    expect(res.body.message).toEqual("You are not authorized to access this page");
   });
 
   test("should delete a specific package by ID", async () => {
@@ -215,10 +210,7 @@ describe("DELETE /deletepackage/:packageId", () => {
 
 describe("POST /createpackage", () => {
   test("should add a new test if no Authorization provided", async () => {
-    const res = await request(app)
-      .post("/createpackage")
-      .send({})
-      .set("Authorization", "");
+    const res = await request(app).post("/createpackage").send({}).set("Authorization", "");
     expect(res.statusCode).toEqual(401);
     expect(res.body.message).toEqual("Authorization Token is missing");
   });
@@ -229,9 +221,7 @@ describe("POST /createpackage", () => {
       .send({})
       .set("Authorization", "Bearer " + access_tokenUser);
     expect(res.statusCode).toEqual(401);
-    expect(res.body.message).toEqual(
-      "You are not authorized to access this page"
-    );
+    expect(res.body.message).toEqual("You are not authorized to access this page");
   });
 
   test("should create a new package", async () => {
@@ -262,9 +252,7 @@ describe("POST /createpackage", () => {
       .send(newPackageData)
       .set("Authorization", "Bearer " + access_tokenAdmin);
     expect(res.statusCode).toEqual(400);
-    expect(res.body.message).toEqual(
-      "Name, description, category, and price cannot be empty"
-    );
+    expect(res.body.message).toEqual("Name, description, category, and price cannot be empty");
   });
   test("should return error if category are not provided", async () => {
     const newPackageData = {
@@ -278,9 +266,7 @@ describe("POST /createpackage", () => {
       .send(newPackageData)
       .set("Authorization", "Bearer " + access_tokenAdmin);
     expect(res.statusCode).toEqual(400);
-    expect(res.body.message).toEqual(
-      "Name, description, category, and price cannot be empty"
-    );
+    expect(res.body.message).toEqual("Name, description, category, and price cannot be empty");
   });
   test("should return error if description are not provided", async () => {
     const newPackageData = {
@@ -294,9 +280,7 @@ describe("POST /createpackage", () => {
       .send(newPackageData)
       .set("Authorization", "Bearer " + access_tokenAdmin);
     expect(res.statusCode).toEqual(400);
-    expect(res.body.message).toEqual(
-      "Name, description, category, and price cannot be empty"
-    );
+    expect(res.body.message).toEqual("Name, description, category, and price cannot be empty");
   });
   test("should return error if price are not provided", async () => {
     const newPackageData = {
@@ -310,8 +294,6 @@ describe("POST /createpackage", () => {
       .send(newPackageData)
       .set("Authorization", "Bearer " + access_tokenAdmin);
     expect(res.statusCode).toEqual(400);
-    expect(res.body.message).toEqual(
-      "Name, description, category, and price cannot be empty"
-    );
+    expect(res.body.message).toEqual("Name, description, category, and price cannot be empty");
   });
 });

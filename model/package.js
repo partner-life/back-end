@@ -17,17 +17,11 @@ class Package {
     return this.collection().deleteOne({ _id: packageId });
   }
   static async editPackage(packageId, updatedData) {
-    return this.collection().updateOne(
-      { _id: packageId },
-      { $set: updatedData }
-    );
+    return this.collection().updateOne({ _id: packageId }, { $set: updatedData });
   }
-  static async editPackageImage(packageId, imageData) {
-    return this.collection().updateOne(
-      { _id: packageId },
-      { $set: { image: imageData } }
-    );
-  }
+  // static async editPackageImage(packageId, imageData) {
+  //   return this.collection().updateOne({ _id: packageId }, { $set: { image: imageData } });
+  // }
 }
 
 module.exports = Package;

@@ -123,6 +123,9 @@ class PackageController {
   static async addImages(req, res, next) {
     try {
       console.log("🚀 ~ PackageController ~ addImages ~ img:", req.files);
+      if (!req.files) {
+        throw { name: "BadRequest", message: "Files are required" };
+      }
       if (!req.files.length) {
         throw { name: "BadRequest", message: "Files are required" };
       }

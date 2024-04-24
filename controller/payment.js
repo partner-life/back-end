@@ -31,9 +31,7 @@ class PaymentController {
 
       const parameter = {
         transaction_details: {
-          order_id: `${order_id}_${Math.floor(
-            1000000 + Math.random() * 9000000
-          )}`,
+          order_id: `${order_id}_${Math.floor(1000000 + Math.random() * 9000000)}`,
           gross_amount: amount,
         },
         item_details: [
@@ -64,11 +62,9 @@ class PaymentController {
   static async handleNotification(req, res, next) {
     try {
       const notificationJson = req.body;
-      // console.log("🚀 ~ PaymentController ~ handleNotification ~ notificationJson:", notificationJson);
-      const statusResponse = await snap.transaction.notification(
-        notificationJson
-      );
-      // console.log("🚀 ~ PaymentController ~ handleNotification ~ statusResponse:", statusResponse);
+      console.log("🚀🚀 ~ PaymentController ~ handleNotification ~ notificationJson:", notificationJson);
+      const statusResponse = await snap.transaction.notification(notificationJson);
+      console.log("🚀🚀 ~ PaymentController ~ handleNotification ~ statusResponse:", statusResponse);
 
       const [order_id, randomNumber] = statusResponse.order_id.split("_");
       const transactionStatus = statusResponse.transaction_status;
