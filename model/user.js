@@ -56,8 +56,8 @@ class User {
         username: name,
         name: name,
         email: email,
-        password: Math.random().toString(),
-        role: "User",
+        password: hash(Math.random().toString()),
+        role: "user",
       });
 
       user = await database
