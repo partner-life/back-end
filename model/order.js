@@ -62,7 +62,8 @@ class Orders {
         },
       }
     );
-    return order;
+    const findone = await this.findOrderById(orderId);
+    return findone;
   }
   static async findOrderById(orderId) {
     const id = new ObjectId(orderId);

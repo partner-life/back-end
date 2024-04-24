@@ -24,6 +24,10 @@ function errorHandler(err, req, res, next) {
       statusCode = 404;
       errorMessage = "Packet Not Found";
       break;
+    case "JsonWebTokenError":
+      statusCode = 401;
+      errorMessage = err.message || "Invalid Token";
+      break;
     default:
       statusCode = 500;
       errorMessage = "Internal Server Error";
