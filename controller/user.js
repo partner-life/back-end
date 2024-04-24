@@ -53,8 +53,9 @@ class UserController {
       const { name, email } = ticket.getPayload();
 
       const result = await User.FindOrCreate(name, email);
+      const findOne = await User.findByEmail(email);
 
-      res.status(201).json({ access_token: result });
+      res.status(201).json({ access_token: result, user: findOne });
     } catch (error) {
       next(error);
     }

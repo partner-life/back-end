@@ -63,6 +63,16 @@ describe("POST /login", () => {
       expect(respons.status).toBe(401);
     });
   });
+  describe("failed", () => {
+    test("returning error", async () => {
+      const respons = await request(app).post("/login").send({
+        email: "test211121@mail.com",
+        password: "test3",
+      });
+
+      expect(respons.status).toBe(401);
+    });
+  });
 });
 // afterAll(async () => {
 //   await database.collection("Users").deleteOne({ name: userData.name });

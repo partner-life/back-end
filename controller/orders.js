@@ -164,7 +164,8 @@ class OrdersController {
         wifeName,
         dateOfMerried
       );
-      res.status(201).json("succes to update");
+
+      res.status(201).json({ messsage: "succes to update" });
     } catch (error) {
       next(error);
     }
